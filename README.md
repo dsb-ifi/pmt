@@ -30,11 +30,9 @@ Training supervises three levels of this hierarchy: HGCL on the tokens, PCL on t
 
 <p align="center"><img src="assets/pmt_losses.gif" width="720" alt="Animation of the HGCL, PCL and ICL losses on the token, memory and sequence levels"></p>
 
-
+The full animation walks through the method step by step.
 
 https://github.com/user-attachments/assets/ea63f9f9-bdc6-4e4c-b06e-4584578988cd
-
-
 
 ## Results
 
