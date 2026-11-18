@@ -55,6 +55,13 @@ We teach the model at all three scales separately. To make this possible, we pro
 {: .figure-caption}
 **Figure 1:** PMT reads a signal window by window and learns representations at three scales (low, mid, and high). Each level carries a memory state forward in time, and the final states at the mid and high levels form the readout.
 
+<video controls muted playsinline preload="metadata" poster="{{ site.image_base_path | append: "pmt-method-poster.png" | absolute_url }}" style="width: 100%;">
+  <source src="{{ "/assets/videos/pmt_method_720p.mp4" | absolute_url }}" type="video/mp4">
+</video>
+
+{: .figure-caption}
+**Video:** the method step by step, from the structure of time series at several scales to the three training losses.
+
 ## Results
 We tested PMT on seven standard classification benchmarks, where the model had to recognize categories such as human activities, engine faults, or electrical devices after seeing labels for only 1–5% of the examples. PMT had the highest average accuracy and won 11 of 14 settings. On the human activity recognition dataset, PMT trained with 1% of the labels beat competing methods that got 5%.
 
