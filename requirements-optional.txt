@@ -1,0 +1,8 @@
+# Keep the core reference versions when installing extras in a second pip command.
+-c requirements.txt
+
+# xLSTM baseline
+xlstm==2.0.4
+
+# Electricity dataset preprocessing
+pandas==2.2.3

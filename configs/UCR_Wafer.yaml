@@ -1,0 +1,11 @@
+extends: base.yaml
+data: {name: UCR_Wafer, ssl_noise_std: 0.8, time_scale: 0.0}
+loss:
+  hgcl: {patch_tau: 0.1, width_local: 0.8333333333333334, width_window: 0.8333333333333334, window_tau: 0.25, window_weight: 1.25}
+  icl_weight: 0.5
+  pcl: {chunk: 256, exclude_sample: false, tau: 0.8}
+model: {kernel: 5, pcl_projector: none, stride: 3}
+optim: {lr: 0.0001, min_lr: 1.0e-05, warmup: 0.05}
+pma: {conv_query: true, skip_init: -0.2, states: 3, stride: 5, window: 10}
+probe: {reset_every: 1, static_batch: null}
+train: {checkpoints: [5, 20, 250]}

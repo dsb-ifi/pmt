@@ -1,0 +1,2732 @@
+{
+  "record": "appendix_c / C.1 streaming window encoder",
+  "git_commit": "b3166c9633ec5be758d2ba2f9ae90e9bff1bb872",
+  "git_dirty_paths": [],
+  "gpu": {
+    "name": "NVIDIA GH200 120GB",
+    "uuid": "GPU-8ac59a3c-926c-8b01-db1b-7ed2e126b731",
+    "driver": "580.65.06",
+    "memory_total": "97871 MiB"
+  },
+  "torch": "2.10.0+cu126",
+  "cuda_build": "12.6",
+  "cudnn": 91002,
+  "python": "3.11.17",
+  "protocol": {
+    "batch": 1,
+    "dtype": "float16",
+    "d_model": 320,
+    "heads": 8,
+    "d_ff": 1280,
+    "blocks": 1,
+    "states": 1,
+    "patch": 16,
+    "patch_stride": 8,
+    "window_fraction_of_tokens": 0.2,
+    "stride_fraction_of_window": 0.5,
+    "pma_kernel": "src.pmt.pma.pma.module.PMAChunkProcessor._process_window via 24 Oct ProductionWindow",
+    "pma_compile_per_window": false,
+    "baseline": "nn.TransformerEncoder(1 x TransformerEncoderLayer(320, 8, 1280, norm_first)), FP16, eval",
+    "baseline_contexts": {
+      "dense": "sdpa_kernel(SDPBackend.MATH)",
+      "flash": "sdpa_kernel(SDPBackend.FLASH_ATTENTION)"
+    },
+    "pma_context": "default dispatch (no backend forced)",
+    "timing": "3 warmups; 50 PMA / 10 baseline synchronized calls; first 2 discarded; mean of the rest",
+    "memory": "3 separate no_grad calls per arm inside its backend context; empty_cache then reset_peak_memory_stats before each; allocated primary, reserved secondary",
+    "implied_sequence_s": "PMA window mean ms x number of windows / 1000",
+    "sampling_rate": "old harness: stride*raw/tokens / window_s * 0.8, floored to the rate grid ending at 96 kHz",
+    "tf32": "PyTorch defaults (irrelevant to FP16 matmuls)"
+  },
+  "rows": [
+    {
+      "raw_samples": 512,
+      "tokens": 63,
+      "window": 12,
+      "stride": 6,
+      "windows": 9,
+      "pma": {
+        "latency_ms": 0.9973079043750962,
+        "latency_std_ms": 0.03048115852724657,
+        "latency_median_ms": 0.995295587927103,
+        "samples_ms": [
+          1.1127321049571037,
+          1.037726178765297,
+          1.0827169753611088,
+          1.06051005423069,
+          1.050109975039959,
+          0.9682890959084034,
+          0.978272408246994,
+          0.9992960840463638,
+          0.977120827883482,
+          1.008830964565277,
+          1.0423343628644943,
+          0.9717447683215141,
+          0.9744958952069283,
+          1.0124468244612217,
+          1.036959234625101,
+          0.9862729348242283,
+          0.9576012380421162,
+          1.0010548867285252,
+          1.0005440562963486,
+          0.9928634390234947,
+          0.9840009734034538,
+          0.9448658674955368,
+          1.0130549781024456,
+          0.9661773219704628,
+          1.0001598857343197,
+          0.9998399764299393,
+          1.0701091960072517,
+          0.9762248955667019,
+          1.000863965600729,
+          0.9821760468184948,
+          1.0201269760727882,
+          1.009887084364891,
+          0.9995521977543831,
+          1.0037110187113285,
+          1.037823036313057,
+          0.9919689036905766,
+          0.9715212509036064,
+          0.9631048887968063,
+          0.9901118464767933,
+          0.9951670654118061,
+          0.980704091489315,
+          0.9794570505619049,
+          1.0271030478179455,
+          0.9422739967703819,
+          0.9864638559520245,
+          0.9477445855736732,
+          1.0073920711874962,
+          0.9783371351659298,
+          0.9954241104424,
+          1.0039680637419224
+        ],
+        "warmup": 3,
+        "repeats": 50,
+        "discarded": 2,
+        "peak_allocated_mib": 35.52490234375,
+        "peak_reserved_mib": 36.0,
+        "peak_allocated_mib_calls": [
+          35.52490234375,
+          35.52490234375,
+          35.52490234375
+        ],
+        "peak_reserved_mib_calls": [
+          36.0,
+          36.0,
+          36.0
+        ],
+        "allocated_before_call_mib": [
+          35.3671875,
+          35.3671875,
+          35.3671875
+        ],
+        "forward_increment_mib": 0.15771484375,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_efficient_attention_forward": 1,
+            "aten::_scaled_dot_product_efficient_attention": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [],
+          "efficient": [
+            "aten::_efficient_attention_forward",
+            "aten::_scaled_dot_product_efficient_attention"
+          ],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        }
+      },
+      "dense": {
+        "latency_ms": 0.5351706058718264,
+        "latency_std_ms": 0.01617968427362058,
+        "latency_median_ms": 0.5324790254235268,
+        "samples_ms": [
+          0.5706376396119595,
+          0.53409393876791,
+          0.5734208971261978,
+          0.5281749181449413,
+          0.5358550697565079,
+          0.5408143624663353,
+          0.5300948396325111,
+          0.5348632112145424,
+          0.5173906683921814,
+          0.520750880241394
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 35.6630859375,
+        "peak_reserved_mib": 36.0,
+        "peak_allocated_mib_calls": [
+          35.6630859375,
+          35.6630859375,
+          35.6630859375
+        ],
+        "peak_reserved_mib_calls": [
+          36.0,
+          36.0,
+          36.0
+        ],
+        "allocated_before_call_mib": [
+          35.39306640625,
+          35.39306640625,
+          35.39306640625
+        ],
+        "forward_increment_mib": 0.27001953125,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_native_multi_head_attention": 1,
+            "aten::_softmax": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::bmm": 2
+          },
+          "flash": [],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [
+            "aten::bmm"
+          ],
+          "softmax": [
+            "aten::_softmax"
+          ],
+          "fused_attention_observed": false,
+          "dense_attention_observed": true
+        },
+        "full_sequence_s": 0.0005351706058718264
+      },
+      "flash": {
+        "latency_ms": 0.48411235911771655,
+        "latency_std_ms": 0.012230778908135086,
+        "latency_median_ms": 0.48972852528095245,
+        "samples_ms": [
+          0.5089431069791317,
+          0.4719211719930172,
+          0.491567887365818,
+          0.49780821427702904,
+          0.4628649912774563,
+          0.47259312123060226,
+          0.4880172200500965,
+          0.496559776365757,
+          0.4914398305118084,
+          0.4720478318631649
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 35.66259765625,
+        "peak_reserved_mib": 36.0,
+        "peak_allocated_mib_calls": [
+          35.66259765625,
+          35.66259765625,
+          35.66259765625
+        ],
+        "peak_reserved_mib_calls": [
+          36.0,
+          36.0,
+          36.0
+        ],
+        "allocated_before_call_mib": [
+          35.39306640625,
+          35.39306640625,
+          35.39306640625
+        ],
+        "forward_increment_mib": 0.26953125,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_flash_attention_forward": 1,
+            "aten::_native_multi_head_attention": 1,
+            "aten::_scaled_dot_product_flash_attention": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [
+            "aten::_flash_attention_forward",
+            "aten::_scaled_dot_product_flash_attention"
+          ],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        },
+        "full_sequence_s": 0.00048411235911771655
+      },
+      "dense_vs_flash": {
+        "max_abs_diff": 0.00390625,
+        "allclose": true,
+        "tolerance": "atol=rtol=0.01 on FP16 outputs cast to FP32"
+      },
+      "pma_implied_sequence_s": 0.008975771139375865,
+      "max_sampling_hz_uncapped": 39114.82465785409,
+      "max_sampling_hz_grid": 22050,
+      "capped_at_96khz": false,
+      "time_ratio_pma_over_dense": 16.771793967932474,
+      "alloc_change_pct_vs_dense": -0.3874695364057046,
+      "reserved_change_pct_vs_dense": 0.0,
+      "time_ratio_pma_over_flash": 18.54067753141853,
+      "alloc_change_pct_vs_flash": -0.38610567246738503,
+      "reserved_change_pct_vs_flash": 0.0
+    },
+    {
+      "raw_samples": 1024,
+      "tokens": 127,
+      "window": 25,
+      "stride": 12,
+      "windows": 9,
+      "pma": {
+        "latency_ms": 1.6962366256241996,
+        "latency_std_ms": 0.12353619338305857,
+        "latency_median_ms": 1.6756420955061913,
+        "samples_ms": [
+          2.016414888203144,
+          1.895138993859291,
+          1.963391900062561,
+          1.948673278093338,
+          1.9358731806278229,
+          1.9059861078858376,
+          1.9153300672769547,
+          1.8614758737385273,
+          1.828132662922144,
+          1.8581477925181389,
+          1.8738270737230778,
+          1.8195249140262604,
+          1.7294799908995628,
+          1.8237167969346046,
+          1.7494801431894302,
+          1.7862790264189243,
+          1.7409357242286205,
+          1.8154289573431015,
+          1.6788262873888016,
+          1.707304734736681,
+          1.705545000731945,
+          1.672650221735239,
+          1.6979938372969627,
+          1.6463147476315498,
+          1.723047811537981,
+          1.6786339692771435,
+          1.6975128091871738,
+          1.6447147354483604,
+          1.6514351591467857,
+          1.7192079685628414,
+          1.59470085054636,
+          1.6359803266823292,
+          1.5989569947123528,
+          1.5976447612047195,
+          1.5677260234951973,
+          1.6036611050367355,
+          1.6148919239640236,
+          1.5851007774472237,
+          1.5941886231303215,
+          1.5813568606972694,
+          1.5832451172173023,
+          1.6187629662454128,
+          1.6090041026473045,
+          1.5652608126401901,
+          1.5611019916832447,
+          1.5493901446461678,
+          1.5551499091088772,
+          1.5504779294133186,
+          1.5408149920403957,
+          1.533071044832468
+        ],
+        "warmup": 3,
+        "repeats": 50,
+        "discarded": 2,
+        "peak_allocated_mib": 35.67724609375,
+        "peak_reserved_mib": 38.0,
+        "peak_allocated_mib_calls": [
+          35.67724609375,
+          35.67724609375,
+          35.67724609375
+        ],
+        "peak_reserved_mib_calls": [
+          38.0,
+          38.0,
+          38.0
+        ],
+        "allocated_before_call_mib": [
+          35.37646484375,
+          35.37646484375,
+          35.37646484375
+        ],
+        "forward_increment_mib": 0.30078125,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_efficient_attention_forward": 1,
+            "aten::_scaled_dot_product_efficient_attention": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [],
+          "efficient": [
+            "aten::_efficient_attention_forward",
+            "aten::_scaled_dot_product_efficient_attention"
+          ],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        }
+      },
+      "dense": {
+        "latency_ms": 0.5539460107684135,
+        "latency_std_ms": 0.011630012169292941,
+        "latency_median_ms": 0.5580459255725145,
+        "samples_ms": [
+          0.5492623895406723,
+          0.5284948274493217,
+          0.5673728883266449,
+          0.5633416585624218,
+          0.5621900781989098,
+          0.5364306271076202,
+          0.5339351482689381,
+          0.5522058345377445,
+          0.5589579232037067,
+          0.5571339279413223
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 35.9892578125,
+        "peak_reserved_mib": 38.0,
+        "peak_allocated_mib_calls": [
+          35.9892578125,
+          35.9892578125,
+          35.9892578125
+        ],
+        "peak_reserved_mib_calls": [
+          38.0,
+          38.0,
+          38.0
+        ],
+        "allocated_before_call_mib": [
+          35.43212890625,
+          35.43212890625,
+          35.43212890625
+        ],
+        "forward_increment_mib": 0.55712890625,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_native_multi_head_attention": 1,
+            "aten::_softmax": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::bmm": 2
+          },
+          "flash": [],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [
+            "aten::bmm"
+          ],
+          "softmax": [
+            "aten::_softmax"
+          ],
+          "fused_attention_observed": false,
+          "dense_attention_observed": true
+        },
+        "full_sequence_s": 0.0005539460107684135
+      },
+      "flash": {
+        "latency_ms": 0.4917600308544934,
+        "latency_std_ms": 0.023125790650172017,
+        "latency_median_ms": 0.486928503960371,
+        "samples_ms": [
+          0.4792800173163414,
+          0.48376014456152916,
+          0.48494432121515274,
+          0.5462858825922012,
+          0.49649598076939583,
+          0.4735528491437435,
+          0.4650088958442211,
+          0.4889126867055893,
+          0.4986720159649849,
+          0.4802076146006584
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 35.97509765625,
+        "peak_reserved_mib": 38.0,
+        "peak_allocated_mib_calls": [
+          35.97509765625,
+          35.97509765625,
+          35.97509765625
+        ],
+        "peak_reserved_mib_calls": [
+          38.0,
+          38.0,
+          38.0
+        ],
+        "allocated_before_call_mib": [
+          35.43212890625,
+          35.43212890625,
+          35.43212890625
+        ],
+        "forward_increment_mib": 0.54296875,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_flash_attention_forward": 1,
+            "aten::_native_multi_head_attention": 1,
+            "aten::_scaled_dot_product_flash_attention": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [
+            "aten::_flash_attention_forward",
+            "aten::_scaled_dot_product_flash_attention"
+          ],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        },
+        "full_sequence_s": 0.0004917600308544934
+      },
+      "dense_vs_flash": {
+        "max_abs_diff": 0.00390625,
+        "allclose": true,
+        "tolerance": "atol=rtol=0.01 on FP16 outputs cast to FP32"
+      },
+      "pma_implied_sequence_s": 0.015266129630617797,
+      "max_sampling_hz_uncapped": 45633.21133392258,
+      "max_sampling_hz_grid": 44100,
+      "capped_at_96khz": false,
+      "time_ratio_pma_over_dense": 27.558876377575466,
+      "alloc_change_pct_vs_dense": -0.8669579138740446,
+      "reserved_change_pct_vs_dense": 0.0,
+      "time_ratio_pma_over_flash": 31.04386016100378,
+      "alloc_change_pct_vs_flash": -0.827938162520192,
+      "reserved_change_pct_vs_flash": 0.0
+    },
+    {
+      "raw_samples": 2048,
+      "tokens": 255,
+      "window": 51,
+      "stride": 25,
+      "windows": 9,
+      "pma": {
+        "latency_ms": 1.6969306258639942,
+        "latency_std_ms": 0.11329346367450181,
+        "latency_median_ms": 1.6890496481209993,
+        "samples_ms": [
+          2.0004156976938248,
+          2.038879320025444,
+          1.927745994180441,
+          1.92710617557168,
+          1.8510762602090836,
+          1.889027189463377,
+          1.8739229999482632,
+          1.8211891874670982,
+          1.8515558913350105,
+          1.8145330250263214,
+          1.8441970460116863,
+          1.8211258575320244,
+          1.8296372145414352,
+          1.745447050780058,
+          1.7643910832703114,
+          1.7674625851213932,
+          1.7782142385840416,
+          1.707273069769144,
+          1.7504389397799969,
+          1.696649007499218,
+          1.7737988382577896,
+          1.7353040166199207,
+          1.6844896599650383,
+          1.7425990663468838,
+          1.6899611800909042,
+          1.6881381161510944,
+          1.70576898381114,
+          1.6395947895944118,
+          1.6971291042864323,
+          1.6758502461016178,
+          1.6531948931515217,
+          1.6035637818276882,
+          1.6494193114340305,
+          1.686569768935442,
+          1.6213227063417435,
+          1.578188966959715,
+          1.6046199016273022,
+          1.5912768431007862,
+          1.6021570190787315,
+          1.5818062238395214,
+          1.6097398474812508,
+          1.5281429514288902,
+          1.5415512025356293,
+          1.5690061263740063,
+          1.5546060167253017,
+          1.5778690576553345,
+          1.5749894082546234,
+          1.5586060471832752,
+          1.5780930407345295,
+          1.49432010948658
+        ],
+        "warmup": 3,
+        "repeats": 50,
+        "discarded": 2,
+        "peak_allocated_mib": 35.98779296875,
+        "peak_reserved_mib": 38.0,
+        "peak_allocated_mib_calls": [
+          35.98779296875,
+          35.98779296875,
+          35.98779296875
+        ],
+        "peak_reserved_mib_calls": [
+          38.0,
+          38.0,
+          38.0
+        ],
+        "allocated_before_call_mib": [
+          35.39599609375,
+          35.39599609375,
+          35.39599609375
+        ],
+        "forward_increment_mib": 0.591796875,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_efficient_attention_forward": 1,
+            "aten::_scaled_dot_product_efficient_attention": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [],
+          "efficient": [
+            "aten::_efficient_attention_forward",
+            "aten::_scaled_dot_product_efficient_attention"
+          ],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        }
+      },
+      "dense": {
+        "latency_ms": 0.5413702456280589,
+        "latency_std_ms": 0.01709593717056837,
+        "latency_median_ms": 0.5403663963079453,
+        "samples_ms": [
+          0.5700928159058094,
+          0.538606196641922,
+          0.5227988585829735,
+          0.5492297932505608,
+          0.5595656111836433,
+          0.5370387807488441,
+          0.5718530155718327,
+          0.522863119840622,
+          0.5436940118670464,
+          0.5239187739789486
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 37.1259765625,
+        "peak_reserved_mib": 38.0,
+        "peak_allocated_mib_calls": [
+          37.1259765625,
+          37.1259765625,
+          37.1259765625
+        ],
+        "peak_reserved_mib_calls": [
+          38.0,
+          38.0,
+          38.0
+        ],
+        "allocated_before_call_mib": [
+          35.51025390625,
+          35.51025390625,
+          35.51025390625
+        ],
+        "forward_increment_mib": 1.61572265625,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_native_multi_head_attention": 1,
+            "aten::_softmax": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::bmm": 2
+          },
+          "flash": [],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [
+            "aten::bmm"
+          ],
+          "softmax": [
+            "aten::_softmax"
+          ],
+          "fused_attention_observed": false,
+          "dense_attention_observed": true
+        },
+        "full_sequence_s": 0.0005413702456280589
+      },
+      "flash": {
+        "latency_ms": 0.4813724663108587,
+        "latency_std_ms": 0.009138880797531373,
+        "latency_median_ms": 0.4804963245987892,
+        "samples_ms": [
+          0.4786718636751175,
+          0.4772329702973366,
+          0.48574386164546013,
+          0.49700820818543434,
+          0.48929592594504356,
+          0.4782886244356632,
+          0.4820004105567932,
+          0.4643690772354603,
+          0.47528138384222984,
+          0.4789922386407852
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 36.60009765625,
+        "peak_reserved_mib": 38.0,
+        "peak_allocated_mib_calls": [
+          36.60009765625,
+          36.60009765625,
+          36.60009765625
+        ],
+        "peak_reserved_mib_calls": [
+          38.0,
+          38.0,
+          38.0
+        ],
+        "allocated_before_call_mib": [
+          35.51025390625,
+          35.51025390625,
+          35.51025390625
+        ],
+        "forward_increment_mib": 1.08984375,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_flash_attention_forward": 1,
+            "aten::_native_multi_head_attention": 1,
+            "aten::_scaled_dot_product_flash_attention": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [
+            "aten::_flash_attention_forward",
+            "aten::_scaled_dot_product_flash_attention"
+          ],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        },
+        "full_sequence_s": 0.0004813724663108587
+      },
+      "dense_vs_flash": {
+        "max_abs_diff": 0.001953125,
+        "allclose": true,
+        "tolerance": "atol=rtol=0.01 on FP16 outputs cast to FP32"
+      },
+      "pma_implied_sequence_s": 0.015272375632775947,
+      "max_sampling_hz_uncapped": 94657.64158661966,
+      "max_sampling_hz_grid": 48000,
+      "capped_at_96khz": false,
+      "time_ratio_pma_over_dense": 28.21059294652966,
+      "alloc_change_pct_vs_dense": -3.0657337506904803,
+      "reserved_change_pct_vs_dense": 0.0,
+      "time_ratio_pma_over_flash": 31.726732835013078,
+      "alloc_change_pct_vs_flash": -1.6729591632535956,
+      "reserved_change_pct_vs_flash": 0.0
+    },
+    {
+      "raw_samples": 4096,
+      "tokens": 511,
+      "window": 102,
+      "stride": 51,
+      "windows": 9,
+      "pma": {
+        "latency_ms": 1.6308307628302525,
+        "latency_std_ms": 0.1273519491677065,
+        "latency_median_ms": 1.5905890613794327,
+        "samples_ms": [
+          1.9617611542344093,
+          1.8746922723948956,
+          1.9273287616670132,
+          1.799526158720255,
+          1.8376689404249191,
+          1.8161982297897339,
+          1.8871398642659187,
+          1.8317489884793758,
+          1.7867577262222767,
+          1.805382315069437,
+          1.7989818006753922,
+          1.7155609093606472,
+          1.7704712226986885,
+          1.7247763462364674,
+          1.739943865686655,
+          1.719593070447445,
+          1.6999132931232452,
+          1.717383973300457,
+          1.6371947713196278,
+          1.7074327915906906,
+          1.6793059185147285,
+          1.6392427496612072,
+          1.6612261533737183,
+          1.5889089554548264,
+          1.632235012948513,
+          1.611724030226469,
+          1.592269167304039,
+          1.516880001872778,
+          1.5648780390620232,
+          1.5564286150038242,
+          1.5887808986008167,
+          1.5366538427770138,
+          1.5460303984582424,
+          1.5590861439704895,
+          1.5018400736153126,
+          1.5406226739287376,
+          1.578476745635271,
+          1.4858078211545944,
+          1.5075667761266232,
+          1.5239827334880829,
+          1.556237693876028,
+          1.4801761135458946,
+          1.4752810820937157,
+          1.504720188677311,
+          1.5055518597364426,
+          1.5262537635862827,
+          1.483759842813015,
+          1.4966563321650028,
+          1.467376947402954,
+          1.448913011699915
+        ],
+        "warmup": 3,
+        "repeats": 50,
+        "discarded": 2,
+        "peak_allocated_mib": 36.60888671875,
+        "peak_reserved_mib": 38.0,
+        "peak_allocated_mib_calls": [
+          36.60888671875,
+          36.60888671875,
+          36.60888671875
+        ],
+        "peak_reserved_mib_calls": [
+          38.0,
+          38.0,
+          38.0
+        ],
+        "allocated_before_call_mib": [
+          35.443359375,
+          35.443359375,
+          35.443359375
+        ],
+        "forward_increment_mib": 1.16552734375,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_efficient_attention_forward": 1,
+            "aten::_scaled_dot_product_efficient_attention": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [],
+          "efficient": [
+            "aten::_efficient_attention_forward",
+            "aten::_scaled_dot_product_efficient_attention"
+          ],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        }
+      },
+      "dense": {
+        "latency_ms": 0.5459663807414472,
+        "latency_std_ms": 0.007902436402297586,
+        "latency_median_ms": 0.5482702981680632,
+        "samples_ms": [
+          0.5601420998573303,
+          0.5498700775206089,
+          0.5570696666836739,
+          0.5533578805625439,
+          0.5339020863175392,
+          0.5494863726198673,
+          0.547054223716259,
+          0.5423501133918762,
+          0.5344473756849766,
+          0.5500633269548416
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 40.8994140625,
+        "peak_reserved_mib": 60.0,
+        "peak_allocated_mib_calls": [
+          40.8994140625,
+          40.8994140625,
+          40.8994140625
+        ],
+        "peak_reserved_mib_calls": [
+          60.0,
+          60.0,
+          60.0
+        ],
+        "allocated_before_call_mib": [
+          35.66650390625,
+          35.66650390625,
+          35.66650390625
+        ],
+        "forward_increment_mib": 5.23291015625,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_native_multi_head_attention": 1,
+            "aten::_softmax": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::bmm": 2
+          },
+          "flash": [],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [
+            "aten::bmm"
+          ],
+          "softmax": [
+            "aten::_softmax"
+          ],
+          "fused_attention_observed": false,
+          "dense_attention_observed": true
+        },
+        "full_sequence_s": 0.0005459663807414472
+      },
+      "flash": {
+        "latency_ms": 0.49125211080536246,
+        "latency_std_ms": 0.01811280016730552,
+        "latency_median_ms": 0.48712012358009815,
+        "samples_ms": [
+          0.5091680213809013,
+          0.5019679665565491,
+          0.5296468734741211,
+          0.5061281844973564,
+          0.4765600897371769,
+          0.4933602176606655,
+          0.4808800294995308,
+          0.494128093123436,
+          0.47006504610180855,
+          0.4792483523488045
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 39.2705078125,
+        "peak_reserved_mib": 58.0,
+        "peak_allocated_mib_calls": [
+          39.2705078125,
+          39.2705078125,
+          39.2705078125
+        ],
+        "peak_reserved_mib_calls": [
+          58.0,
+          58.0,
+          58.0
+        ],
+        "allocated_before_call_mib": [
+          35.66650390625,
+          35.66650390625,
+          35.66650390625
+        ],
+        "forward_increment_mib": 3.60400390625,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_flash_attention_forward": 1,
+            "aten::_native_multi_head_attention": 1,
+            "aten::_scaled_dot_product_flash_attention": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [
+            "aten::_flash_attention_forward",
+            "aten::_scaled_dot_product_flash_attention"
+          ],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        },
+        "full_sequence_s": 0.0004912521108053625
+      },
+      "dense_vs_flash": {
+        "max_abs_diff": 0.00390625,
+        "allclose": true,
+        "tolerance": "atol=rtol=0.01 on FP16 outputs cast to FP32"
+      },
+      "pma_implied_sequence_s": 0.014677476865472272,
+      "max_sampling_hz_uncapped": 200535.061643215,
+      "max_sampling_hz_grid": 96000,
+      "capped_at_96khz": true,
+      "time_ratio_pma_over_dense": 26.88348107724067,
+      "alloc_change_pct_vs_dense": -10.490437191089041,
+      "reserved_change_pct_vs_dense": -36.66666666666667,
+      "time_ratio_pma_over_flash": 29.877687123643916,
+      "alloc_change_pct_vs_flash": -6.777658966006017,
+      "reserved_change_pct_vs_flash": -34.48275862068966
+    },
+    {
+      "raw_samples": 8192,
+      "tokens": 1023,
+      "window": 204,
+      "stride": 102,
+      "windows": 9,
+      "pma": {
+        "latency_ms": 1.6836631014787902,
+        "latency_std_ms": 0.13015609471475742,
+        "latency_median_ms": 1.6637230291962624,
+        "samples_ms": [
+          1.9789761863648891,
+          1.9949758425354958,
+          1.8983702175319195,
+          1.9625932909548283,
+          1.87651626765728,
+          1.8731234595179558,
+          1.9170581363141537,
+          1.8832669593393803,
+          1.8779560923576355,
+          1.8555251881480217,
+          1.8780198879539967,
+          1.8322612158954144,
+          1.8152063712477684,
+          1.7638150602579117,
+          1.7775427550077438,
+          1.7757508903741837,
+          1.7102169804275036,
+          1.7426637932658195,
+          1.732103992253542,
+          1.7250650562345982,
+          1.6796579584479332,
+          1.7206487245857716,
+          1.7049368470907211,
+          1.6697710379958153,
+          1.6576750203967094,
+          1.6163000836968422,
+          1.6986969858407974,
+          1.675690058618784,
+          1.6509220004081726,
+          1.5783808194100857,
+          1.6143480315804482,
+          1.6034692525863647,
+          1.6187317669391632,
+          1.6454830765724182,
+          1.5778690576553345,
+          1.5873080119490623,
+          1.5836292877793312,
+          1.5722368843853474,
+          1.5966198407113552,
+          1.5794369392096996,
+          1.5448140911757946,
+          1.5294221229851246,
+          1.5486860647797585,
+          1.5610689297318459,
+          1.4954721555113792,
+          1.5406538732349873,
+          1.502895262092352,
+          1.4786720275878906,
+          1.563117839396,
+          1.5221592038869858
+        ],
+        "warmup": 3,
+        "repeats": 50,
+        "discarded": 2,
+        "peak_allocated_mib": 37.9150390625,
+        "peak_reserved_mib": 40.0,
+        "peak_allocated_mib_calls": [
+          37.9150390625,
+          37.9150390625,
+          37.9150390625
+        ],
+        "peak_reserved_mib_calls": [
+          40.0,
+          40.0,
+          40.0
+        ],
+        "allocated_before_call_mib": [
+          35.56591796875,
+          35.56591796875,
+          35.56591796875
+        ],
+        "forward_increment_mib": 2.34912109375,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_efficient_attention_forward": 1,
+            "aten::_scaled_dot_product_efficient_attention": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [],
+          "efficient": [
+            "aten::_efficient_attention_forward",
+            "aten::_scaled_dot_product_efficient_attention"
+          ],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        }
+      },
+      "dense": {
+        "latency_ms": 0.531702593434602,
+        "latency_std_ms": 0.0097318747729947,
+        "latency_median_ms": 0.5329584237188101,
+        "samples_ms": [
+          0.5811010487377644,
+          0.5674702115356922,
+          0.5316948518157005,
+          0.5194712430238724,
+          0.5191508680582047,
+          0.5405261181294918,
+          0.5474695935845375,
+          0.5229590460658073,
+          0.5342219956219196,
+          0.5381270311772823
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 54.72998046875,
+        "peak_reserved_mib": 60.0,
+        "peak_allocated_mib_calls": [
+          54.72998046875,
+          54.72998046875,
+          54.72998046875
+        ],
+        "peak_reserved_mib_calls": [
+          60.0,
+          60.0,
+          60.0
+        ],
+        "allocated_before_call_mib": [
+          35.97900390625,
+          35.97900390625,
+          35.97900390625
+        ],
+        "forward_increment_mib": 18.7509765625,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_native_multi_head_attention": 1,
+            "aten::_softmax": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::bmm": 2
+          },
+          "flash": [],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [
+            "aten::bmm"
+          ],
+          "softmax": [
+            "aten::_softmax"
+          ],
+          "fused_attention_observed": false,
+          "dense_attention_observed": true
+        },
+        "full_sequence_s": 0.000531702593434602
+      },
+      "flash": {
+        "latency_ms": 0.49128406681120396,
+        "latency_std_ms": 0.011574548103181773,
+        "latency_median_ms": 0.48961606808006763,
+        "samples_ms": [
+          0.5000480450689793,
+          0.5018720403313637,
+          0.49380771815776825,
+          0.49502402544021606,
+          0.485424418002367,
+          0.5007199943065643,
+          0.47822529450058937,
+          0.47864019870758057,
+          0.48385607078671455,
+          0.5145748145878315
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 43.1923828125,
+        "peak_reserved_mib": 60.0,
+        "peak_allocated_mib_calls": [
+          43.1923828125,
+          43.1923828125,
+          43.1923828125
+        ],
+        "peak_reserved_mib_calls": [
+          60.0,
+          60.0,
+          60.0
+        ],
+        "allocated_before_call_mib": [
+          35.97900390625,
+          35.97900390625,
+          35.97900390625
+        ],
+        "forward_increment_mib": 7.21337890625,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_flash_attention_forward": 1,
+            "aten::_native_multi_head_attention": 1,
+            "aten::_scaled_dot_product_flash_attention": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [
+            "aten::_flash_attention_forward",
+            "aten::_scaled_dot_product_flash_attention"
+          ],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        },
+        "full_sequence_s": 0.000491284066811204
+      },
+      "dense_vs_flash": {
+        "max_abs_diff": 0.0029296875,
+        "allclose": true,
+        "tolerance": "atol=rtol=0.01 on FP16 outputs cast to FP32"
+      },
+      "pma_implied_sequence_s": 0.015152967913309112,
+      "max_sampling_hz_uncapped": 388105.03276648966,
+      "max_sampling_hz_grid": 96000,
+      "capped_at_96khz": true,
+      "time_ratio_pma_over_dense": 28.4989543034322,
+      "alloc_change_pct_vs_dense": -30.72345588694496,
+      "reserved_change_pct_vs_dense": -33.333333333333336,
+      "time_ratio_pma_over_flash": 30.843597293238215,
+      "alloc_change_pct_vs_flash": -12.218227859549168,
+      "reserved_change_pct_vs_flash": -33.333333333333336
+    },
+    {
+      "raw_samples": 16384,
+      "tokens": 2047,
+      "window": 409,
+      "stride": 204,
+      "windows": 9,
+      "pma": {
+        "latency_ms": 1.6888061654753983,
+        "latency_std_ms": 0.13071957316775887,
+        "latency_median_ms": 1.658458961173892,
+        "samples_ms": [
+          1.950880978256464,
+          1.995967235416174,
+          1.9469130784273148,
+          1.9751042127609253,
+          1.9683842547237873,
+          1.9523529335856438,
+          1.8899878486990929,
+          1.9182423129677773,
+          1.8144366331398487,
+          1.8241009674966335,
+          1.8021180294454098,
+          1.832036767154932,
+          1.8305331468582153,
+          1.7693187110126019,
+          1.7651603557169437,
+          1.7611589282751083,
+          1.751687377691269,
+          1.7141848802566528,
+          1.745447050780058,
+          1.7265998758375645,
+          1.6561057418584824,
+          1.6581229865550995,
+          1.6775461845099926,
+          1.6527147963643074,
+          1.6949540004134178,
+          1.6612899489700794,
+          1.6328110359609127,
+          1.6687139868736267,
+          1.678762026131153,
+          1.6587949357926846,
+          1.5875650569796562,
+          1.627882942557335,
+          1.601547934114933,
+          1.6460907645523548,
+          1.5801731497049332,
+          1.589740626513958,
+          1.580141019076109,
+          1.6094516031444073,
+          1.5690689906477928,
+          1.5911799855530262,
+          1.585196703672409,
+          1.5735500492155552,
+          1.5409099869430065,
+          1.6177077777683735,
+          1.5046880580484867,
+          1.5128152444958687,
+          1.5723980031907558,
+          1.5178392641246319,
+          1.4935517683625221,
+          1.5336140058934689
+        ],
+        "warmup": 3,
+        "repeats": 50,
+        "discarded": 2,
+        "peak_allocated_mib": 40.77734375,
+        "peak_reserved_mib": 62.0,
+        "peak_allocated_mib_calls": [
+          40.77734375,
+          40.77734375,
+          40.77734375
+        ],
+        "peak_reserved_mib_calls": [
+          62.0,
+          62.0,
+          62.0
+        ],
+        "allocated_before_call_mib": [
+          35.93408203125,
+          35.93408203125,
+          35.93408203125
+        ],
+        "forward_increment_mib": 4.84326171875,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_efficient_attention_forward": 1,
+            "aten::_scaled_dot_product_efficient_attention": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [],
+          "efficient": [
+            "aten::_efficient_attention_forward",
+            "aten::_scaled_dot_product_efficient_attention"
+          ],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        }
+      },
+      "dense": {
+        "latency_ms": 0.5427303840406239,
+        "latency_std_ms": 0.015209558940864933,
+        "latency_median_ms": 0.539230415597558,
+        "samples_ms": [
+          0.5686217918992043,
+          0.5630850791931152,
+          0.5336790345609188,
+          0.5773259326815605,
+          0.5409428849816322,
+          0.5375179462134838,
+          0.5243029445409775,
+          0.55274972692132,
+          0.5426709540188313,
+          0.5326536484062672
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 105.60205078125,
+        "peak_reserved_mib": 120.0,
+        "peak_allocated_mib_calls": [
+          105.60205078125,
+          105.60205078125,
+          105.60205078125
+        ],
+        "peak_reserved_mib_calls": [
+          120.0,
+          120.0,
+          120.0
+        ],
+        "allocated_before_call_mib": [
+          36.60400390625,
+          36.60400390625,
+          36.60400390625
+        ],
+        "forward_increment_mib": 68.998046875,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_native_multi_head_attention": 1,
+            "aten::_softmax": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::bmm": 2
+          },
+          "flash": [],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [
+            "aten::bmm"
+          ],
+          "softmax": [
+            "aten::_softmax"
+          ],
+          "fused_attention_observed": false,
+          "dense_attention_observed": true
+        },
+        "full_sequence_s": 0.0005427303840406239
+      },
+      "flash": {
+        "latency_ms": 0.4754967521876097,
+        "latency_std_ms": 0.009966914532405424,
+        "latency_median_ms": 0.4725928883999586,
+        "samples_ms": [
+          0.49892812967300415,
+          0.5288468673825264,
+          0.47387275844812393,
+          0.4881126806139946,
+          0.4713130183517933,
+          0.4669930785894394,
+          0.4746410995721817,
+          0.4636007361114025,
+          0.4705446772277355,
+          0.49489596858620644
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 45.3505859375,
+        "peak_reserved_mib": 56.0,
+        "peak_allocated_mib_calls": [
+          45.3505859375,
+          45.3505859375,
+          45.3505859375
+        ],
+        "peak_reserved_mib_calls": [
+          56.0,
+          56.0,
+          56.0
+        ],
+        "allocated_before_call_mib": [
+          36.60400390625,
+          36.60400390625,
+          36.60400390625
+        ],
+        "forward_increment_mib": 8.74658203125,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_flash_attention_forward": 1,
+            "aten::_native_multi_head_attention": 1,
+            "aten::_scaled_dot_product_flash_attention": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [
+            "aten::_flash_attention_forward",
+            "aten::_scaled_dot_product_flash_attention"
+          ],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        },
+        "full_sequence_s": 0.00047549675218760967
+      },
+      "dense_vs_flash": {
+        "max_abs_diff": 0.00390625,
+        "allclose": true,
+        "tolerance": "atol=rtol=0.01 on FP16 outputs cast to FP32"
+      },
+      "pma_implied_sequence_s": 0.015199255489278585,
+      "max_sampling_hz_uncapped": 773468.1683043581,
+      "max_sampling_hz_grid": 96000,
+      "capped_at_96khz": true,
+      "time_ratio_pma_over_dense": 28.0051678259106,
+      "alloc_change_pct_vs_dense": -61.38584104349596,
+      "reserved_change_pct_vs_dense": -48.33333333333333,
+      "time_ratio_pma_over_flash": 31.965003797295424,
+      "alloc_change_pct_vs_flash": -10.08419647279226,
+      "reserved_change_pct_vs_flash": 10.71428571428572
+    },
+    {
+      "raw_samples": 32768,
+      "tokens": 4095,
+      "window": 819,
+      "stride": 409,
+      "windows": 9,
+      "pma": {
+        "latency_ms": 1.679079180272917,
+        "latency_std_ms": 0.12150500599847748,
+        "latency_median_ms": 1.66789791546762,
+        "samples_ms": [
+          1.988863106817007,
+          1.986304298043251,
+          1.8979869782924652,
+          1.9214418716728687,
+          1.8888027407228947,
+          1.8794601783156395,
+          1.877667848020792,
+          1.827044878154993,
+          1.8332209438085556,
+          1.828100997954607,
+          1.7955577932298183,
+          1.8094130791723728,
+          1.7895102500915527,
+          1.7518792301416397,
+          1.7897021025419235,
+          1.7556226812303066,
+          1.7864382825791836,
+          1.7905659042298794,
+          1.7154011875391006,
+          1.7145690508186817,
+          1.6834661364555359,
+          1.67463393881917,
+          1.7347917892038822,
+          1.6887770034372807,
+          1.693833153694868,
+          1.6888738609850407,
+          1.614956185221672,
+          1.6611618921160698,
+          1.6259308904409409,
+          1.6204603016376495,
+          1.6318191774189472,
+          1.5825089067220688,
+          1.5732301399111748,
+          1.5757572837173939,
+          1.5983167104423046,
+          1.6215159557759762,
+          1.5996280126273632,
+          1.6096122562885284,
+          1.5667006373405457,
+          1.600652001798153,
+          1.582925207912922,
+          1.5075989067554474,
+          1.5601417981088161,
+          1.5318868681788445,
+          1.5195030719041824,
+          1.5495819970965385,
+          1.5145749785006046,
+          1.534127164632082,
+          1.4870883896946907,
+          1.5093600377440453
+        ],
+        "warmup": 3,
+        "repeats": 50,
+        "discarded": 2,
+        "peak_allocated_mib": 47.46630859375,
+        "peak_reserved_mib": 66.0,
+        "peak_allocated_mib_calls": [
+          47.46630859375,
+          47.46630859375,
+          47.46630859375
+        ],
+        "peak_reserved_mib_calls": [
+          66.0,
+          66.0,
+          66.0
+        ],
+        "allocated_before_call_mib": [
+          37.15087890625,
+          37.15087890625,
+          37.15087890625
+        ],
+        "forward_increment_mib": 10.3154296875,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_efficient_attention_forward": 1,
+            "aten::_scaled_dot_product_efficient_attention": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [],
+          "efficient": [
+            "aten::_efficient_attention_forward",
+            "aten::_scaled_dot_product_efficient_attention"
+          ],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        }
+      },
+      "dense": {
+        "latency_ms": 1.2477758573368192,
+        "latency_std_ms": 0.019268352312613122,
+        "latency_median_ms": 1.2412720825523138,
+        "samples_ms": [
+          1.2520556338131428,
+          1.2401198036968708,
+          1.2434162199497223,
+          1.248599961400032,
+          1.237048301845789,
+          1.2975581921637058,
+          1.238808035850525,
+          1.2433519586920738,
+          1.2391922064125538,
+          1.2342319823801517
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 303.85595703125,
+        "peak_reserved_mib": 312.0,
+        "peak_allocated_mib_calls": [
+          303.85595703125,
+          303.85595703125,
+          303.85595703125
+        ],
+        "peak_reserved_mib_calls": [
+          312.0,
+          312.0,
+          312.0
+        ],
+        "allocated_before_call_mib": [
+          37.85400390625,
+          37.85400390625,
+          37.85400390625
+        ],
+        "forward_increment_mib": 266.001953125,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_native_multi_head_attention": 1,
+            "aten::_softmax": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::bmm": 2
+          },
+          "flash": [],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [
+            "aten::bmm"
+          ],
+          "softmax": [
+            "aten::_softmax"
+          ],
+          "fused_attention_observed": false,
+          "dense_attention_observed": true
+        },
+        "full_sequence_s": 0.0012477758573368192
+      },
+      "flash": {
+        "latency_ms": 0.4829603130929172,
+        "latency_std_ms": 0.011113431832896935,
+        "latency_median_ms": 0.4819524474442005,
+        "samples_ms": [
+          0.4910239949822426,
+          0.47502387315034866,
+          0.48094475641846657,
+          0.5073761567473412,
+          0.4896479658782482,
+          0.4770411178469658,
+          0.46910485252738,
+          0.48296013846993446,
+          0.4843357019126415,
+          0.4722718149423599
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 55.3544921875,
+        "peak_reserved_mib": 56.0,
+        "peak_allocated_mib_calls": [
+          55.3544921875,
+          55.3544921875,
+          55.3544921875
+        ],
+        "peak_reserved_mib_calls": [
+          56.0,
+          56.0,
+          56.0
+        ],
+        "allocated_before_call_mib": [
+          37.85400390625,
+          37.85400390625,
+          37.85400390625
+        ],
+        "forward_increment_mib": 17.50048828125,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_flash_attention_forward": 1,
+            "aten::_native_multi_head_attention": 1,
+            "aten::_scaled_dot_product_flash_attention": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [
+            "aten::_flash_attention_forward",
+            "aten::_scaled_dot_product_flash_attention"
+          ],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        },
+        "full_sequence_s": 0.0004829603130929172
+      },
+      "dense_vs_flash": {
+        "max_abs_diff": 0.00390625,
+        "allclose": true,
+        "tolerance": "atol=rtol=0.01 on FP16 outputs cast to FP32"
+      },
+      "pma_implied_sequence_s": 0.015111712622456253,
+      "max_sampling_hz_uncapped": 1559330.4052127255,
+      "max_sampling_hz_grid": 96000,
+      "capped_at_96khz": true,
+      "time_ratio_pma_over_dense": 12.1109192276807,
+      "alloc_change_pct_vs_dense": -84.37868091923953,
+      "reserved_change_pct_vs_dense": -78.84615384615384,
+      "time_ratio_pma_over_flash": 31.289760696235295,
+      "alloc_change_pct_vs_flash": -14.250304324047768,
+      "reserved_change_pct_vs_flash": 17.85714285714286
+    },
+    {
+      "raw_samples": 65536,
+      "tokens": 8191,
+      "window": 1638,
+      "stride": 819,
+      "windows": 9,
+      "pma": {
+        "latency_ms": 1.6463783880074818,
+        "latency_std_ms": 0.11653534647208953,
+        "latency_median_ms": 1.6095961909741163,
+        "samples_ms": [
+          1.8817950040102005,
+          1.8754596821963787,
+          1.9439379684627056,
+          1.8156538717448711,
+          1.8185339868068695,
+          1.7867586575448513,
+          1.8449649214744568,
+          1.8288367427885532,
+          1.822213176637888,
+          1.7691589891910553,
+          1.766950823366642,
+          1.8183100037276745,
+          1.754439901560545,
+          1.7307917587459087,
+          1.7343759536743164,
+          1.7399759963154793,
+          1.734504010528326,
+          1.7087450250983238,
+          1.6717859543859959,
+          1.7079771496355534,
+          1.6991780139505863,
+          1.6577066853642464,
+          1.6174521297216415,
+          1.6291318461298943,
+          1.6590510495007038,
+          1.6628899611532688,
+          1.5831813216209412,
+          1.59143703058362,
+          1.601740252226591,
+          1.5535498969256878,
+          1.5871492214500904,
+          1.5524299815297127,
+          1.5936130657792091,
+          1.538638025522232,
+          1.5709572471678257,
+          1.56030198559165,
+          1.5610377304255962,
+          1.556364819407463,
+          1.524878665804863,
+          1.5436620451509953,
+          1.5254868194460869,
+          1.555789727717638,
+          1.494128257036209,
+          1.5443982556462288,
+          1.5121758915483952,
+          1.5114080160856247,
+          1.4908639714121819,
+          1.505199819803238,
+          1.5434380620718002,
+          1.5010079368948936
+        ],
+        "warmup": 3,
+        "repeats": 50,
+        "discarded": 2,
+        "peak_allocated_mib": 65.51904296875,
+        "peak_reserved_mib": 84.0,
+        "peak_allocated_mib_calls": [
+          65.51904296875,
+          65.51904296875,
+          65.51904296875
+        ],
+        "peak_reserved_mib_calls": [
+          84.0,
+          84.0,
+          84.0
+        ],
+        "allocated_before_call_mib": [
+          42.232421875,
+          42.232421875,
+          42.232421875
+        ],
+        "forward_increment_mib": 23.28662109375,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_efficient_attention_forward": 1,
+            "aten::_scaled_dot_product_efficient_attention": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [],
+          "efficient": [
+            "aten::_efficient_attention_forward",
+            "aten::_scaled_dot_product_efficient_attention"
+          ],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        }
+      },
+      "dense": {
+        "latency_ms": 4.172873625066131,
+        "latency_std_ms": 0.014955551177956402,
+        "latency_median_ms": 4.177736816927791,
+        "samples_ms": [
+          4.196024965494871,
+          4.190552979707718,
+          4.1798981837928295,
+          4.177785012871027,
+          4.177688620984554,
+          4.166841972619295,
+          4.198392853140831,
+          4.179193638265133,
+          4.157050047069788,
+          4.146138671785593
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 1084.35205078125,
+        "peak_reserved_mib": 1112.0,
+        "peak_allocated_mib_calls": [
+          1084.35205078125,
+          1084.35205078125,
+          1084.35205078125
+        ],
+        "peak_reserved_mib_calls": [
+          1112.0,
+          1112.0,
+          1112.0
+        ],
+        "allocated_before_call_mib": [
+          40.35400390625,
+          40.35400390625,
+          40.35400390625
+        ],
+        "forward_increment_mib": 1043.998046875,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_native_multi_head_attention": 1,
+            "aten::_softmax": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::bmm": 2
+          },
+          "flash": [],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [
+            "aten::bmm"
+          ],
+          "softmax": [
+            "aten::_softmax"
+          ],
+          "fused_attention_observed": false,
+          "dense_attention_observed": true
+        },
+        "full_sequence_s": 0.004172873625066131
+      },
+      "flash": {
+        "latency_ms": 0.899042934179306,
+        "latency_std_ms": 0.004421856024925755,
+        "latency_median_ms": 0.8984988089650869,
+        "samples_ms": [
+          0.9093792177736759,
+          0.9024669416248798,
+          0.8952352218329906,
+          0.8997786790132523,
+          0.9025949984788895,
+          0.9031388908624649,
+          0.9065307676792145,
+          0.8972189389169216,
+          0.8942112326622009,
+          0.893634743988514
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 75.3544921875,
+        "peak_reserved_mib": 92.0,
+        "peak_allocated_mib_calls": [
+          75.3544921875,
+          75.3544921875,
+          75.3544921875
+        ],
+        "peak_reserved_mib_calls": [
+          92.0,
+          92.0,
+          92.0
+        ],
+        "allocated_before_call_mib": [
+          40.35400390625,
+          40.35400390625,
+          40.35400390625
+        ],
+        "forward_increment_mib": 35.00048828125,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_flash_attention_forward": 1,
+            "aten::_native_multi_head_attention": 1,
+            "aten::_scaled_dot_product_flash_attention": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [
+            "aten::_flash_attention_forward",
+            "aten::_scaled_dot_product_flash_attention"
+          ],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        },
+        "full_sequence_s": 0.000899042934179306
+      },
+      "dense_vs_flash": {
+        "max_abs_diff": 0.00390625,
+        "allclose": true,
+        "tolerance": "atol=rtol=0.01 on FP16 outputs cast to FP32"
+      },
+      "pma_implied_sequence_s": 0.014817405492067337,
+      "max_sampling_hz_uncapped": 3184103.9460010454,
+      "max_sampling_hz_grid": 96000,
+      "capped_at_96khz": true,
+      "time_ratio_pma_over_dense": 3.5508876672085923,
+      "alloc_change_pct_vs_dense": -93.95777017975433,
+      "reserved_change_pct_vs_dense": -92.44604316546763,
+      "time_ratio_pma_over_flash": 16.48131021194605,
+      "alloc_change_pct_vs_flash": -13.052240063242749,
+      "reserved_change_pct_vs_flash": -8.695652173913048
+    },
+    {
+      "raw_samples": 131072,
+      "tokens": 16383,
+      "window": 3276,
+      "stride": 1638,
+      "windows": 9,
+      "pma": {
+        "latency_ms": 1.6590252247018118,
+        "latency_std_ms": 0.1254465994832872,
+        "latency_median_ms": 1.6292110085487366,
+        "samples_ms": [
+          1.917378045618534,
+          1.9654086790978909,
+          1.9107870757579803,
+          1.8667238764464855,
+          1.9051861017942429,
+          1.8445481546223164,
+          1.8390128389000893,
+          1.7953668721020222,
+          1.8078461289405823,
+          1.8419562838971615,
+          1.8390454351902008,
+          1.8085180781781673,
+          1.7560073174536228,
+          1.7793341539800167,
+          1.7950781621038914,
+          1.7097052186727524,
+          1.750759780406952,
+          1.727656926959753,
+          1.7354651354253292,
+          1.6803620383143425,
+          1.6766181215643883,
+          1.6247150488197803,
+          1.6864100471138954,
+          1.6559790819883347,
+          1.7024087719619274,
+          1.6344757750630379,
+          1.6215797513723373,
+          1.6081398352980614,
+          1.5789247117936611,
+          1.6120439395308495,
+          1.602156087756157,
+          1.5541580505669117,
+          1.6337069682776928,
+          1.5420620329678059,
+          1.6054199077188969,
+          1.5818369574844837,
+          1.5513096004724503,
+          1.5148627571761608,
+          1.5926207415759563,
+          1.5366547740995884,
+          1.517231110483408,
+          1.4931359328329563,
+          1.5669576823711395,
+          1.498319674283266,
+          1.551598310470581,
+          1.514894887804985,
+          1.4890078455209732,
+          1.5096468850970268,
+          1.4914399944245815,
+          1.491535920649767
+        ],
+        "warmup": 3,
+        "repeats": 50,
+        "discarded": 2,
+        "peak_allocated_mib": 115.21142578125,
+        "peak_reserved_mib": 134.0,
+        "peak_allocated_mib_calls": [
+          115.21142578125,
+          115.21142578125,
+          115.21142578125
+        ],
+        "peak_reserved_mib_calls": [
+          134.0,
+          134.0,
+          134.0
+        ],
+        "allocated_before_call_mib": [
+          57.87841796875,
+          57.87841796875,
+          57.87841796875
+        ],
+        "forward_increment_mib": 57.3330078125,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_efficient_attention_forward": 1,
+            "aten::_scaled_dot_product_efficient_attention": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [],
+          "efficient": [
+            "aten::_efficient_attention_forward",
+            "aten::_scaled_dot_product_efficient_attention"
+          ],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        }
+      },
+      "dense": {
+        "latency_ms": 17.03784690471366,
+        "latency_std_ms": 0.014909714446563452,
+        "latency_median_ms": 17.0397546608001,
+        "samples_ms": [
+          17.054043244570494,
+          17.046171240508556,
+          17.020476050674915,
+          17.04844320192933,
+          17.03189918771386,
+          17.051130067557096,
+          17.047610133886337,
+          17.016027122735977,
+          17.059642355889082,
+          17.027547117322683
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 4181.3544921875,
+        "peak_reserved_mib": 4212.0,
+        "peak_allocated_mib_calls": [
+          4181.3544921875,
+          4181.3544921875,
+          4181.3544921875
+        ],
+        "peak_reserved_mib_calls": [
+          4212.0,
+          4212.0,
+          4212.0
+        ],
+        "allocated_before_call_mib": [
+          45.35400390625,
+          45.35400390625,
+          45.35400390625
+        ],
+        "forward_increment_mib": 4136.00048828125,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_native_multi_head_attention": 1,
+            "aten::_softmax": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::bmm": 2
+          },
+          "flash": [],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [
+            "aten::bmm"
+          ],
+          "softmax": [
+            "aten::_softmax"
+          ],
+          "fused_attention_observed": false,
+          "dense_attention_observed": true
+        },
+        "full_sequence_s": 0.01703784690471366
+      },
+      "flash": {
+        "latency_ms": 2.5802046875469387,
+        "latency_std_ms": 0.01916641183263818,
+        "latency_median_ms": 2.5731653440743685,
+        "samples_ms": [
+          2.592972945421934,
+          2.582317218184471,
+          2.572814002633095,
+          2.5865407660603523,
+          2.573516685515642,
+          2.627498935908079,
+          2.5726850144565105,
+          2.5694849900901318,
+          2.5604930706322193,
+          2.578604035079479
+        ],
+        "warmup": 3,
+        "repeats": 10,
+        "discarded": 2,
+        "peak_allocated_mib": 115.3544921875,
+        "peak_reserved_mib": 148.0,
+        "peak_allocated_mib_calls": [
+          115.3544921875,
+          115.3544921875,
+          115.3544921875
+        ],
+        "peak_reserved_mib_calls": [
+          148.0,
+          148.0,
+          148.0
+        ],
+        "allocated_before_call_mib": [
+          45.35400390625,
+          45.35400390625,
+          45.35400390625
+        ],
+        "forward_increment_mib": 70.00048828125,
+        "method": "gc.collect; synchronize; empty_cache; reset_peak_memory_stats; one no_grad forward",
+        "trace_cpu": {
+          "finite": true,
+          "attention_operator_counts": {
+            "aten::_flash_attention_forward": 1,
+            "aten::_native_multi_head_attention": 1,
+            "aten::_scaled_dot_product_flash_attention": 1,
+            "aten::_transformer_encoder_layer_fwd": 1,
+            "aten::scaled_dot_product_attention": 1
+          },
+          "flash": [
+            "aten::_flash_attention_forward",
+            "aten::_scaled_dot_product_flash_attention"
+          ],
+          "efficient": [],
+          "cudnn": [],
+          "math_sdpa": [],
+          "bmm": [],
+          "softmax": [],
+          "fused_attention_observed": true,
+          "dense_attention_observed": false
+        },
+        "full_sequence_s": 0.0025802046875469387
+      },
+      "dense_vs_flash": {
+        "max_abs_diff": 0.00390625,
+        "allclose": true,
+        "tolerance": "atol=rtol=0.01 on FP16 outputs cast to FP32"
+      },
+      "pma_implied_sequence_s": 0.014931227022316307,
+      "max_sampling_hz_uncapped": 6319276.962584871,
+      "max_sampling_hz_grid": 96000,
+      "capped_at_96khz": true,
+      "time_ratio_pma_over_dense": 0.87635644960429,
+      "alloc_change_pct_vs_dense": -97.24463864528796,
+      "reserved_change_pct_vs_dense": -96.81861348528015,
+      "time_ratio_pma_over_flash": 5.786838189380927,
+      "alloc_change_pct_vs_flash": -0.12402326388595286,
+      "reserved_change_pct_vs_flash": -9.459459459459463
+    }
+  ],
+  "validation_failures": [],
+  "cuda_kernel_traces": [
+    {
+      "raw_samples": 512,
+      "pma": {
+        "available": true,
+        "kernel_count": 20,
+        "attention_related_kernels": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "flash": [],
+        "efficient": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      },
+      "dense": {
+        "available": true,
+        "kernel_count": 10,
+        "attention_related_kernels": [
+          "void (anonymous namespace)::softmax_warp_forward<c10::Half, c10::Half, float, 6, false, false>(c10::Half*, c10::Half const*, int, int, int, bool const*, int, bool)",
+          "void cutlass::Kernel2<cutlass_75_wmma_tensorop_f16_s161616gemm_f16_32x32_64x1_nn_align1>(cutlass_75_wmma_tensorop_f16_s161616gemm_f16_32x32_64x1_nn_align1::Params)",
+          "void cutlass::Kernel2<cutlass_75_wmma_tensorop_f16_s161616gemm_f16_32x32_64x1_tn_align1>(cutlass_75_wmma_tensorop_f16_s161616gemm_f16_32x32_64x1_tn_align1::Params)"
+        ],
+        "flash": [],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [
+          "void (anonymous namespace)::softmax_warp_forward<c10::Half, c10::Half, float, 6, false, false>(c10::Half*, c10::Half const*, int, int, int, bool const*, int, bool)"
+        ],
+        "fused_attention_observed": false,
+        "dense_attention_observed": false
+      },
+      "flash": {
+        "available": true,
+        "kernel_count": 6,
+        "attention_related_kernels": [
+          "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<64, 128, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 128, 128, 4, cutlass::half_t> >, false, false, false, false, false, false, false, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "flash": [
+          "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<64, 128, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 128, 128, 4, cutlass::half_t> >, false, false, false, false, false, false, false, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      }
+    },
+    {
+      "raw_samples": 1024,
+      "pma": {
+        "available": true,
+        "kernel_count": 20,
+        "attention_related_kernels": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "flash": [],
+        "efficient": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      },
+      "dense": {
+        "available": true,
+        "kernel_count": 10,
+        "attention_related_kernels": [
+          "void (anonymous namespace)::softmax_warp_forward<c10::Half, c10::Half, float, 7, false, false>(c10::Half*, c10::Half const*, int, int, int, bool const*, int, bool)",
+          "void cutlass::Kernel2<cutlass_75_wmma_tensorop_f16_s161616gemm_f16_32x32_128x1_nn_align1>(cutlass_75_wmma_tensorop_f16_s161616gemm_f16_32x32_128x1_nn_align1::Params)",
+          "void cutlass::Kernel2<cutlass_75_wmma_tensorop_f16_s161616gemm_f16_32x32_64x1_tn_align1>(cutlass_75_wmma_tensorop_f16_s161616gemm_f16_32x32_64x1_tn_align1::Params)"
+        ],
+        "flash": [],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [
+          "void (anonymous namespace)::softmax_warp_forward<c10::Half, c10::Half, float, 7, false, false>(c10::Half*, c10::Half const*, int, int, int, bool const*, int, bool)"
+        ],
+        "fused_attention_observed": false,
+        "dense_attention_observed": false
+      },
+      "flash": {
+        "available": true,
+        "kernel_count": 6,
+        "attention_related_kernels": [
+          "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<64, 128, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 128, 128, 4, cutlass::half_t> >, false, false, false, false, false, false, false, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "flash": [
+          "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<64, 128, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 128, 128, 4, cutlass::half_t> >, false, false, false, false, false, false, false, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      }
+    },
+    {
+      "raw_samples": 2048,
+      "pma": {
+        "available": true,
+        "kernel_count": 22,
+        "attention_related_kernels": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "flash": [],
+        "efficient": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      },
+      "dense": {
+        "available": true,
+        "kernel_count": 11,
+        "attention_related_kernels": [
+          "void (anonymous namespace)::softmax_warp_forward<c10::Half, c10::Half, float, 8, false, false>(c10::Half*, c10::Half const*, int, int, int, bool const*, int, bool)",
+          "void cutlass::Kernel2<cutlass_75_wmma_tensorop_f16_s161616gemm_f16_32x32_128x1_nn_align1>(cutlass_75_wmma_tensorop_f16_s161616gemm_f16_32x32_128x1_nn_align1::Params)",
+          "void cutlass::Kernel2<cutlass_75_wmma_tensorop_f16_s161616gemm_f16_32x32_64x1_tn_align1>(cutlass_75_wmma_tensorop_f16_s161616gemm_f16_32x32_64x1_tn_align1::Params)"
+        ],
+        "flash": [],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [
+          "void (anonymous namespace)::softmax_warp_forward<c10::Half, c10::Half, float, 8, false, false>(c10::Half*, c10::Half const*, int, int, int, bool const*, int, bool)"
+        ],
+        "fused_attention_observed": false,
+        "dense_attention_observed": false
+      },
+      "flash": {
+        "available": true,
+        "kernel_count": 7,
+        "attention_related_kernels": [
+          "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<64, 128, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 128, 128, 4, cutlass::half_t> >, false, false, false, false, false, false, false, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "flash": [
+          "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<64, 128, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 128, 128, 4, cutlass::half_t> >, false, false, false, false, false, false, false, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      }
+    },
+    {
+      "raw_samples": 4096,
+      "pma": {
+        "available": true,
+        "kernel_count": 21,
+        "attention_related_kernels": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "flash": [],
+        "efficient": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      },
+      "dense": {
+        "available": true,
+        "kernel_count": 10,
+        "attention_related_kernels": [
+          "void (anonymous namespace)::softmax_warp_forward<c10::Half, c10::Half, float, 9, false, false>(c10::Half*, c10::Half const*, int, int, int, bool const*, int, bool)",
+          "void cutlass::Kernel2<cutlass_75_tensorop_f16_s1688gemm_f16_64x64_tn_align1>(cutlass_75_tensorop_f16_s1688gemm_f16_64x64_tn_align1::Params)",
+          "void cutlass::Kernel2<cutlass_75_wmma_tensorop_f16_s161616gemm_f16_32x32_128x1_nn_align1>(cutlass_75_wmma_tensorop_f16_s161616gemm_f16_32x32_128x1_nn_align1::Params)"
+        ],
+        "flash": [],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [
+          "void (anonymous namespace)::softmax_warp_forward<c10::Half, c10::Half, float, 9, false, false>(c10::Half*, c10::Half const*, int, int, int, bool const*, int, bool)"
+        ],
+        "fused_attention_observed": false,
+        "dense_attention_observed": false
+      },
+      "flash": {
+        "available": true,
+        "kernel_count": 7,
+        "attention_related_kernels": [
+          "void pytorch_flash::flash_fwd_splitkv_combine_kernel<Flash_fwd_kernel_traits<64, 64, 256, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 64, 256, 4, cutlass::half_t> >, 8, 1, false>(pytorch_flash::Flash_fwd_params)",
+          "void pytorch_flash::flash_fwd_splitkv_kernel<Flash_fwd_kernel_traits<64, 64, 256, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 64, 256, 4, cutlass::half_t> >, false, false, false, false, false, false, true, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "flash": [
+          "void pytorch_flash::flash_fwd_splitkv_combine_kernel<Flash_fwd_kernel_traits<64, 64, 256, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 64, 256, 4, cutlass::half_t> >, 8, 1, false>(pytorch_flash::Flash_fwd_params)",
+          "void pytorch_flash::flash_fwd_splitkv_kernel<Flash_fwd_kernel_traits<64, 64, 256, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 64, 256, 4, cutlass::half_t> >, false, false, false, false, false, false, true, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      }
+    },
+    {
+      "raw_samples": 8192,
+      "pma": {
+        "available": true,
+        "kernel_count": 23,
+        "attention_related_kernels": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "flash": [],
+        "efficient": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      },
+      "dense": {
+        "available": true,
+        "kernel_count": 10,
+        "attention_related_kernels": [
+          "void (anonymous namespace)::softmax_warp_forward<c10::Half, c10::Half, float, 10, false, false>(c10::Half*, c10::Half const*, int, int, int, bool const*, int, bool)",
+          "void cutlass::Kernel2<cutlass_75_tensorop_f16_s1688gemm_f16_128x128_tn_align1>(cutlass_75_tensorop_f16_s1688gemm_f16_128x128_tn_align1::Params)",
+          "void cutlass::Kernel2<cutlass_75_tensorop_f16_s1688gemm_f16_64x64_nn_align1>(cutlass_75_tensorop_f16_s1688gemm_f16_64x64_nn_align1::Params)"
+        ],
+        "flash": [],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [
+          "void (anonymous namespace)::softmax_warp_forward<c10::Half, c10::Half, float, 10, false, false>(c10::Half*, c10::Half const*, int, int, int, bool const*, int, bool)"
+        ],
+        "fused_attention_observed": false,
+        "dense_attention_observed": false
+      },
+      "flash": {
+        "available": true,
+        "kernel_count": 7,
+        "attention_related_kernels": [
+          "void pytorch_flash::flash_fwd_splitkv_combine_kernel<Flash_fwd_kernel_traits<64, 64, 256, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 64, 256, 4, cutlass::half_t> >, 8, 1, false>(pytorch_flash::Flash_fwd_params)",
+          "void pytorch_flash::flash_fwd_splitkv_kernel<Flash_fwd_kernel_traits<64, 64, 256, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 64, 256, 4, cutlass::half_t> >, false, false, false, false, false, false, true, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "flash": [
+          "void pytorch_flash::flash_fwd_splitkv_combine_kernel<Flash_fwd_kernel_traits<64, 64, 256, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 64, 256, 4, cutlass::half_t> >, 8, 1, false>(pytorch_flash::Flash_fwd_params)",
+          "void pytorch_flash::flash_fwd_splitkv_kernel<Flash_fwd_kernel_traits<64, 64, 256, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 64, 256, 4, cutlass::half_t> >, false, false, false, false, false, false, true, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      }
+    },
+    {
+      "raw_samples": 16384,
+      "pma": {
+        "available": true,
+        "kernel_count": 22,
+        "attention_related_kernels": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "flash": [],
+        "efficient": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      },
+      "dense": {
+        "available": true,
+        "kernel_count": 10,
+        "attention_related_kernels": [
+          "void (anonymous namespace)::softmax_warp_forward<c10::Half, c10::Half, float, 11, false, false>(c10::Half*, c10::Half const*, int, int, int, bool const*, int, bool)",
+          "void cutlass::Kernel2<cutlass_75_tensorop_f16_s1688gemm_f16_128x128_tn_align1>(cutlass_75_tensorop_f16_s1688gemm_f16_128x128_tn_align1::Params)",
+          "void cutlass::Kernel2<cutlass_75_tensorop_f16_s1688gemm_f16_64x64_nn_align1>(cutlass_75_tensorop_f16_s1688gemm_f16_64x64_nn_align1::Params)"
+        ],
+        "flash": [],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [
+          "void (anonymous namespace)::softmax_warp_forward<c10::Half, c10::Half, float, 11, false, false>(c10::Half*, c10::Half const*, int, int, int, bool const*, int, bool)"
+        ],
+        "fused_attention_observed": false,
+        "dense_attention_observed": false
+      },
+      "flash": {
+        "available": true,
+        "kernel_count": 6,
+        "attention_related_kernels": [
+          "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<64, 128, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 128, 128, 4, cutlass::half_t> >, false, false, false, false, false, false, false, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "flash": [
+          "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<64, 128, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 128, 128, 4, cutlass::half_t> >, false, false, false, false, false, false, false, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      }
+    },
+    {
+      "raw_samples": 32768,
+      "pma": {
+        "available": true,
+        "kernel_count": 22,
+        "attention_related_kernels": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "flash": [],
+        "efficient": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      },
+      "dense": {
+        "available": true,
+        "kernel_count": 10,
+        "attention_related_kernels": [
+          "void at::native::(anonymous namespace)::cunn_SoftMaxForwardReg<c10::Half, float, c10::Half, at::native::(anonymous namespace)::SoftMaxForwardEpilogue, long, 4>(c10::Half*, c10::Half const*, long)",
+          "void cutlass::Kernel2<cutlass_75_tensorop_f16_s1688gemm_f16_128x128_tn_align1>(cutlass_75_tensorop_f16_s1688gemm_f16_128x128_tn_align1::Params)",
+          "void cutlass::Kernel2<cutlass_75_tensorop_f16_s1688gemm_f16_64x64_nn_align1>(cutlass_75_tensorop_f16_s1688gemm_f16_64x64_nn_align1::Params)"
+        ],
+        "flash": [],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [
+          "void at::native::(anonymous namespace)::cunn_SoftMaxForwardReg<c10::Half, float, c10::Half, at::native::(anonymous namespace)::SoftMaxForwardEpilogue, long, 4>(c10::Half*, c10::Half const*, long)"
+        ],
+        "fused_attention_observed": false,
+        "dense_attention_observed": false
+      },
+      "flash": {
+        "available": true,
+        "kernel_count": 6,
+        "attention_related_kernels": [
+          "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<64, 128, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 128, 128, 4, cutlass::half_t> >, false, false, false, false, false, false, false, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "flash": [
+          "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<64, 128, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 128, 128, 4, cutlass::half_t> >, false, false, false, false, false, false, false, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      }
+    },
+    {
+      "raw_samples": 65536,
+      "pma": {
+        "available": true,
+        "kernel_count": 21,
+        "attention_related_kernels": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "flash": [],
+        "efficient": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      },
+      "dense": {
+        "available": true,
+        "kernel_count": 10,
+        "attention_related_kernels": [
+          "void at::native::(anonymous namespace)::cunn_SoftMaxForwardReg<c10::Half, float, c10::Half, at::native::(anonymous namespace)::SoftMaxForwardEpilogue, long, 8>(c10::Half*, c10::Half const*, long)",
+          "void cutlass::Kernel2<cutlass_75_tensorop_f16_s1688gemm_f16_128x128_nn_align1>(cutlass_75_tensorop_f16_s1688gemm_f16_128x128_nn_align1::Params)",
+          "void cutlass::Kernel2<cutlass_75_tensorop_f16_s1688gemm_f16_128x128_tn_align1>(cutlass_75_tensorop_f16_s1688gemm_f16_128x128_tn_align1::Params)"
+        ],
+        "flash": [],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [
+          "void at::native::(anonymous namespace)::cunn_SoftMaxForwardReg<c10::Half, float, c10::Half, at::native::(anonymous namespace)::SoftMaxForwardEpilogue, long, 8>(c10::Half*, c10::Half const*, long)"
+        ],
+        "fused_attention_observed": false,
+        "dense_attention_observed": false
+      },
+      "flash": {
+        "available": true,
+        "kernel_count": 6,
+        "attention_related_kernels": [
+          "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<64, 128, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 128, 128, 4, cutlass::half_t> >, false, false, false, false, false, false, false, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "flash": [
+          "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<64, 128, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 128, 128, 4, cutlass::half_t> >, false, false, false, false, false, false, false, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      }
+    },
+    {
+      "raw_samples": 131072,
+      "pma": {
+        "available": true,
+        "kernel_count": 22,
+        "attention_related_kernels": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "flash": [],
+        "efficient": [
+          "fmha_cutlassF_f16_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)"
+        ],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      },
+      "dense": {
+        "available": true,
+        "kernel_count": 11,
+        "attention_related_kernels": [
+          "void at::native::(anonymous namespace)::cunn_SoftMaxForward<8, c10::Half, float, c10::Half, at::native::(anonymous namespace)::SoftMaxForwardEpilogue>(c10::Half*, c10::Half const*, int)",
+          "void cutlass::Kernel2<cutlass_75_tensorop_f16_s1688gemm_f16_128x128_nn_align1>(cutlass_75_tensorop_f16_s1688gemm_f16_128x128_nn_align1::Params)",
+          "void cutlass::Kernel2<cutlass_75_tensorop_f16_s1688gemm_f16_128x128_tn_align1>(cutlass_75_tensorop_f16_s1688gemm_f16_128x128_tn_align1::Params)"
+        ],
+        "flash": [],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [
+          "void at::native::(anonymous namespace)::cunn_SoftMaxForward<8, c10::Half, float, c10::Half, at::native::(anonymous namespace)::SoftMaxForwardEpilogue>(c10::Half*, c10::Half const*, int)"
+        ],
+        "fused_attention_observed": false,
+        "dense_attention_observed": false
+      },
+      "flash": {
+        "available": true,
+        "kernel_count": 7,
+        "attention_related_kernels": [
+          "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<64, 128, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 128, 128, 4, cutlass::half_t> >, false, false, false, false, false, false, false, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "flash": [
+          "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<64, 128, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 128, 128, 4, cutlass::half_t> >, false, false, false, false, false, false, false, false>(pytorch_flash::Flash_fwd_params)"
+        ],
+        "efficient": [],
+        "cudnn": [],
+        "math_sdpa": [],
+        "bmm": [],
+        "softmax": [],
+        "fused_attention_observed": true,
+        "dense_attention_observed": false
+      }
+    }
+  ]
+}

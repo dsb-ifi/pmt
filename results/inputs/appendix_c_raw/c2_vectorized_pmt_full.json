@@ -1,0 +1,61 @@
+{
+  "timestamp_utc": "2026-11-01T21:59:02.815512+00:00",
+  "git_commit": "b3166c9633ec5be758d2ba2f9ae90e9bff1bb872",
+  "torch": "2.10.0+cu126",
+  "cuda_build": "12.6",
+  "gpu": "NVIDIA GH200 120GB, GPU-8ac59a3c-926c-8b01-db1b-7ed2e126b731, 580.65.06",
+  "arm": "pmt_full",
+  "label": "PMT (full)",
+  "protocol": {
+    "model_type": "pmt_full",
+    "seq_len": 100000,
+    "batch_size": 32,
+    "patch_size": 16,
+    "stride": 8,
+    "d_model": 320,
+    "n_heads": 8,
+    "n_blocks": 6,
+    "n_states": 1,
+    "neigh": 5,
+    "win_pct": 0.1
+  },
+  "pma_class": "src.pmt.pma.pma.module.StackedPMA",
+  "dtype": "torch.float32",
+  "tf32": true,
+  "tokens_per_sequence": 12499,
+  "params": 20072854,
+  "peak_allocated_mib": 11813.2646484375,
+  "peak_memory_method": "historical peak_cuda_mem: reset_peak_memory_stats, no_grad forward, max allocated",
+  "secondary_memory_empty_cache_first": {
+    "peak_allocated_mib": 11813.2646484375,
+    "peak_reserved_mib": 18046.0,
+    "allocated_before_call_mib": 1053.5205078125
+  },
+  "latency_ms": 2607.743146782741,
+  "latency_std_ms": 3.909415941754764,
+  "samples_ms": [
+    2602.246001828462,
+    2605.0422322005033,
+    2610.5182161554694,
+    2604.7999360598624,
+    2610.5649662204087,
+    2606.6650920547545,
+    2606.2964317388833,
+    2605.087511241436,
+    2609.701314009726,
+    2616.509766317904
+  ],
+  "tokens_per_s": 153377.06878587863,
+  "tokens_per_s_definition": "batch 32 x 12,499 nominal tokens / mean latency (historical denominator)",
+  "attention_operator_counts": {
+    "aten::_efficient_attention_forward": 165,
+    "aten::_scaled_dot_product_efficient_attention": 165,
+    "aten::scaled_dot_product_attention": 165
+  },
+  "sdpa_kernels_dispatched": [
+    "efficient"
+  ],
+  "finite_output": true,
+  "warmup": 3,
+  "timed_calls": 10
+}

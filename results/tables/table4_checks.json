@@ -1,0 +1,212 @@
+{
+  "pmt_minus_table1_cells": {
+    "HAR|1%|acc": 0.0,
+    "HAR|1%|f1": 0.0,
+    "HAR|5%|acc": 0.0,
+    "HAR|5%|f1": 0.0,
+    "Epilepsy|1%|acc": 0.0,
+    "Epilepsy|1%|f1": 0.0,
+    "Epilepsy|5%|acc": 0.0,
+    "Epilepsy|5%|f1": 0.0,
+    "FordA|1%|acc": 0.0,
+    "FordA|1%|f1": 0.0,
+    "FordA|5%|acc": 0.0,
+    "FordA|5%|f1": 0.0,
+    "FordB|1%|acc": 0.0,
+    "FordB|1%|f1": 0.0,
+    "FordB|5%|acc": 0.0,
+    "FordB|5%|f1": 0.0,
+    "POC|1%|acc": 0.0,
+    "POC|1%|f1": 0.0,
+    "POC|5%|acc": 0.0,
+    "POC|5%|f1": 0.0,
+    "Wafer|1%|acc": 0.0,
+    "Wafer|1%|f1": 0.0,
+    "Wafer|5%|acc": 0.0,
+    "Wafer|5%|f1": 0.0,
+    "ElectricDevices|1%|acc": 0.0,
+    "ElectricDevices|1%|f1": 0.0,
+    "ElectricDevices|5%|acc": 0.0,
+    "ElectricDevices|5%|f1": 0.0,
+    "StarLightCurves|1%|acc": 0.0,
+    "StarLightCurves|1%|f1": 0.0,
+    "StarLightCurves|5%|acc": 0.0,
+    "StarLightCurves|5%|f1": 0.0
+  },
+  "sources": {
+    "PMT": {
+      "HAR": {
+        "42": [
+          "har_augmentation_followup_20261025",
+          "har_augmentation_followup_20261025_HAR_weights_magnitude010_s42"
+        ],
+        "43": [
+          "har_augmentation_followup_20261025",
+          "har_augmentation_followup_20261025_HAR_weights_magnitude010_s43"
+        ],
+        "44": [
+          "har_augmentation_followup_20261025",
+          "har_augmentation_followup_20261025_HAR_weights_magnitude010_s44"
+        ],
+        "45": [
+          "har_confirmation_20261025",
+          "har_confirmation_20261025_HAR_weights_magnitude010_s45"
+        ],
+        "46": [
+          "har_confirmation_20261025",
+          "har_confirmation_20261025_HAR_weights_magnitude010_s46"
+        ],
+        "47": [
+          "har_confirmation_20261025",
+          "har_confirmation_20261025_HAR_weights_magnitude010_s47"
+        ],
+        "48": [
+          "har_confirmation_20261025",
+          "har_confirmation_20261025_HAR_weights_magnitude010_s48"
+        ],
+        "49": [
+          "har_confirmation_20261025",
+          "har_confirmation_20261025_HAR_weights_magnitude010_s49"
+        ],
+        "50": [
+          "har_confirmation_20261025",
+          "har_confirmation_20261025_HAR_weights_magnitude010_s50"
+        ],
+        "51": [
+          "har_confirmation_20261025",
+          "har_confirmation_20261025_HAR_weights_magnitude010_s51"
+        ]
+      },
+      "Epilepsy": [
+        "table4_arch_rerun_20261023",
+        "table4_arch_rerun_20261023_epilepsy_epilepsy_pmt_pcl"
+      ],
+      "FordA": [
+        "experiments_20261014_000201",
+        "cr_t1_forda_20261013_UCR_FordA_paper_recipe"
+      ],
+      "FordB": [
+        "experiments_20261014_000201",
+        "cr_t1_fordb_20261013_UCR_FordB_paper_recipe"
+      ],
+      "POC": [
+        "poc_final_confirmation_20261018_guarded",
+        "pocconfirm_20261018_UCR_PhalangesOutlinesCorrect_confirmation"
+      ],
+      "Wafer": [
+        "wafer_hgcl_window_upweight_20261022_guarded",
+        "wafer_hgcl_window_upweight_20261022_UCR_Wafer_window125"
+      ],
+      "ElectricDevices": [
+        "ed_magnitude_recovery_20261022_frozen",
+        "ed_magnitude_recovery_20261022_UCR_ElectricDevices_control_tau1"
+      ],
+      "StarLightCurves": [
+        "slc_pcl_10seed_250epochs_20261016_guarded",
+        "slc_pcl_10seed_250epochs_20261016_UCR_StarLightCurves_pcl_on"
+      ]
+    },
+    "PMT w/o PCL": {
+      "HAR": [
+        "har_adoption_reruns_20261025",
+        "har_adoption_reruns_20261025_t1_HAR_pmt_nopcl"
+      ],
+      "Epilepsy": [
+        "epilepsy_b256_followup_20261023",
+        "table4_arch_rerun_20261023_epilepsy_epilepsy_pmt_nopcl"
+      ],
+      "FordA": [
+        "experiments_20261014_000201",
+        "cr_t1_forda_20261013_UCR_FordA_no_pcl"
+      ],
+      "FordB": [
+        "experiments_20261014_000201",
+        "cr_t1_fordb_20261013_UCR_FordB_no_pcl"
+      ],
+      "POC": [
+        "poc_stride3_no_pcl_20261017_guarded",
+        "pocs3nopcl_20261017_UCR_PhalangesOutlinesCorrect_no_pcl"
+      ],
+      "Wafer": [
+        "wafer_window125_no_pcl_20261022_guarded",
+        "wafer_window125_no_pcl_20261022_UCR_Wafer_pcl_off"
+      ],
+      "ElectricDevices": [
+        "ed_magnitude02_no_pcl_20261022_frozen",
+        "ed_magnitude02_no_pcl_20261022_UCR_ElectricDevices_pcl_off"
+      ],
+      "StarLightCurves": [
+        "slc_pcl_10seed_250epochs_20261016_guarded",
+        "slc_pcl_10seed_250epochs_20261016_UCR_StarLightCurves_pcl_off"
+      ]
+    },
+    "xLSTM": {
+      "HAR": [
+        "har_adoption_reruns_20261025",
+        "har_adoption_reruns_20261025_t4_HAR_xlstm"
+      ],
+      "Epilepsy": [
+        "epilepsy_b256_followup_20261023",
+        "table4_arch_rerun_20261023_epilepsy_epilepsy_xlstm"
+      ],
+      "FordA": [
+        "table4_arch_rerun_20261023",
+        "table4_arch_rerun_20261023_forda_UCR_FordA_xlstm"
+      ],
+      "FordB": [
+        "table4_arch_rerun_20261023",
+        "table4_arch_rerun_20261023_fordb_UCR_FordB_xlstm"
+      ],
+      "POC": [
+        "table4_arch_rerun_20261023",
+        "table4_arch_rerun_20261023_poc_UCR_PhalangesOutlinesCorrect_xlstm"
+      ],
+      "Wafer": [
+        "table4_arch_rerun_20261023",
+        "table4_arch_rerun_20261023_wafer_UCR_Wafer_xlstm"
+      ],
+      "ElectricDevices": [
+        "table4_arch_rerun_20261023",
+        "table4_arch_rerun_20261023_ed_UCR_ElectricDevices_xlstm"
+      ],
+      "StarLightCurves": [
+        "table4_arch_rerun_20261023",
+        "table4_arch_rerun_20261023_slc_UCR_StarLightCurves_xlstm"
+      ]
+    },
+    "TXL": {
+      "HAR": [
+        "har_adoption_reruns_20261025",
+        "har_adoption_reruns_20261025_t4_HAR_txl"
+      ],
+      "Epilepsy": [
+        "epilepsy_b256_followup_20261023",
+        "table4_arch_rerun_20261023_epilepsy_epilepsy_txl"
+      ],
+      "FordA": [
+        "table4_arch_rerun_20261023",
+        "table4_arch_rerun_20261023_forda_UCR_FordA_txl"
+      ],
+      "FordB": [
+        "table4_arch_rerun_20261023",
+        "table4_arch_rerun_20261023_fordb_UCR_FordB_txl"
+      ],
+      "POC": [
+        "table4_arch_rerun_20261023",
+        "table4_arch_rerun_20261023_poc_UCR_PhalangesOutlinesCorrect_txl"
+      ],
+      "Wafer": [
+        "table4_arch_rerun_20261023",
+        "table4_arch_rerun_20261023_wafer_UCR_Wafer_txl"
+      ],
+      "ElectricDevices": [
+        "table4_arch_rerun_20261023",
+        "table4_arch_rerun_20261023_ed_UCR_ElectricDevices_txl"
+      ],
+      "StarLightCurves": [
+        "table4_arch_rerun_20261023",
+        "table4_arch_rerun_20261023_slc_UCR_StarLightCurves_txl"
+      ]
+    }
+  }
+}

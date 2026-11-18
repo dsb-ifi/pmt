@@ -1,0 +1,17 @@
+{
+  "FordA": {
+    "patch_range": 13.320707070707073,
+    "patch_range_from_7_5": 0.9974747474747545,
+    "stride_change": -22.815656565656568
+  },
+  "FordB": {
+    "patch_range": 7.983539094650197,
+    "patch_range_from_7_5": 1.1728395061728492,
+    "stride_change": -17.057613168724266
+  },
+  "Epilepsy": {
+    "patch_range": 0.4347826086956559,
+    "patch_range_from_7_5": 0.3478260869565304,
+    "stride_change": -0.3913043478260789
+  }
+}

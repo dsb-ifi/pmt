@@ -1,0 +1,379 @@
+{
+  "rows": 102,
+  "adopted": {
+    "loss.lambda_icl": 1.0,
+    "loss.lambda_hgcl": 0.01,
+    "loss.lambda_pcl": 1.0,
+    "augmentations.magnitude_warping.scale": 0.1
+  },
+  "previous": {
+    "loss.lambda_icl": 0.5,
+    "loss.lambda_hgcl": 0.25,
+    "loss.lambda_pcl": 0.5,
+    "augmentations.magnitude_warping.scale": 0.2
+  },
+  "joint_cohort": {
+    "42": [
+      "experiment_lists/har_augmentation_followup_20261025.yaml",
+      "har_augmentation_followup_20261025_HAR_weights_magnitude010_s42"
+    ],
+    "43": [
+      "experiment_lists/har_augmentation_followup_20261025.yaml",
+      "har_augmentation_followup_20261025_HAR_weights_magnitude010_s43"
+    ],
+    "44": [
+      "experiment_lists/har_augmentation_followup_20261025.yaml",
+      "har_augmentation_followup_20261025_HAR_weights_magnitude010_s44"
+    ],
+    "45": [
+      "experiment_lists/har_confirmation_20261025.yaml",
+      "har_confirmation_20261025_HAR_weights_magnitude010_s45"
+    ],
+    "46": [
+      "experiment_lists/har_confirmation_20261025.yaml",
+      "har_confirmation_20261025_HAR_weights_magnitude010_s46"
+    ],
+    "47": [
+      "experiment_lists/har_confirmation_20261025.yaml",
+      "har_confirmation_20261025_HAR_weights_magnitude010_s47"
+    ],
+    "48": [
+      "experiment_lists/har_confirmation_20261025.yaml",
+      "har_confirmation_20261025_HAR_weights_magnitude010_s48"
+    ],
+    "49": [
+      "experiment_lists/har_confirmation_20261025.yaml",
+      "har_confirmation_20261025_HAR_weights_magnitude010_s49"
+    ],
+    "50": [
+      "experiment_lists/har_confirmation_20261025.yaml",
+      "har_confirmation_20261025_HAR_weights_magnitude010_s50"
+    ],
+    "51": [
+      "experiment_lists/har_confirmation_20261025.yaml",
+      "har_confirmation_20261025_HAR_weights_magnitude010_s51"
+    ]
+  },
+  "entries": [
+    {
+      "tag": "t1",
+      "source_sweep": "cfg/ablations/har_one_slot_20261024.yaml",
+      "source_prefix": "har_one_slot_20261024_t1",
+      "task": "self_supervised",
+      "epochs": 250,
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "cases": [
+        "pmt_nopcl"
+      ],
+      "base_changes": {
+        "loss.lambda_icl": [
+          0.5,
+          1.0
+        ],
+        "loss.lambda_hgcl": [
+          0.25,
+          0.01
+        ],
+        "loss.lambda_pcl": [
+          0.5,
+          1.0
+        ],
+        "augmentations.magnitude_warping.scale": [
+          0.2,
+          0.1
+        ]
+      },
+      "case_overrides": {
+        "pmt_nopcl": {
+          "loss.lambda_pcl": 0.0
+        }
+      }
+    },
+    {
+      "tag": "t4",
+      "source_sweep": "cfg/ablations/har_one_slot_stage2_20261024.yaml",
+      "source_prefix": "har_one_slot_stage2_20261024_t4",
+      "task": "self_supervised",
+      "epochs": 250,
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "cases": [
+        "xlstm",
+        "txl"
+      ],
+      "base_changes": {
+        "loss.lambda_icl": [
+          0.5,
+          1.0
+        ],
+        "loss.lambda_hgcl": [
+          0.25,
+          0.01
+        ],
+        "loss.lambda_pcl": [
+          0.5,
+          1.0
+        ],
+        "augmentations.magnitude_warping.scale": [
+          0.2,
+          0.1
+        ]
+      },
+      "case_overrides": {
+        "xlstm": {
+          "model.pma.version": "xlstm",
+          "loss.lambda_pcl": 0.0,
+          "model.pma.shared.num_blocks": 6
+        },
+        "txl": {
+          "model.pma.version": "txl",
+          "loss.lambda_pcl": 0.0
+        }
+      }
+    },
+    {
+      "tag": "t5",
+      "source_sweep": "cfg/ablations/har_one_slot_stage2_20261024.yaml",
+      "source_prefix": "har_one_slot_stage2_20261024_t5",
+      "task": "self_supervised",
+      "epochs": 250,
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "cases": [
+        "uniform",
+        "no_icl",
+        "no_hgcl",
+        "no_pcl",
+        "icl_only",
+        "hgcl_only",
+        "pcl_only",
+        "icl_w001",
+        "icl_w010",
+        "icl_w050",
+        "hgcl_w010",
+        "hgcl_w050",
+        "pcl_w001",
+        "pcl_w010",
+        "pcl_w050"
+      ],
+      "base_changes": {
+        "augmentations.magnitude_warping.scale": [
+          0.2,
+          0.1
+        ]
+      },
+      "case_overrides": {
+        "uniform": {
+          "loss.lambda_icl": 1.0,
+          "loss.lambda_hgcl": 1.0,
+          "loss.lambda_pcl": 1.0
+        },
+        "no_icl": {
+          "loss.lambda_icl": 0.0,
+          "loss.lambda_hgcl": 1.0,
+          "loss.lambda_pcl": 1.0
+        },
+        "no_hgcl": {
+          "loss.lambda_icl": 1.0,
+          "loss.lambda_hgcl": 0.0,
+          "loss.lambda_pcl": 1.0
+        },
+        "no_pcl": {
+          "loss.lambda_icl": 1.0,
+          "loss.lambda_hgcl": 1.0,
+          "loss.lambda_pcl": 0.0
+        },
+        "icl_only": {
+          "loss.lambda_icl": 1.0,
+          "loss.lambda_hgcl": 0.0,
+          "loss.lambda_pcl": 0.0
+        },
+        "hgcl_only": {
+          "loss.lambda_icl": 0.0,
+          "loss.lambda_hgcl": 1.0,
+          "loss.lambda_pcl": 0.0
+        },
+        "pcl_only": {
+          "loss.lambda_icl": 0.0,
+          "loss.lambda_hgcl": 0.0,
+          "loss.lambda_pcl": 1.0
+        },
+        "icl_w001": {
+          "loss.lambda_icl": 0.01,
+          "loss.lambda_hgcl": 1.0,
+          "loss.lambda_pcl": 1.0
+        },
+        "icl_w010": {
+          "loss.lambda_icl": 0.1,
+          "loss.lambda_hgcl": 1.0,
+          "loss.lambda_pcl": 1.0
+        },
+        "icl_w050": {
+          "loss.lambda_icl": 0.5,
+          "loss.lambda_hgcl": 1.0,
+          "loss.lambda_pcl": 1.0
+        },
+        "hgcl_w010": {
+          "loss.lambda_icl": 1.0,
+          "loss.lambda_hgcl": 0.1,
+          "loss.lambda_pcl": 1.0
+        },
+        "hgcl_w050": {
+          "loss.lambda_icl": 1.0,
+          "loss.lambda_hgcl": 0.5,
+          "loss.lambda_pcl": 1.0
+        },
+        "pcl_w001": {
+          "loss.lambda_icl": 1.0,
+          "loss.lambda_hgcl": 1.0,
+          "loss.lambda_pcl": 0.01
+        },
+        "pcl_w010": {
+          "loss.lambda_icl": 1.0,
+          "loss.lambda_hgcl": 1.0,
+          "loss.lambda_pcl": 0.1
+        },
+        "pcl_w050": {
+          "loss.lambda_icl": 1.0,
+          "loss.lambda_hgcl": 1.0,
+          "loss.lambda_pcl": 0.5
+        }
+      }
+    },
+    {
+      "tag": "e2ssl",
+      "source_sweep": "cfg/ablations/har_one_slot_stage2_20261024.yaml",
+      "source_prefix": "har_one_slot_stage2_20261024_e2ssl",
+      "task": "self_supervised",
+      "epochs": 50,
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "cases": [
+        "pmt",
+        "vanilla",
+        "statepass",
+        "stateless"
+      ],
+      "base_changes": {
+        "loss.lambda_icl": [
+          0.5,
+          1.0
+        ],
+        "loss.lambda_hgcl": [
+          0.25,
+          0.01
+        ],
+        "loss.lambda_pcl": [
+          0.5,
+          1.0
+        ],
+        "augmentations.magnitude_warping.scale": [
+          0.2,
+          0.1
+        ]
+      },
+      "case_overrides": {
+        "pmt": {
+          "model.pma.shared.experiment_mode": "pmt"
+        },
+        "vanilla": {
+          "model.pma.shared.experiment_mode": "standard_transformer",
+          "loss.lambda_pcl": 0.0
+        },
+        "statepass": {
+          "model.pma.shared.experiment_mode": "pmt_stateful_random"
+        },
+        "stateless": {
+          "model.pma.shared.experiment_mode": "pmt_stateless",
+          "loss.lambda_pcl": 0.0
+        }
+      }
+    },
+    {
+      "tag": "e4",
+      "source_sweep": "cfg/ablations/har_one_slot_20261024.yaml",
+      "source_prefix": "har_one_slot_20261024_e4",
+      "task": "self_supervised",
+      "epochs": 150,
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "cases": [
+        "rho010",
+        "rho020",
+        "rho030",
+        "rho050",
+        "rho100"
+      ],
+      "base_changes": {
+        "loss.lambda_icl": [
+          0.5,
+          1.0
+        ],
+        "loss.lambda_hgcl": [
+          0.25,
+          0.01
+        ],
+        "loss.lambda_pcl": [
+          0.5,
+          1.0
+        ],
+        "augmentations.magnitude_warping.scale": [
+          0.2,
+          0.1
+        ]
+      },
+      "case_overrides": {
+        "rho010": {
+          "model.pma.shared.window_size": 13,
+          "model.pma.shared.window_stride": 6
+        },
+        "rho020": {
+          "model.pma.shared.window_size": 26,
+          "model.pma.shared.window_stride": 13
+        },
+        "rho030": {
+          "model.pma.shared.window_size": 38,
+          "model.pma.shared.window_stride": 19
+        },
+        "rho050": {
+          "model.pma.shared.window_size": 64,
+          "model.pma.shared.window_stride": 32
+        },
+        "rho100": {
+          "model.pma.shared.window_size": 128,
+          "model.pma.shared.window_stride": 64
+        }
+      }
+    }
+  ]
+}

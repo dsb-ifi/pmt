@@ -1,0 +1,19 @@
+% Replaces the figure float labelled fig:pca-repr (accepted main.tex, Appendix: the float that inputs
+% figures/pca-walking.tikz). Label unchanged, so every \Cref keeps working.
+% Needs: figures/pca-walking.tikz  <- projects/pmt_camera_ready/writing/rainbow_figures_20261102/tikz/pca-walking.tikz
+%        data/{wave_hybrid,patch_pts_hybrid,state_pts_hybrid,state_boundary_hybrid}_walking-walking_downstairs-walking.txt
+%        <- the same record's data/
+% Splice: HAR validation 18 / 0 / 18 (Walking / Walking Downstairs / the same Walking recording), tokenizer
+% tokens and last-block memory states, position-centred (record README, "Position check").
+% Replaced-float marker: the manuscript colours \revtab captions green and changed wording
+% (\rev) blue until \revfinaltrue.
+\providecommand{\revtab}[1]{#1}
+\providecommand{\rev}[1]{#1}
+\begin{figure}[!ht]
+\centering
+\resizebox{\linewidth}{!}{%
+\input{figures/pca-walking.tikz}%
+}
+\caption{\revtab{(Left) Double spliced HAR waveform. (Middle) PCA of representations (\rev{tokenizer} tokens) of the signal. (Right) PCA of memory-states. \rev{The splice joins two validation recordings: Walking, Walking Downstairs and the same Walking recording again. Tokens and memory states are shown after removing the mean representation at each position over the validation set. Colour marks the segment and shade the position within it (light = start); the dashed line is a linear boundary fitted to the memory states.}}}
+\label{fig:pca-repr}
+\end{figure}

@@ -1,0 +1,140 @@
+\begin{tikzpicture}[%
+]%
+  \def\mxi{3}
+  \def\mxl{3}
+
+  \coordinate (prev-l) at (0,0);
+  % grows down
+  \foreach \l [remember=\l as \pl] in {1,...,\mxl}{%
+    \node[state=statecol!50, at={(prev-l)}] (st-\l) {};
+
+    \ifnum\l>1
+      \ifnum\l<\mxl
+        \def\dy{\cdot}
+      \else
+        \def\dy{b}
+      \fi
+    \else
+      \def\dy{\l}
+    \fi
+    \pgfnodealias{prev}{st-\l}
+    \foreach \i [remember=\i as \pi] in {1,...,\mxi}{
+      \ifnum\i>1
+        \ifnum\i<\mxi
+          \def\dx{\cdot}
+        \else
+          \def\dx{w}
+        \fi
+      \else
+        \def\dx{\i}
+      \fi
+      \def\s{(\dx,\dy)}
+
+      \node[proc=Dark2-A!25, right=of prev] (att-\i-\l) {$\text{PMA}_{\s}$};
+      \node[state, right=of att-\i-\l] (h-\i-\l) {};
+
+      \node[rep=Dark2-B!50, above=of att-\i-\l] (r-\i-\l) {};
+
+      \node[gate, at={($(h-\i-\l |- r-\i-\l)+(0,0pt)$)}, name=g-\i-\l] {};
+
+      % edges
+      % horizontal
+      \draw[edg] (prev) -- (att-\i-\l);
+      \draw[edg] (att-\i-\l) -- (h-\i-\l);
+
+      % vertical to next
+      \draw[edg] (att-\i-\l) -- (r-\i-\l);
+
+      % gate
+      \draw[edg] (h-\i-\l) -- (g-\i-\l);
+
+      % vertical from previous
+      \ifnum\l>1%
+        \draw[edg] (r-\i-\pl) -- (att-\i-\l);
+
+        % gate
+        \draw[gate edg] let
+         \p1 = ($(r-\i-\pl)!.425!(att-\i-\l)+(2pt,0)$) in
+          (g-\i-\pl) |- (\p1) -- (\p1 |- att-\i-\l.south);
+      \fi
+
+      \pgfnodealias{prev}{h-\i-\l}
+    }
+
+    \begin{pgfonlayer}{background}
+      \node[fit=(att-1-\l)(att-\mxi-\l), block] (bg-\l) {};
+
+      \node[lbl, anchor=west] at (bg-\l.north west) {B.\dy};
+
+      \coordinate (g-\l-end) at ($(g-\mxi-\l.south)+(0,-7pt)$);
+      \draw[gate edg, -, rounded corners] (st-\l) |- (g-\l-end) -- ++(5pt,0);
+
+      \foreach \i in {1,...,\mxi}{
+        \draw[gate edg, shorten <=0pt] let
+          \p1 = ($(g-\i-\l.south)+(-2.5pt,0)$),
+          \p2 = (\p1 |- g-\l-end) in
+          (\p2) node[dot] {} -- (\p1);
+      }
+    \end{pgfonlayer}
+
+    % compute the new starting state coordinate
+    \path let
+      \p1 = (st-\l),
+      \p2 = (r-1-\l.north),
+      % subtract the coordinates to get the distance and add the node distance to shift it up
+      \n1 = {\y2-\y1+\pgfkeysvalueof{/tikz/node distance value}} in
+      coordinate[above=\n1 of st-\l |- att-1-\l.north] (prev-l);
+  }
+
+  \foreach \i in {1,...,\mxi}{
+    \node[rep=Dark2-B!50, below=of att-\i-1] (r-\i-0) {};
+  }
+
+  \path let
+    \p1 = (bg-1.west),
+    \p2 = (bg-1.east),
+    \n1 = {\x2 - \x1} in
+    node (enc) [proc=Dark2-C!25, minimum width=\n1, below=of {bg-1.west |- r-1-0.south}, anchor=north west] {Sequential Encoder};
+
+  \gettikzxy{(bg-1.east)}{\tempx}{\tmp}
+  \gettikzxy{(bg-1.west)}{\tempy}{\tmp}
+
+  % (no)draw the plot to grab its size
+  \begin{pgfinterruptboundingbox}
+  \path plot[domain=0:20*pi, samples=75]  (\x/pi,{.35*(sin(0.9*\x r) + sin(0.42*\x r)+ cos(0.22*\x r))}) coordinate (p-end) {};
+  \end{pgfinterruptboundingbox}
+  \gettikzxy{(p-end.west)}{\tempz}{\tmp}
+
+  \pgfmathsetmacro{\scale}{(\tempx-\tempy)/\tempz}
+  \begin{scope}[shift={($(enc.south west)+(0,-1.75*\pgfkeysvalueof{/tikz/node distance value})$)}, xscale=\scale, yscale=.18]
+    \draw[thick, Dark2-B] node (tp-start) {} plot[domain=0:20*pi, samples=75] (\x/pi,{(sin(0.9*\x r) + sin(0.42*\x r)+ cos(0.22*\x r))}) node (tp-end) {};
+    \draw[->] (0,-3) -- (0,3);
+    \draw[->] (0,0) -- ({0,0 -| tp-end});
+  \end{scope}
+  %
+
+  \draw[edg] (enc |- tp-end.north) -- (enc.south);
+  \foreach \i in {1,...,\mxi}{
+%    \draw[edg] (m-1-\i.north -| r-\i-1) -- (r-\i-1 |- enc.south);
+    \draw[edg] (r-\i-0 |- enc.north) -- (r-\i-0);
+    \draw[edg] (r-\i-0) -- (att-\i-1);
+  }
+
+  \node[lbl, rotate=90, left=10pt of st-1.south west, anchor=west, inner sep=0pt, outer sep=0pt] (lbl-rand) {Reset Memory};
+
+  \node[lbl, below=5pt of r-1-0.south west, anchor=north west, inner sep=0pt, outer sep=0pt] {Window Representations};
+  \node[lbl, below=5pt of h-\mxi-1.south east, anchor=north east, inner sep=0pt, outer sep=0pt] {States};
+  \node[lbl, above=5pt of g-\mxi-\mxl.north east, anchor=south east, inner sep=0pt, outer sep=0pt] (lbl-gate) {Gate};
+  \node[lbl, below right=10pt and 1pt of {tp-start}, anchor=south west, inner sep=0pt, outer sep=0pt] {Input};
+
+  \begin{pgfonlayer}{backbackground}
+%    \node[fit=(att-1-3)(att-1-2)(att-2-2)(att-1-1)(att-3-1), fill=black, opacity=.5] {};
+    \draw[rounded corners, line cap=round, line join=round, draw=orange!25, fill=orange!15, opacity=.5] ([shift={(-5pt,5pt)}]att-3-3.north west) -- ([shift={(-5pt,5pt)}]att-1-1.north west) -- ([shift={(-5pt,-5pt)}]att-1-1.south west) -- ([shift={(5pt,-5pt)}]att-3-1.south east) -- ([shift={(5pt,5pt)}]att-3-1.north east) -- ([shift={(5pt,5pt)}]att-3-3.north east) -- cycle;
+  \end{pgfonlayer}
+  \begin{pgfonlayer}{background}
+      \node[lbl, rotate=-90, right=5pt of att-3-3.north east, anchor=south west, inner sep=0pt, outer sep=0pt]  {Receptive field};
+
+      \node[block, fit=(st-3)(r-1-3)(g-3-3)(bg-1)(lbl-gate)(lbl-rand), inner sep=5pt, draw=black!90] (bg) {};
+      \node[lbl, right=5pt of bg.north west, anchor=west, black, text=white] {\METHODFULLNAME (\METHODNAME)};
+  \end{pgfonlayer}
+\end{tikzpicture}%

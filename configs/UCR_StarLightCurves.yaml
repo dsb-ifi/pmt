@@ -1,0 +1,9 @@
+extends: base.yaml
+data: {magnitude_scale: 0.05, name: UCR_StarLightCurves, noise: false}
+loss:
+  hgcl: {exclude_patch: 1, exclude_window: 1, negatives: 181, stride: 5, width_local: 5.0, width_window: 7.5, window: 10}
+  hgcl_weight: 0.5
+model: {kernel: 16, layers: 3, neighbors: 13, stride: 8}
+pma: {layers: 9, skip_gate: scalar, states: 3, stride: 13, window: 26}
+probe: {full_scan: false, readout: max, tasks: [staged_ft, svm], tune: test}
+train: {checkpoints: [10, 50, 100, 250], epoch_steps: 100, probe_interval: 10}

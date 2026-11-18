@@ -1,0 +1,11 @@
+extends: base.yaml
+data: {name: epilepsy}
+loss:
+  hgcl: {window_weight: 1.0}
+  icl_tau: 0.9
+  pcl: {chunk: 256, exclude_sample: false, tau: 0.7}
+model: {kernel: 7, neighbors: 6, stride: 3}
+optim: {gate_lr: 5.0, lr: 0.0001, min_lr: 1.0e-05, warmup: 0.05}
+pma: {conv_query: true, gamma: -0.5, skip_init: -0.2, stride: 6, window: 12}
+probe: {batch_size: 512, full_scan: false, reset_every: 5}
+train: {precision: bf16, probe_interval: 3, retain: false}

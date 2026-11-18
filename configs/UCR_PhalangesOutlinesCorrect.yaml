@@ -1,0 +1,14 @@
+extends: base.yaml
+data: {name: UCR_PhalangesOutlinesCorrect, noise_std: 0.001, ssl_noise_std: 0.01, time_scale: 0.0, time_warp: false}
+loss:
+  hgcl: {negatives: 256, patch_tau: 0.055, stride: 3, window_tau: 0.09}
+  hgcl_weight: 0.25
+  icl_tau: 0.5
+  icl_weight: 0.5
+  pcl: {tau: 0.7}
+  pcl_weight: 0.5
+model: {kernel: 10, layers: 6, neighbors: 3, stride: 3}
+optim: {lr: 0.0001, min_lr: 1.0e-05}
+pma: {layers: 5, stride: 3, window: 6}
+probe: {tune: test}
+train: {checkpoints: [2, 20, 250], probe_interval: 2}

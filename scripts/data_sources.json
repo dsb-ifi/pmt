@@ -1,0 +1,58 @@
+{
+  "DATAVERSE": "https://researchdata.ntu.edu.sg/api/access/datafile/{}",
+  "UCR_ZIP": "https://www.cs.ucr.edu/~eamonn/time_series_data_2018/UCRArchive_2018.zip",
+  "ETTH1": "https://raw.githubusercontent.com/zhouhaoyi/ETDataset/main/ETT-small/ETTh1.csv",
+  "ELECTRICITY_ZIP": "https://archive.ics.uci.edu/static/public/321/electricityloaddiagrams20112014.zip",
+  "TSTCC": {
+    "har": {
+      "folder": "HAR",
+      "files": {
+        "train.pt": [
+          86744,
+          "3e59665968defec21990977fdb62821a"
+        ],
+        "val.pt": [
+          86745,
+          "5d19f690623c11989a3af27a36a33877"
+        ],
+        "test.pt": [
+          85750,
+          "9687088941dbb718ea7736f4cf4853f0"
+        ]
+      }
+    },
+    "epilepsy": {
+      "folder": "epilepsy",
+      "files": {
+        "train.pt": [
+          86743,
+          "250173932def6c8bec7e641ee6f5ccc5"
+        ],
+        "val.pt": [
+          86742,
+          "968de43e5f3ad62bcde519c3eff70d5b"
+        ],
+        "test.pt": [
+          86155,
+          "764daa30997c2b2cbb2b5a51ad6453eb"
+        ]
+      }
+    }
+  },
+  "UCR_SHA256": {
+    "Wafer/Wafer_TEST.tsv": "d29ecddadb3f2258242743bf476c650d9eb79e2cdb76fe230dab74303a74331f",
+    "Wafer/Wafer_TRAIN.tsv": "a5d44c056e929ce6f406c9e88c135f1d0996bfe73f3aa4508804914956477a02",
+    "FordA/FordA_TEST.tsv": "02a17aab8794822957f7d50e3f6904f10b7dfa5c858bbb2b8047c4b0c64bbefe",
+    "FordA/FordA_TRAIN.tsv": "f80f6df3336194b2d52bb29fc41c980e7f0a809c80a5c5b79121d74622e0a7de",
+    "FordB/FordB_TEST.tsv": "6a620716ccdbfee096f755e31169ea9191ae7bc91f6765cbe88c16e7f3589f71",
+    "FordB/FordB_TRAIN.tsv": "a15ab5f5f6c3ca75f368fc19eefa3a7c0f56b6d1702475d90b71b8b1644ea976",
+    "PhalangesOutlinesCorrect/PhalangesOutlinesCorrect_TEST.tsv": "a57a9343d87a1a72f2cc31febdd13584b04952126a9bbdd3712ebc083082f10c",
+    "PhalangesOutlinesCorrect/PhalangesOutlinesCorrect_TRAIN.tsv": "c9479797e88b57cbff8d764584011b15493a8c8b6a5bd2e2c627e477f18cc298",
+    "ElectricDevices/ElectricDevices_TEST.tsv": "64ea1c73040b8c60ef63ebb4a36dc1c4b56b027f9a1dff342469dbf3853a3a20",
+    "ElectricDevices/ElectricDevices_TRAIN.tsv": "bf9b3e4ebb4bcecc4fe5ef36b5cde85383a78a9c7e83ed2834b00e440feb4d20",
+    "StarLightCurves/StarLightCurves_TEST.tsv": "7644523320da405ecd86ab3a78dc25da71d621023cf7c243368439ca4b6767fc",
+    "StarLightCurves/StarLightCurves_TRAIN.tsv": "8c171463318542bfed0414100f83acd5c659740bcbf648e2f0caf2fabde227bd"
+  },
+  "ETTH1_SHA256": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066",
+  "ELECTRICITY_SHA256": "ec7acb0cea28bc37123e3931cecf78f9c30c25ad2ad2cd828eb8090ec54f1187"
+}

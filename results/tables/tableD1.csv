@@ -1,0 +1,9 @@
+Dataset,# Train,# Test,Length,# Channel,# Class
+HAR,7352,2947,128,9,6
+Epilepsy,9200,2300,178,1,2
+Wafer,1000,6164,152,1,2
+FordA,3601,1320,500,1,2
+FordB,3636,810,500,1,2
+POC,1800,858,80,1,2
+ElectricDevices,8926,7711,96,1,7
+StarLightCurves,1000,8236,1024,1,3

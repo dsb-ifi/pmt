@@ -1,0 +1,421 @@
+{
+  "note": "Published competitor results as printed in the PMT paper (one decimal): the self-supervised method columns of SoftCLT (Lee et al., ICLR 2024), Table 3, for all eight datasets. That table reports fine-tuning results. Not re-run in this repository.",
+  "rows": [
+    {
+      "dataset": "HAR",
+      "budget": "1%",
+      "baselines": {
+        "SSL-ECG": {
+          "accuracy": 60.0,
+          "macro_f1": 54.0
+        },
+        "CPC": {
+          "accuracy": 65.4,
+          "macro_f1": 63.8
+        },
+        "SimCLR": {
+          "accuracy": 65.8,
+          "macro_f1": 64.3
+        },
+        "TS2Vec+SoftCLT": {
+          "accuracy": 91.0,
+          "macro_f1": 91.0
+        },
+        "TS-TCC+SoftCLT": {
+          "accuracy": 82.9,
+          "macro_f1": 82.8
+        }
+      }
+    },
+    {
+      "dataset": "HAR",
+      "budget": "5%",
+      "baselines": {
+        "SSL-ECG": {
+          "accuracy": 63.7,
+          "macro_f1": 58.6
+        },
+        "CPC": {
+          "accuracy": 75.4,
+          "macro_f1": 74.7
+        },
+        "SimCLR": {
+          "accuracy": 75.8,
+          "macro_f1": 74.9
+        },
+        "TS2Vec+SoftCLT": {
+          "accuracy": 92.1,
+          "macro_f1": 92.1
+        },
+        "TS-TCC+SoftCLT": {
+          "accuracy": 92.6,
+          "macro_f1": 92.6
+        }
+      }
+    },
+    {
+      "dataset": "Epilepsy",
+      "budget": "1%",
+      "baselines": {
+        "SSL-ECG": {
+          "accuracy": 89.3,
+          "macro_f1": 86.0
+        },
+        "CPC": {
+          "accuracy": 88.9,
+          "macro_f1": 85.8
+        },
+        "SimCLR": {
+          "accuracy": 88.3,
+          "macro_f1": 84.0
+        },
+        "TS2Vec+SoftCLT": {
+          "accuracy": 96.3,
+          "macro_f1": 94.1
+        },
+        "TS-TCC+SoftCLT": {
+          "accuracy": 95.6,
+          "macro_f1": 95.6
+        }
+      }
+    },
+    {
+      "dataset": "Epilepsy",
+      "budget": "5%",
+      "baselines": {
+        "SSL-ECG": {
+          "accuracy": 92.8,
+          "macro_f1": 89.0
+        },
+        "CPC": {
+          "accuracy": 92.8,
+          "macro_f1": 90.2
+        },
+        "SimCLR": {
+          "accuracy": 91.3,
+          "macro_f1": 89.2
+        },
+        "TS2Vec+SoftCLT": {
+          "accuracy": 96.7,
+          "macro_f1": 94.9
+        },
+        "TS-TCC+SoftCLT": {
+          "accuracy": 96.2,
+          "macro_f1": 96.1
+        }
+      }
+    },
+    {
+      "dataset": "Wafer",
+      "budget": "1%",
+      "baselines": {
+        "SSL-ECG": {
+          "accuracy": 93.4,
+          "macro_f1": 76.1
+        },
+        "CPC": {
+          "accuracy": 93.5,
+          "macro_f1": 78.4
+        },
+        "SimCLR": {
+          "accuracy": 93.8,
+          "macro_f1": 78.5
+        },
+        "TS2Vec+SoftCLT": {
+          "accuracy": 95.3,
+          "macro_f1": 88.1
+        },
+        "TS-TCC+SoftCLT": {
+          "accuracy": 96.5,
+          "macro_f1": 96.5
+        }
+      }
+    },
+    {
+      "dataset": "Wafer",
+      "budget": "5%",
+      "baselines": {
+        "SSL-ECG": {
+          "accuracy": 94.9,
+          "macro_f1": 84.5
+        },
+        "CPC": {
+          "accuracy": 92.5,
+          "macro_f1": 79.4
+        },
+        "SimCLR": {
+          "accuracy": 94.8,
+          "macro_f1": 83.3
+        },
+        "TS2Vec+SoftCLT": {
+          "accuracy": 98.8,
+          "macro_f1": 96.8
+        },
+        "TS-TCC+SoftCLT": {
+          "accuracy": 98.2,
+          "macro_f1": 98.2
+        }
+      }
+    },
+    {
+      "dataset": "FordA",
+      "budget": "1%",
+      "baselines": {
+        "SSL-ECG": {
+          "accuracy": 67.9,
+          "macro_f1": 66.2
+        },
+        "CPC": {
+          "accuracy": 75.8,
+          "macro_f1": 75.2
+        },
+        "SimCLR": {
+          "accuracy": 55.9,
+          "macro_f1": 55.7
+        },
+        "TS2Vec+SoftCLT": {
+          "accuracy": 87.1,
+          "macro_f1": 87.1
+        },
+        "TS-TCC+SoftCLT": {
+          "accuracy": 81.5,
+          "macro_f1": 81.2
+        }
+      }
+    },
+    {
+      "dataset": "FordA",
+      "budget": "5%",
+      "baselines": {
+        "SSL-ECG": {
+          "accuracy": 73.6,
+          "macro_f1": 70.7
+        },
+        "CPC": {
+          "accuracy": 86.5,
+          "macro_f1": 86.5
+        },
+        "SimCLR": {
+          "accuracy": 69.6,
+          "macro_f1": 68.9
+        },
+        "TS2Vec+SoftCLT": {
+          "accuracy": 92.5,
+          "macro_f1": 92.5
+        },
+        "TS-TCC+SoftCLT": {
+          "accuracy": 93.2,
+          "macro_f1": 93.2
+        }
+      }
+    },
+    {
+      "dataset": "FordB",
+      "budget": "1%",
+      "baselines": {
+        "SSL-ECG": {
+          "accuracy": 64.4,
+          "macro_f1": 60.5
+        },
+        "CPC": {
+          "accuracy": 66.8,
+          "macro_f1": 65.0
+        },
+        "SimCLR": {
+          "accuracy": 50.9,
+          "macro_f1": 49.8
+        },
+        "TS2Vec+SoftCLT": {
+          "accuracy": 67.9,
+          "macro_f1": 67.9
+        },
+        "TS-TCC+SoftCLT": {
+          "accuracy": 74.8,
+          "macro_f1": 74.8
+        }
+      }
+    },
+    {
+      "dataset": "FordB",
+      "budget": "5%",
+      "baselines": {
+        "SSL-ECG": {
+          "accuracy": 71.7,
+          "macro_f1": 69.8
+        },
+        "CPC": {
+          "accuracy": 86.3,
+          "macro_f1": 86.2
+        },
+        "SimCLR": {
+          "accuracy": 63.0,
+          "macro_f1": 60.7
+        },
+        "TS2Vec+SoftCLT": {
+          "accuracy": 78.8,
+          "macro_f1": 78.6
+        },
+        "TS-TCC+SoftCLT": {
+          "accuracy": 88.0,
+          "macro_f1": 88.0
+        }
+      }
+    },
+    {
+      "dataset": "POC",
+      "budget": "1%",
+      "baselines": {
+        "SSL-ECG": {
+          "accuracy": 62.5,
+          "macro_f1": 41.2
+        },
+        "CPC": {
+          "accuracy": 64.8,
+          "macro_f1": 48.2
+        },
+        "SimCLR": {
+          "accuracy": 61.5,
+          "macro_f1": 38.4
+        },
+        "TS2Vec+SoftCLT": {
+          "accuracy": 63.6,
+          "macro_f1": 62.8
+        },
+        "TS-TCC+SoftCLT": {
+          "accuracy": 65.4,
+          "macro_f1": 64.6
+        }
+      }
+    },
+    {
+      "dataset": "POC",
+      "budget": "5%",
+      "baselines": {
+        "SSL-ECG": {
+          "accuracy": 62.9,
+          "macro_f1": 43.3
+        },
+        "CPC": {
+          "accuracy": 66.9,
+          "macro_f1": 44.3
+        },
+        "SimCLR": {
+          "accuracy": 62.7,
+          "macro_f1": 42.4
+        },
+        "TS2Vec+SoftCLT": {
+          "accuracy": 70.9,
+          "macro_f1": 69.7
+        },
+        "TS-TCC+SoftCLT": {
+          "accuracy": 69.4,
+          "macro_f1": 66.3
+        }
+      }
+    },
+    {
+      "dataset": "ElectricDevices",
+      "budget": "1%",
+      "baselines": {
+        "SSL-ECG": {
+          "accuracy": 60.1,
+          "macro_f1": 50.0
+        },
+        "CPC": {
+          "accuracy": 59.3,
+          "macro_f1": 48.9
+        },
+        "SimCLR": {
+          "accuracy": 62.5,
+          "macro_f1": 51.2
+        },
+        "TS2Vec+SoftCLT": {
+          "accuracy": 62.0,
+          "macro_f1": 53.0
+        },
+        "TS-TCC+SoftCLT": {
+          "accuracy": 64.6,
+          "macro_f1": 63.2
+        }
+      }
+    },
+    {
+      "dataset": "ElectricDevices",
+      "budget": "5%",
+      "baselines": {
+        "SSL-ECG": {
+          "accuracy": 63.7,
+          "macro_f1": 56.1
+        },
+        "CPC": {
+          "accuracy": 62.4,
+          "macro_f1": 58.1
+        },
+        "SimCLR": {
+          "accuracy": 63.9,
+          "macro_f1": 58.6
+        },
+        "TS2Vec+SoftCLT": {
+          "accuracy": 62.4,
+          "macro_f1": 54.4
+        },
+        "TS-TCC+SoftCLT": {
+          "accuracy": 65.1,
+          "macro_f1": 63.8
+        }
+      }
+    },
+    {
+      "dataset": "StarLightCurves",
+      "budget": "1%",
+      "baselines": {
+        "SSL-ECG": {
+          "accuracy": 78.3,
+          "macro_f1": 72.0
+        },
+        "CPC": {
+          "accuracy": 80.8,
+          "macro_f1": 74.4
+        },
+        "SimCLR": {
+          "accuracy": 80.6,
+          "macro_f1": 71.6
+        },
+        "TS2Vec+SoftCLT": {
+          "accuracy": 85.6,
+          "macro_f1": 62.9
+        },
+        "TS-TCC+SoftCLT": {
+          "accuracy": 86.0,
+          "macro_f1": 79.3
+        }
+      }
+    },
+    {
+      "dataset": "StarLightCurves",
+      "budget": "5%",
+      "baselines": {
+        "SSL-ECG": {
+          "accuracy": 82.6,
+          "macro_f1": 74.5
+        },
+        "CPC": {
+          "accuracy": 89.1,
+          "macro_f1": 84.5
+        },
+        "SimCLR": {
+          "accuracy": 84.2,
+          "macro_f1": 74.0
+        },
+        "TS2Vec+SoftCLT": {
+          "accuracy": 92.3,
+          "macro_f1": 89.8
+        },
+        "TS-TCC+SoftCLT": {
+          "accuracy": 86.2,
+          "macro_f1": 85.5
+        }
+      }
+    }
+  ]
+}

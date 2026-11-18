@@ -1,0 +1,11 @@
+extends: base.yaml
+data: {magnitude_scale: 0.1, merge_val: true, name: HAR}
+loss:
+  hgcl: {exclude_patch: 2, exclude_window: 1, negatives: 128, radius_patch: 2, radius_window: 1, width_local: 1.25, width_window: 0.8, window: 6}
+  hgcl_weight: 0.01
+  pcl: {same_slot: true, tau: 0.6}
+model: {kernel: 3, layers: 3, neighbors: 13}
+optim: {gate_lr: 20.0}
+pma: {gate: tokenwise, layers: 9, skip_gate: scalar, states: 1, stride: 13, window: 26}
+probe: {full_scan: false, readout: max, reset_every: 5, tune: test}
+train: {precision: bf16, retain: false}

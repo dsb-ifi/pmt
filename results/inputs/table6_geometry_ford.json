@@ -1,0 +1,563 @@
+[
+  {
+    "dataset": "UCR_FordA",
+    "case": "p0025",
+    "sweep": "patch",
+    "fraction": 0.025,
+    "tokens": 56,
+    "model.tokenizer_patch_size": 12,
+    "model.tokenizer_stride": 9,
+    "model.pma.shared.window_size": 20,
+    "model.pma.shared.window_stride": 16,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordA",
+    "case": "p0050",
+    "sweep": "patch",
+    "fraction": 0.05,
+    "tokens": 56,
+    "model.tokenizer_patch_size": 25,
+    "model.tokenizer_stride": 9,
+    "model.pma.shared.window_size": 20,
+    "model.pma.shared.window_stride": 16,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordA",
+    "case": "p0075",
+    "sweep": "patch",
+    "fraction": 0.075,
+    "tokens": 56,
+    "model.tokenizer_patch_size": 37,
+    "model.tokenizer_stride": 9,
+    "model.pma.shared.window_size": 20,
+    "model.pma.shared.window_stride": 16,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordA",
+    "case": "p0100",
+    "sweep": "patch",
+    "fraction": 0.1,
+    "tokens": 56,
+    "model.tokenizer_patch_size": 50,
+    "model.tokenizer_stride": 9,
+    "model.pma.shared.window_size": 20,
+    "model.pma.shared.window_stride": 16,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordA",
+    "case": "p0125",
+    "sweep": "patch",
+    "fraction": 0.125,
+    "tokens": 56,
+    "model.tokenizer_patch_size": 62,
+    "model.tokenizer_stride": 9,
+    "model.pma.shared.window_size": 20,
+    "model.pma.shared.window_stride": 16,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordA",
+    "case": "p0150",
+    "sweep": "patch",
+    "fraction": 0.15,
+    "tokens": 56,
+    "model.tokenizer_patch_size": 75,
+    "model.tokenizer_stride": 9,
+    "model.pma.shared.window_size": 20,
+    "model.pma.shared.window_stride": 16,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordA",
+    "case": "s0100",
+    "sweep": "stride",
+    "fraction": 0.1,
+    "tokens": 84,
+    "model.tokenizer_patch_size": 62,
+    "model.tokenizer_stride": 6,
+    "model.pma.shared.window_size": 30,
+    "model.pma.shared.window_stride": 24,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordA",
+    "case": "s0250",
+    "sweep": "stride",
+    "fraction": 0.25,
+    "tokens": 32,
+    "model.tokenizer_patch_size": 62,
+    "model.tokenizer_stride": 16,
+    "model.pma.shared.window_size": 11,
+    "model.pma.shared.window_stride": 9,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordA",
+    "case": "s0500",
+    "sweep": "stride",
+    "fraction": 0.5,
+    "tokens": 17,
+    "model.tokenizer_patch_size": 62,
+    "model.tokenizer_stride": 31,
+    "model.pma.shared.window_size": 6,
+    "model.pma.shared.window_stride": 5,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordA",
+    "case": "s0750",
+    "sweep": "stride",
+    "fraction": 0.75,
+    "tokens": 11,
+    "model.tokenizer_patch_size": 62,
+    "model.tokenizer_stride": 46,
+    "model.pma.shared.window_size": 4,
+    "model.pma.shared.window_stride": 3,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordA",
+    "case": "s1000",
+    "sweep": "stride",
+    "fraction": 1.0,
+    "tokens": 9,
+    "model.tokenizer_patch_size": 62,
+    "model.tokenizer_stride": 62,
+    "model.pma.shared.window_size": 3,
+    "model.pma.shared.window_stride": 2,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordB",
+    "case": "p0025",
+    "sweep": "patch",
+    "fraction": 0.025,
+    "tokens": 56,
+    "model.tokenizer_patch_size": 12,
+    "model.tokenizer_stride": 9,
+    "model.pma.shared.window_size": 20,
+    "model.pma.shared.window_stride": 16,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordB",
+    "case": "p0050",
+    "sweep": "patch",
+    "fraction": 0.05,
+    "tokens": 56,
+    "model.tokenizer_patch_size": 25,
+    "model.tokenizer_stride": 9,
+    "model.pma.shared.window_size": 20,
+    "model.pma.shared.window_stride": 16,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordB",
+    "case": "p0075",
+    "sweep": "patch",
+    "fraction": 0.075,
+    "tokens": 56,
+    "model.tokenizer_patch_size": 37,
+    "model.tokenizer_stride": 9,
+    "model.pma.shared.window_size": 20,
+    "model.pma.shared.window_stride": 16,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordB",
+    "case": "p0100",
+    "sweep": "patch",
+    "fraction": 0.1,
+    "tokens": 56,
+    "model.tokenizer_patch_size": 50,
+    "model.tokenizer_stride": 9,
+    "model.pma.shared.window_size": 20,
+    "model.pma.shared.window_stride": 16,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordB",
+    "case": "p0125",
+    "sweep": "patch",
+    "fraction": 0.125,
+    "tokens": 56,
+    "model.tokenizer_patch_size": 62,
+    "model.tokenizer_stride": 9,
+    "model.pma.shared.window_size": 20,
+    "model.pma.shared.window_stride": 16,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordB",
+    "case": "p0150",
+    "sweep": "patch",
+    "fraction": 0.15,
+    "tokens": 56,
+    "model.tokenizer_patch_size": 75,
+    "model.tokenizer_stride": 9,
+    "model.pma.shared.window_size": 20,
+    "model.pma.shared.window_stride": 16,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordB",
+    "case": "s0100",
+    "sweep": "stride",
+    "fraction": 0.1,
+    "tokens": 84,
+    "model.tokenizer_patch_size": 62,
+    "model.tokenizer_stride": 6,
+    "model.pma.shared.window_size": 30,
+    "model.pma.shared.window_stride": 24,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordB",
+    "case": "s0250",
+    "sweep": "stride",
+    "fraction": 0.25,
+    "tokens": 32,
+    "model.tokenizer_patch_size": 62,
+    "model.tokenizer_stride": 16,
+    "model.pma.shared.window_size": 11,
+    "model.pma.shared.window_stride": 9,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordB",
+    "case": "s0500",
+    "sweep": "stride",
+    "fraction": 0.5,
+    "tokens": 17,
+    "model.tokenizer_patch_size": 62,
+    "model.tokenizer_stride": 31,
+    "model.pma.shared.window_size": 6,
+    "model.pma.shared.window_stride": 5,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordB",
+    "case": "s0750",
+    "sweep": "stride",
+    "fraction": 0.75,
+    "tokens": 11,
+    "model.tokenizer_patch_size": 62,
+    "model.tokenizer_stride": 46,
+    "model.pma.shared.window_size": 4,
+    "model.pma.shared.window_stride": 3,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_FordB",
+    "case": "s1000",
+    "sweep": "stride",
+    "fraction": 1.0,
+    "tokens": 9,
+    "model.tokenizer_patch_size": 62,
+    "model.tokenizer_stride": 62,
+    "model.pma.shared.window_size": 3,
+    "model.pma.shared.window_stride": 2,
+    "recipe": {
+      "patch": 62,
+      "stride": 9,
+      "window": 20,
+      "window_stride": 16
+    }
+  },
+  {
+    "dataset": "UCR_ElectricDevices",
+    "case": "p0025",
+    "sweep": "patch",
+    "fraction": 0.025,
+    "tokens": 17,
+    "model.tokenizer_patch_size": 2,
+    "model.tokenizer_stride": 6,
+    "model.pma.shared.window_size": 3,
+    "model.pma.shared.window_stride": 2,
+    "recipe": {
+      "patch": 6,
+      "stride": 6,
+      "window": 3,
+      "window_stride": 2
+    }
+  },
+  {
+    "dataset": "UCR_ElectricDevices",
+    "case": "p0050",
+    "sweep": "patch",
+    "fraction": 0.05,
+    "tokens": 17,
+    "model.tokenizer_patch_size": 4,
+    "model.tokenizer_stride": 6,
+    "model.pma.shared.window_size": 3,
+    "model.pma.shared.window_stride": 2,
+    "recipe": {
+      "patch": 6,
+      "stride": 6,
+      "window": 3,
+      "window_stride": 2
+    }
+  },
+  {
+    "dataset": "UCR_ElectricDevices",
+    "case": "p0075",
+    "sweep": "patch",
+    "fraction": 0.075,
+    "tokens": 16,
+    "model.tokenizer_patch_size": 7,
+    "model.tokenizer_stride": 6,
+    "model.pma.shared.window_size": 3,
+    "model.pma.shared.window_stride": 2,
+    "recipe": {
+      "patch": 6,
+      "stride": 6,
+      "window": 3,
+      "window_stride": 2
+    }
+  },
+  {
+    "dataset": "UCR_ElectricDevices",
+    "case": "p0100",
+    "sweep": "patch",
+    "fraction": 0.1,
+    "tokens": 16,
+    "model.tokenizer_patch_size": 9,
+    "model.tokenizer_stride": 6,
+    "model.pma.shared.window_size": 3,
+    "model.pma.shared.window_stride": 2,
+    "recipe": {
+      "patch": 6,
+      "stride": 6,
+      "window": 3,
+      "window_stride": 2
+    }
+  },
+  {
+    "dataset": "UCR_ElectricDevices",
+    "case": "p0125",
+    "sweep": "patch",
+    "fraction": 0.125,
+    "tokens": 17,
+    "model.tokenizer_patch_size": 12,
+    "model.tokenizer_stride": 6,
+    "model.pma.shared.window_size": 3,
+    "model.pma.shared.window_stride": 2,
+    "recipe": {
+      "patch": 6,
+      "stride": 6,
+      "window": 3,
+      "window_stride": 2
+    }
+  },
+  {
+    "dataset": "UCR_ElectricDevices",
+    "case": "p0150",
+    "sweep": "patch",
+    "fraction": 0.15,
+    "tokens": 17,
+    "model.tokenizer_patch_size": 14,
+    "model.tokenizer_stride": 6,
+    "model.pma.shared.window_size": 3,
+    "model.pma.shared.window_stride": 2,
+    "recipe": {
+      "patch": 6,
+      "stride": 6,
+      "window": 3,
+      "window_stride": 2
+    }
+  },
+  {
+    "dataset": "UCR_ElectricDevices",
+    "case": "s0100",
+    "sweep": "stride",
+    "fraction": 0.1,
+    "tokens": 97,
+    "model.tokenizer_patch_size": 6,
+    "model.tokenizer_stride": 1,
+    "model.pma.shared.window_size": 17,
+    "model.pma.shared.window_stride": 11,
+    "recipe": {
+      "patch": 6,
+      "stride": 6,
+      "window": 3,
+      "window_stride": 2
+    }
+  },
+  {
+    "dataset": "UCR_ElectricDevices",
+    "case": "s0250",
+    "sweep": "stride",
+    "fraction": 0.25,
+    "tokens": 49,
+    "model.tokenizer_patch_size": 6,
+    "model.tokenizer_stride": 2,
+    "model.pma.shared.window_size": 9,
+    "model.pma.shared.window_stride": 6,
+    "recipe": {
+      "patch": 6,
+      "stride": 6,
+      "window": 3,
+      "window_stride": 2
+    }
+  },
+  {
+    "dataset": "UCR_ElectricDevices",
+    "case": "s0500",
+    "sweep": "stride",
+    "fraction": 0.5,
+    "tokens": 33,
+    "model.tokenizer_patch_size": 6,
+    "model.tokenizer_stride": 3,
+    "model.pma.shared.window_size": 6,
+    "model.pma.shared.window_stride": 4,
+    "recipe": {
+      "patch": 6,
+      "stride": 6,
+      "window": 3,
+      "window_stride": 2
+    }
+  },
+  {
+    "dataset": "UCR_ElectricDevices",
+    "case": "s0750",
+    "sweep": "stride",
+    "fraction": 0.75,
+    "tokens": 25,
+    "model.tokenizer_patch_size": 6,
+    "model.tokenizer_stride": 4,
+    "model.pma.shared.window_size": 4,
+    "model.pma.shared.window_stride": 3,
+    "recipe": {
+      "patch": 6,
+      "stride": 6,
+      "window": 3,
+      "window_stride": 2
+    }
+  },
+  {
+    "dataset": "UCR_ElectricDevices",
+    "case": "s1000",
+    "sweep": "stride",
+    "fraction": 1.0,
+    "tokens": 17,
+    "model.tokenizer_patch_size": 6,
+    "model.tokenizer_stride": 6,
+    "model.pma.shared.window_size": 3,
+    "model.pma.shared.window_stride": 2,
+    "recipe": {
+      "patch": 6,
+      "stride": 6,
+      "window": 3,
+      "window_stride": 2
+    }
+  }
+]

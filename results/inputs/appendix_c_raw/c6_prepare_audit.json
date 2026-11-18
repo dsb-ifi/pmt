@@ -1,0 +1,344 @@
+{
+  "derived_manifest": "",
+  "non_har_rows_identical": 72,
+  "geometry": {
+    "pmt_pcl": {
+      "channels": 9,
+      "length": 128,
+      "d_model": 320,
+      "tokenizer_type": "pmt",
+      "patch": 3,
+      "stride": 1,
+      "input_variant": "standard",
+      "input_conv_layers": 1,
+      "input_use_conv": true,
+      "input_norm": "batchnorm",
+      "run_batch_size": 256,
+      "profile": "neurips",
+      "pma_window": 26,
+      "pma_stride": 13,
+      "pma_states": 1,
+      "pma_blocks": 9
+    },
+    "pmt_nopcl": {
+      "channels": 9,
+      "length": 128,
+      "d_model": 320,
+      "tokenizer_type": "pmt",
+      "patch": 3,
+      "stride": 1,
+      "input_variant": "standard",
+      "input_conv_layers": 1,
+      "input_use_conv": true,
+      "input_norm": "batchnorm",
+      "run_batch_size": 256,
+      "profile": "neurips",
+      "pma_window": 26,
+      "pma_stride": 13,
+      "pma_states": 1,
+      "pma_blocks": 9
+    },
+    "xlstm_hgcl_icl": {
+      "channels": 9,
+      "length": 128,
+      "d_model": 320,
+      "tokenizer_type": "pmt",
+      "patch": 3,
+      "stride": 1,
+      "input_variant": "standard",
+      "input_conv_layers": 1,
+      "input_use_conv": true,
+      "input_norm": "batchnorm",
+      "run_batch_size": 256,
+      "profile": "neurips",
+      "pma_window": 26,
+      "pma_stride": 13,
+      "pma_states": 1,
+      "pma_blocks": 6
+    },
+    "txl_hgcl_icl": {
+      "channels": 9,
+      "length": 128,
+      "d_model": 320,
+      "tokenizer_type": "pmt",
+      "patch": 3,
+      "stride": 1,
+      "input_variant": "standard",
+      "input_conv_layers": 1,
+      "input_use_conv": true,
+      "input_norm": "batchnorm",
+      "run_batch_size": 256,
+      "profile": "neurips",
+      "pma_window": 26,
+      "pma_stride": 13,
+      "pma_states": 1,
+      "pma_blocks": 9
+    }
+  },
+  "compile_flags": {
+    "pmt_pcl": {
+      "compile_backbone": false,
+      "compile_encoder": false,
+      "pma_shared_compile": false,
+      "pma_compile_per_window": true,
+      "pma_compile_mode": "reduce-overhead",
+      "hgcl_compile": false
+    },
+    "pmt_nopcl": {
+      "compile_backbone": false,
+      "compile_encoder": false,
+      "pma_shared_compile": false,
+      "pma_compile_per_window": true,
+      "pma_compile_mode": "reduce-overhead",
+      "hgcl_compile": false
+    },
+    "xlstm_hgcl_icl": {
+      "compile_backbone": false,
+      "compile_encoder": false,
+      "pma_shared_compile": false,
+      "pma_compile_per_window": true,
+      "pma_compile_mode": "reduce-overhead",
+      "hgcl_compile": false
+    },
+    "txl_hgcl_icl": {
+      "compile_backbone": false,
+      "compile_encoder": false,
+      "pma_shared_compile": false,
+      "pma_compile_per_window": true,
+      "pma_compile_mode": "reduce-overhead",
+      "hgcl_compile": false
+    }
+  },
+  "loss_weights": {
+    "pmt_pcl": {
+      "lambda_icl": 1.0,
+      "lambda_hgcl": 0.01,
+      "lambda_pcl": 1.0
+    },
+    "pmt_nopcl": {
+      "lambda_icl": 1.0,
+      "lambda_hgcl": 0.01,
+      "lambda_pcl": 0.0
+    },
+    "xlstm_hgcl_icl": {
+      "lambda_icl": 1.0,
+      "lambda_hgcl": 0.01,
+      "lambda_pcl": 0.0
+    },
+    "txl_hgcl_icl": {
+      "lambda_icl": 1.0,
+      "lambda_hgcl": 0.01,
+      "lambda_pcl": 0.0
+    }
+  },
+  "pma_version": {
+    "pmt_pcl": "pma",
+    "pmt_nopcl": "pma",
+    "xlstm_hgcl_icl": "xlstm",
+    "txl_hgcl_icl": "txl"
+  },
+  "pmt_vs_executed_table1_seed42": {
+    "source": "",
+    "fields_compared": 1372,
+    "identity_or_path_differences": [
+      "paths.checkpoint_path",
+      "paths.log_path",
+      "paths.output_path",
+      "paths.wandb_path",
+      "run_name"
+    ],
+    "other_differences": {
+      "local_loss_active": {
+        "reference": "true",
+        "candidate": null
+      },
+      "local_loss_compat_reference": {
+        "reference": "neurips2026:v1.0.0@8505f66ad9338c8f8845793f48582fa256481c25",
+        "candidate": null
+      },
+      "local_loss_impl": {
+        "reference": "hgcl_bucket_pre_ccf3_v1",
+        "candidate": null
+      },
+      "local_loss_patch_objective": {
+        "reference": "bucket",
+        "candidate": null
+      },
+      "local_loss_weight": {
+        "reference": "0.01",
+        "candidate": null
+      },
+      "local_loss_window_objective": {
+        "reference": "bucket",
+        "candidate": null
+      },
+      "orchestrated": {
+        "reference": true,
+        "candidate": false
+      },
+      "probe_parameters.selection_val_fraction": {
+        "reference": null,
+        "candidate": 0.2
+      },
+      "probe_parameters.selection_val_mode": {
+        "reference": null,
+        "candidate": "report"
+      },
+      "probe_parameters.selection_val_rule": {
+        "reference": null,
+        "candidate": "argmax"
+      },
+      "probe_parameters.selection_val_sealed_dir": {
+        "reference": null,
+        "candidate": "reports/sealed_test"
+      },
+      "probe_parameters.selection_val_source": {
+        "reference": null,
+        "candidate": "train"
+      },
+      "probe_parameters.selection_val_window": {
+        "reference": null,
+        "candidate": 3
+      },
+      "progress_bar.enabled": {
+        "reference": false,
+        "candidate": true
+      },
+      "temporal_vicreg_active": {
+        "reference": "false",
+        "candidate": null
+      },
+      "temporal_vicreg_impl": {
+        "reference": "disabled",
+        "candidate": null
+      },
+      "temporal_vicreg_input_space": {
+        "reference": "disabled",
+        "candidate": null
+      },
+      "temporal_vicreg_weight": {
+        "reference": "0",
+        "candidate": null
+      },
+      "token_local_objectives": {
+        "reference": "hgcl",
+        "candidate": null
+      }
+    }
+  },
+  "parameters": {
+    "pmt_pcl": {
+      "trainable_params": 28075810,
+      "per_slot_projector_head_params": {
+        "proj_head1_pma_pre": 329152,
+        "pcl_proj_head1_pma_pre": 329152
+      },
+      "per_slot_projector_head_total": 658304,
+      "trainable_params_without_heads": 27417506,
+      "pcl_enabled": true,
+      "use_pcl_projector": null
+    },
+    "pmt_nopcl": {
+      "trainable_params": 28075810,
+      "per_slot_projector_head_params": {
+        "proj_head1_pma_pre": 329152,
+        "pcl_proj_head1_pma_pre": 329152
+      },
+      "per_slot_projector_head_total": 658304,
+      "trainable_params_without_heads": 27417506,
+      "pcl_enabled": false,
+      "use_pcl_projector": null
+    },
+    "xlstm_hgcl_icl": {
+      "trainable_params": 10170048,
+      "per_slot_projector_head_params": {
+        "proj_head1_pma_pre": 329152,
+        "pcl_proj_head1_pma_pre": 329152
+      },
+      "per_slot_projector_head_total": 658304,
+      "trainable_params_without_heads": 9511744,
+      "pcl_enabled": false,
+      "use_pcl_projector": null
+    },
+    "txl_hgcl_icl": {
+      "trainable_params": 18350208,
+      "per_slot_projector_head_params": {
+        "proj_head1_pma_pre": 329152,
+        "pcl_proj_head1_pma_pre": 329152
+      },
+      "per_slot_projector_head_total": 658304,
+      "trainable_params_without_heads": 17691904,
+      "pcl_enabled": false,
+      "use_pcl_projector": null
+    }
+  },
+  "n_states_scaling": {
+    "pmt_pcl": {
+      "total_one_slot": 28075810,
+      "total_four_slot": 29080546,
+      "difference": 1004736,
+      "modules_that_scale_with_n_states": {
+        "pcl_proj_head1_pma_pre": {
+          "one_slot": 329152,
+          "four_slot": 1316608
+        },
+        "pma_stack_cnn_1": {
+          "one_slot": 21738402,
+          "four_slot": 21755682
+        }
+      },
+      "one_slot_module_counts": {
+        "conv_encoder1": 89920,
+        "encoder1": 3697280,
+        "pma_stack_cnn_1": 21738402,
+        "proj_head1_cls": 329152,
+        "proj_head1_no_cls": 329152,
+        "proj_head1_pma_pre": 329152,
+        "pcl_proj_head1_pma_pre": 329152,
+        "pred_decoder1": 1233600
+      }
+    },
+    "xlstm_hgcl_icl": {
+      "total_one_slot": 10170048,
+      "total_four_slot": 11157504,
+      "difference": 987456,
+      "modules_that_scale_with_n_states": {
+        "pcl_proj_head1_pma_pre": {
+          "one_slot": 329152,
+          "four_slot": 1316608
+        }
+      },
+      "one_slot_module_counts": {
+        "conv_encoder1": 89920,
+        "encoder1": 3697280,
+        "pma_stack_cnn_1": 3832640,
+        "proj_head1_cls": 329152,
+        "proj_head1_no_cls": 329152,
+        "proj_head1_pma_pre": 329152,
+        "pcl_proj_head1_pma_pre": 329152,
+        "pred_decoder1": 1233600
+      }
+    },
+    "txl_hgcl_icl": {
+      "total_one_slot": 18350208,
+      "total_four_slot": 19337664,
+      "difference": 987456,
+      "modules_that_scale_with_n_states": {
+        "pcl_proj_head1_pma_pre": {
+          "one_slot": 329152,
+          "four_slot": 1316608
+        }
+      },
+      "one_slot_module_counts": {
+        "conv_encoder1": 89920,
+        "encoder1": 3697280,
+        "pma_stack_cnn_1": 12012800,
+        "proj_head1_cls": 329152,
+        "proj_head1_no_cls": 329152,
+        "proj_head1_pma_pre": 329152,
+        "pcl_proj_head1_pma_pre": 329152,
+        "pred_decoder1": 1233600
+      }
+    }
+  }
+}

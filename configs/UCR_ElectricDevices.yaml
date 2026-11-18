@@ -1,0 +1,13 @@
+extends: base.yaml
+data: {name: UCR_ElectricDevices, ssl_noise_std: 0.8}
+loss:
+  hgcl: {negatives: 128, stride: 4, window: 7, window_weight: 1.0}
+  hgcl_weight: 0.0
+  icl_tau: 0.9
+  pcl: {exclude_sample: false, negatives: 128, tau: 1.0}
+  pcl_weight: 0.5
+model: {kernel: 6, layers: 6, pcl_projector: none, stride: 6}
+optim: {gate_lr: 5.0}
+pma: {conv_query: true, skip_init: -0.2, states: 3, stride: 2, window: 3}
+probe: {reset_every: 5, static_batch: null, tune: test}
+train: {checkpoints: [10, 20, 50, 250], epoch_steps: 100, precision: bf16, probe_interval: 10}

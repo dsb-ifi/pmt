@@ -1,0 +1,222 @@
+\begin{tikzpicture}[
+  declare function={
+    %fourier(\k,\x) = 4/((2*\k+1)*pi) * cos(2*(2*\k+1)*pi*\x - pi/2);
+    fourier(\k,\x)=10*2/pi*sin(\k*deg(\x)*1.5)/(\k);
+  },
+  rep/.append style={
+    minimum width=0.24cm,
+  },
+  state/.append style={
+    minimum width=0.24cm,
+    inner sep=2.75pt,
+  },
+  tree edge/.style={
+    black!50, 
+    shorten <= 2pt,
+    shorten >= 2pt,
+  },
+  lbl/.append style={
+    font=\footnotesize,
+  },
+]
+%% params
+\def\wini{3}
+\def\winii{3}
+\def\maxdom{20}
+\def\maxli{29}
+\def\stateshift{(2pt, 2pt)}
+\pgfmathsetmacro{\maxlii}{int(\maxli/\wini)}
+\pgfmathsetmacro{\maxliii}{int(\maxlii/\winii)}
+
+\begin{axis}[
+  name=signal,
+  height=2cm, 
+  width=10.2cm, 
+  hide axis,
+  enlargelimits=false,
+]
+\def\func{0}
+% build the fourier series function
+\pgfplotsinvokeforeach{1.25,3.13,5.56,9.67,17,...,30}{\xdef\func{\func+fourier(#1,x)}}
+
+\def\prev{0}
+\def\col{stagei}
+\def\nextcol{stageii}
+\def\myempty{}
+\def\collistcontent{}
+\def\prevnode{0}
+\def\switch{0}
+\def\nextswitch{1}
+\pgfplotsinvokeforeach{%
+  1.75,3.25,5,6.25,8.25,10.25,12,13.75,15,16.25,18.5,\maxdom%
+  % 2,4,...,20%
+}{
+  \xdef\macro{\noexpand\addplot+[\col, mark=none, samples=25, domain=\prev:#1] {\func};}
+  \macro
+  
+  \pgfmathtruncatemacro{\currnode}{round(#1 / \maxdom * (\maxli + 1))}
+  \pgfmathtruncatemacro{\startn}{\prevnode}
+  \pgfmathtruncatemacro{\endn}{\currnode - 1}
+  
+  \ifnum\endn<\startn\else
+    \foreach \i in {\startn,...,\endn}{
+      \ifx\collistcontent\myempty
+        \xdef\collistcontent{\switch}
+      \else
+        \xdef\collistcontent{\collistcontent,\switch}
+      \fi
+    }
+  \fi
+  
+  \xdef\prevnode{\currnode}
+  \xdef\prev{#1}
+  \xdef\tmp{\col}
+  \xdef\col{\nextcol}
+  \xdef\nextcol{\tmp}
+  
+  \xdef\tmpsw{\switch}
+  \xdef\switch{\nextswitch}
+  \xdef\nextswitch{\tmpsw}
+}
+\end{axis}
+
+% pad collistcontent if it falls short due to float rounding
+\pgfmathtruncatemacro{\startn}{\prevnode}
+\ifnum\startn>\maxli\else
+  \foreach \i in {\startn,...,\maxli}{
+    \xdef\collistcontent{\collistcontent,0}
+  }
+\fi
+% colors list
+\xdef\collist{{\collistcontent}}
+
+% the tree grows upward!
+% first level
+% anchor the tree at the top of the signal
+\coordinate (s) at ($(signal.north west)+(0,10pt)$);
+% \def\collist{{0,0,0, 1,1, 0,0, 1,1, 0,0,0, 1,1,1, 0,0, 1,1,1, 0,0, 1,1, 0,0,0, 1,1}}
+\foreach \x in {0,1,...,\maxli}{
+  \pgfmathsetmacro{\c}{int(\collist[\x])}
+  \ifcase\c
+    \def\nodecol{stagei!50}
+  \or
+    \def\nodecol{stageii!50}
+  \fi
+  \node[rep=\nodecol, anchor=west] (l0-\x) at (s) {};
+  \coordinate (s) at ($(l0-\x.east)+(1pt,0)$);
+}
+
+% second level
+\foreach \x in {0,1,...,\maxlii}{
+  % compute the boundaries
+  \pgfmathtruncatemacro{\l}{\x*\wini}
+  \pgfmathtruncatemacro{\r}{min((\x+1)*\wini-1, \maxli)}
+  
+  % compute the colors
+  \pgfmathtruncatemacro{\sumcols}{0}
+  \foreach \i in {\l,...,\r}{
+    \pgfmathtruncatemacro{\c}{\collist[\i]}
+    \pgfmathtruncatemacro{\tmp}{\sumcols+\c}
+    \xdef\sumcols{\tmp}
+  }
+  \pgfmathtruncatemacro{\numcols}{\r-\l+1}
+  \pgfmathtruncatemacro{\halfnumcols}{(\numcols+1)/2}
+  
+  % Determine the dominant base color and the secondary pattern color
+  \ifnum\sumcols<\halfnumcols
+    \def\basecol{stagei!50}
+    \def\patcol{stageii!75}
+  \else
+    \def\basecol{stageii!50}
+    \def\patcol{stagei!75}
+  \fi
+  
+  % Apply the pattern only if the window is mixed (not completely homogeneous)
+  \ifnum\sumcols=0
+    \tikzset{mystyle/.style={rep=\basecol}}
+  \else\ifnum\sumcols=\numcols
+    \tikzset{mystyle/.style={rep=\basecol}}
+  \else
+    \tikzset{mystyle/.style={
+      rep=\basecol, 
+      path picture={
+        \fill[\patcol] ($(path picture bounding box.north west)!0.25!(path picture bounding box.south west)$) -- ($(path picture bounding box.south west)!0.75!(path picture bounding box.south east)$) -- (path picture bounding box.south west) -- cycle;
+      }
+    }}
+  \fi\fi
+  
+  \node[mystyle, above=15pt of {$(l0-\l.west)!.5!(l0-\r.east)$}] (l1-\x) {};
+  \begin{pgfonlayer}{background}
+    \node[state=Dark2-D!50] (s1-\x) at ([shift={\stateshift}]l1-\x.center) {};
+  \end{pgfonlayer}
+}
+% third level
+\foreach \x in {0,1,...,\maxliii}{
+  \pgfmathsetmacro{\l}{int(\x*\winii)}
+  \pgfmathsetmacro{\r}{int(min((\x+1)*\winii-1, \maxlii))}
+  \node[rep=Dark2-B!50, above=15pt of {$(l1-\l.west)!.5!(l1-\r.east)$}] (l2-\x) {};
+  \begin{pgfonlayer}{background}
+    \node[state=Dark2-D!50] (s2-\x) at ([shift={\stateshift}]l2-\x.center) {};
+  \end{pgfonlayer}
+}
+
+% draw the tree edges
+\foreach \x in {0,1,...,\maxlii}{
+  \pgfmathsetmacro{\l}{int(\x*\wini)}
+  \pgfmathsetmacro{\r}{int(min((\x+1)*\wini-1, \maxli))}
+  \foreach \i in {\l,...,\r}{
+    \draw[tree edge] (l0-\i.north) -- (l1-\x.south);
+  }
+}
+\foreach \x in {0,1,...,\maxliii}{
+  \pgfmathsetmacro{\l}{int(\x*\winii)}
+  \pgfmathsetmacro{\r}{int(min((\x+1)*\winii-1, \maxlii))}
+  \foreach \i in {\l,...,\r}{
+    \draw[tree edge] (l1-\i.north) -- (l2-\x.south);
+  }
+}
+
+% add end tokens for horizontal levels
+\pgfmathtruncatemacro{\nextlii}{\maxlii+1}
+\node[state=Dark2-D!75, right=15pt of l1-\maxlii] (l1-\nextlii) {};
+
+\pgfmathtruncatemacro{\nextliii}{\maxliii+1}
+\node[state=Dark2-D!75, right=15pt of l2-\maxliii] (l2-\nextliii) {};
+
+% horizontal edges
+\foreach \x in {1,...,\nextlii}{
+  \pgfmathtruncatemacro{\px}{\x-1}
+  \draw[tree edge, ->, Dark2-D] (l1-\px.east) -- (l1-\x.west);
+}
+\foreach \x in {1,...,\nextliii}{
+  \pgfmathtruncatemacro{\px}{\x-1}
+  \draw[tree edge, ->, Dark2-D] (l2-\px.east) -- (l2-\x.west);
+}
+
+\begin{pgfonlayer}{backbackground}
+  % backgroun rectangle
+  \node[fit=(l2-0)(l1-0)(l2-\maxliii)(l1-\maxlii), inner sep=7pt, rounded corners, fill=black!5] {};
+
+  % receptive fields
+  \def\rfshift{5pt}
+  \draw[rounded corners, line cap=round, line join=round, draw=Dark2-F!45, fill=Dark2-F!25, opacity=.5] ([shift={(-\rfshift,\rfshift)}]l2-0.north west) -- ([shift={(-\rfshift,\rfshift)}]l1-0.north west) -- ([shift={(-\rfshift,\rfshift)}]l0-0.north west) -- ([shift={(-\rfshift,-\rfshift)}]l0-0.south west) -- ([shift={(\rfshift,-\rfshift)}]l0-8.south east) -- ([shift={(\rfshift,\rfshift)}]l0-8.north east) -- ([shift={(\rfshift,\rfshift)}]l1-2.north east) -- ([shift={(\rfshift,\rfshift)}]l2-0.north east) -- cycle;
+  
+  \draw[rounded corners, line cap=round, line join=round, draw=Dark2-B!45, fill=Dark2-B!25, opacity=.5] ([shift={(-\rfshift,\rfshift)}]l1-0.north west) -- ([shift={(-\rfshift,\rfshift)}]l0-0.north west) -- ([shift={(-\rfshift,-\rfshift)}]l0-0.south west) -- ([shift={(\rfshift,-\rfshift)}]l0-2.south east) -- ([shift={(\rfshift,\rfshift)}]l0-2.north east) -- ([shift={(\rfshift,\rfshift)}]l1-0.north east) -- cycle;
+\end{pgfonlayer}
+
+\node[lbl, left=10pt of signal.west, anchor=east] {Signal};
+\node[lbl, left=10pt of l0-0.west, anchor=east] {Low};
+\node[lbl, left=10pt of l1-0 -| l0-0.west, anchor=east] {Mid};
+\node[lbl, left=10pt of l2-0 -| l0-0.west, anchor=east] {High};
+
+\node[lbl, above=2pt of l2-\nextliii] {Readout};
+
+\node[lbl, inner sep=2pt, above left=7pt and 10pt of l2-1, anchor=east, font=\scriptsize] (lr) {Representation};
+\node[lbl, inner sep=2pt, above right=2pt and 10pt of l2-1, anchor=west, font=\scriptsize] (ls) {State};
+\draw[-{Circle[length=2pt]},black!50] ([yshift=2pt]lr.south) -- ([yshift=2pt]lr.south east) -- (l2-1.north); 
+\draw[-{Circle[length=2pt]}, black!50] ([yshift=1pt]ls.south) -- ([yshift=1pt]ls.south west) -- (s2-1.north east); 
+
+% time arrow
+\draw[<-, black!50] ([yshift=-2pt]signal.north east) -- ++(-10pt,0) node[anchor=east, font=\footnotesize] {t};
+
+\end{tikzpicture}%

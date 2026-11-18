@@ -1,0 +1,95 @@
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={
+    group name={myplot},
+    group size= 6 by 2,
+    horizontal sep=.75cm,
+    vertical sep=0.125cm,
+    xticklabels at=edge bottom,
+    yticklabels at=edge left,
+  },
+  footnotesize,
+  width=5cm,
+  height=5cm,
+  enlargelimits=false,
+  % inform the plots that it is CSV instead of tabs
+  table/col sep=comma,
+  ticklabel style={font=\scriptsize},
+  ylabel near ticks,
+  ylabel shift=-5pt,
+  colormap/viridis,
+  colorbar style={
+    title=sim,
+    width=0.25cm,
+    yticklabel style={
+        text width=width("$-1.0$"),
+        align=right,
+        font=\scriptsize,
+        /pgf/number format/.cd,
+        fixed,
+        precision=1,
+        fixed zerofill,
+    },
+  },
+  point meta min=-1,
+  point meta max=1,
+]
+\nextgroupplot[height=2.5cm, enlarge y limits=true, title={Wave 103 (Class 0)}]
+    \addplot[Dark2-A] table[x=t, y=ch0] {data/epilepsy-class0-same/wave_103_103_119_auto_class_0_same.txt};
+\nextgroupplot[height=2.5cm, enlarge y limits=true, title={Wave 119 (Class 0)}]
+    \addplot[Dark2-A] table[x=t, y=ch0] {data/epilepsy-class0-same/wave_119_103_119_auto_class_0_same.txt};
+
+\nextgroupplot[height=2.5cm, enlarge y limits=true, title={Wave 2 (Class 1)}]
+    \addplot[Dark2-B] table[x=t, y=ch0] {data/epilepsy-class1-same/wave_2_2_5_auto_class_1_same.txt};
+\nextgroupplot[height=2.5cm, enlarge y limits=true, title={Wave 5 (Class 1)}]
+    \addplot[Dark2-B] table[x=t, y=ch0] {data/epilepsy-class1-same/wave_5_2_5_auto_class_1_same.txt};
+
+\nextgroupplot[height=2.5cm, enlarge y limits=true, title={Wave 27 (Class 1)}]
+    \addplot[Dark2-C] table[x=t, y=ch0] {data/epilepsy-diffclass/wave_27_27_18_auto_diffclass.txt};
+\nextgroupplot[height=2.5cm, enlarge y limits=true, title={Wave 18 (Class 0)}]
+    \addplot[Dark2-C] table[x=t, y=ch0] {data/epilepsy-diffclass/wave_18_27_18_auto_diffclass.txt};
+
+\nextgroupplot[
+  xlabel=Input Tokens\ Seq.~103,
+  ylabel=Input Tokens\ Seq.~119,
+]
+
+  \addplot+[matrix plot*, point meta=explicit] table [x=x, y=y, meta=z] {data/epilepsy-class0-same/patch_sim_103_119_auto_class_0_same.txt};
+
+
+\nextgroupplot[
+  xlabel=Memory States Seq.~103,
+  ylabel=Memory States Seq.~119,
+]
+  \addplot+[matrix plot*, point meta=explicit] table [meta=z] {data/epilepsy-class0-same/state_sim_103_119_auto_class_0_same.txt};
+
+\nextgroupplot[
+  xlabel=Input Tokens\ Seq.~2,
+  ylabel=Input Tokens\ Seq.~5,
+]
+
+  \addplot+[matrix plot*, point meta=explicit] table [x=x, y=y, meta=z] {data/epilepsy-class1-same/patch_sim_2_5_auto_class_1_same.txt};
+
+
+\nextgroupplot[
+  xlabel=Memory States Seq.~2,
+  ylabel=Memory States Seq.~5,
+]
+  \addplot+[matrix plot*, point meta=explicit] table [meta=z] {data/epilepsy-class1-same/state_sim_2_5_auto_class_1_same.txt};
+
+\nextgroupplot[
+  xlabel=Input Tokens\ Seq.~27 (Cls.\ 1),
+  ylabel=Input Tokens\ Seq.~18 (Cls.\ 0),
+]
+
+  \addplot+[matrix plot*, point meta=explicit] table [x=x, y=y, meta=z] {data/epilepsy-diffclass/patch_sim_27_18_auto_diffclass.txt};
+
+
+\nextgroupplot[
+  xlabel=Memory States Seq.~27 (Cls.\ 1),
+  ylabel=Memory States Seq.~18 (Cls.\ 0),
+  colorbar,
+]
+  \addplot+[matrix plot*, point meta=explicit] table [meta=z] {data/epilepsy-diffclass/state_sim_27_18_auto_diffclass.txt};
+\end{groupplot}
+\end{tikzpicture}%

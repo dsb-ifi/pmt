@@ -1,0 +1,18 @@
+% Replaces the figure float labelled fig:pca-repr-standing (accepted main.tex, Appendix: the float that
+% inputs figures/pca-standing.tikz). Label unchanged, so every \Cref keeps working.
+% Needs: figures/pca-standing.tikz      <- projects/pmt_camera_ready/writing/rainbow_figures_20261102/tikz/pca-standing.tikz
+%        data/rainbow_plot/rainbow_har_17_13_12_class-1_class-2_class-1/  <- the same record's data/rainbow_plot/
+% Splice: HAR validation 17 / 13 / 12 (Upstairs / Downstairs / Upstairs), tokenizer tokens and last-block
+% memory states, position-centred (record README, "Position check").
+% Replaced-float marker: the manuscript colours \revtab captions green and changed wording
+% (\rev) blue until \revfinaltrue.
+\providecommand{\revtab}[1]{#1}
+\providecommand{\rev}[1]{#1}
+\begin{figure}[tb]
+\centering
+\resizebox{\linewidth}{!}{%
+\input{figures/pca-standing.tikz}%
+}
+\caption{\revtab{(Left) Double spliced HAR waveform. (Middle) t-SNE of representations (\rev{tokenizer} tokens) of the signal. (Right) t-SNE of memory-states. \rev{The splice joins three validation recordings: Upstairs, Downstairs and a second Upstairs recording. Tokens and memory states are shown after removing the mean representation at each position over the validation set. Colour marks the segment and shade the position within it (light = start); the dashed line is a linear boundary fitted to the memory states.}}}
+\label{fig:pca-repr-standing}
+\end{figure}

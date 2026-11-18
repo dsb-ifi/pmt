@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the paper."
+title: "Progressive Memory Transformer (PMT)"
+type: software
+license: MIT
+repository-code: "https://github.com/dsb-ifi/pmt"
+authors:
+  - family-names: Stangeland
+    given-names: Tord Sture
+    affiliation: "University of Oslo; NORSAR"
+  - family-names: Köhler
+    given-names: Andreas
+    affiliation: "NORSAR; University of Tromsø"
+  - family-names: Maeland
+    given-names: Steffen
+    affiliation: "NORSAR; Western Norway University of Applied Sciences"
+  - family-names: Ramírez Rivera
+    given-names: Adín
+    affiliation: "University of Oslo"
+preferred-citation:
+  type: conference-paper
+  title: "Progressive Memory Transformer: Memory-Aware Attention for Time-Series"
+  collection-title: "The Fortieth Annual Conference on Neural Information Processing Systems"
+  url: "https://openreview.net/forum?id=jyIfuVt2UU"
+  year: 2026
+  authors:
+    - family-names: Stangeland
+      given-names: Tord Sture
+    - family-names: Köhler
+      given-names: Andreas
+    - family-names: Maeland
+      given-names: Steffen
+    - family-names: Ramírez Rivera
+      given-names: Adín

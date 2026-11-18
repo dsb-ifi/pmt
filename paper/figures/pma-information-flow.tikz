@@ -1,0 +1,44 @@
+\begin{tikzpicture}[every node/.append style={font=\footnotesize}]
+  \node[proc=Dark2-A!25, minimum width=2cm, minimum height=1cm] (pma) {$\text{PMA}_{(w,b)}$};
+
+  \node[below=of pma.south west, gate, name=g-m, label=right:$G_M$] {};
+  \node[below=of pma.south east, gate, name=g-r, label=right:$G_W$] {};
+
+  \node[state, left={1.5*\pgfkeysvalueof{/tikz/node distance value}} of pma, label=below:$M_{w-1,b}$] (st-b) {};
+  \node[state, right={1.5*\pgfkeysvalueof{/tikz/node distance value}}of pma, label=below:$M_{w,b}$] (st-a) {};
+
+  \node[state=Dark2-D!25, at={(g-m -| st-b)}, label=below:$M_{r}$] (st-r) {};
+
+  \node[state, below=of g-m, label=below:$M_{w, b-1}$] (m-b) {};
+
+  \node[rep=Dark2-B!50, left=.3*\pgfkeysvalueof{/tikz/node distance value} of g-r |- m-b, label=below:$W_{w, b-1}$] (r-b) {};
+  \node[rep=Dark2-B!75, right=.3*\pgfkeysvalueof{/tikz/node distance value} of g-r |- m-b, label=below:$W_{w, 0}$] (r-0) {};
+
+  \node[rep=Dark2-B!50, above=1.*\pgfkeysvalueof{/tikz/node distance value} of pma, label=above:$W_{w, b}$] (r-a) {};
+
+  \draw[edg] (st-b) -- (pma);
+  \draw[edg] (pma) -- (st-a);
+
+  \draw[edg] (st-r) -- (g-m);
+  \draw[edg] (m-b) -- (g-m);
+
+  \draw[edg] let
+    \p1 = ($(r-b.north)!.5!(g-r.south -| r-b)$),
+    \p2 = ($(g-r.south west) + (2.5pt, 0)$) in
+    (r-b) -- (\p1) -- (\p1 -| \p2) -- (\p2);
+  \draw[edg] let
+    \p1 = ($(r-0.north)!.5!(g-r.south -| r-0)$),
+    \p2 = ($(g-r.south east) + (-2.5pt, 0)$) in
+    (r-0) -- (\p1) -- (\p1 -| \p2) -- (\p2);
+
+  \draw[edg] (pma) -- (r-a);
+
+  \draw[edg] let
+    \p1 = ($(g-m.north)!.5!(pma.south -| g-m)$),
+    \p2 = ($(pma.south west)!.5!(pma.south)$) in
+    (g-m) -- (\p1) -- (\p1 -| \p2) -- (\p2);
+  \draw[edg] let
+    \p1 = ($(g-r.north)!.5!(pma.south -| g-r)$),
+    \p2 = ($(pma.south east)!.5!(pma.south)$) in
+    (g-r) -- (\p1) -- (\p1 -| \p2) -- (\p2);
+\end{tikzpicture}%

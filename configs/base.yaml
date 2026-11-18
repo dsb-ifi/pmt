@@ -1,0 +1,50 @@
+# Shared defaults. Set data.name in a dataset recipe.
+data:
+  root: data
+  name: null
+  channels: null
+  length: null
+  classes: null
+  merge_val: false
+  noise: true
+  noise_std: 0.8
+  ssl_noise_std: null
+  time_warp: true
+  time_scale: 0.15
+  magnitude_warp: true
+  magnitude_scale: 0.2
+  univariate: true
+  horizons: [24, 48, 168, 336, 720]
+  stride: 1
+  eval_stride: 1
+  target: OT
+train: {device: null, run_id: '', precision: null, seed: 42, epochs: 250, steps: null, epoch_steps: 50, probe_start: 0, probe_interval: 5, probe_epochs: [], retain: true, checkpoints: []}
+optim: {batch_size: 256, lr: 0.0002, min_lr: 2.0e-05, weight_decay: 1.0e-07, gate_lr: 1.0, warmup: 0.0}
+model: {dim: 320, kernel: 62, stride: 1, stem: standard, stem_norm: batchnorm, stem_dropout: 0.1, layers: 1, neighbors: 5, mask_keep: null, pcl_projector: per_state}
+pma: {kind: pma, layers: 6, window: 20, stride: 16, states: 2, gate: scalar, gate_residual: true, skip_gate: tokenwise, skip_init: -0.5, conv_query: false, gamma: 0.5, state_noise: 0.01}
+loss:
+  hgcl_weight: 1.0
+  icl_weight: 1.0
+  pcl_weight: 1.0
+  icl_tau: 0.6
+  hgcl:
+    window: 4
+    stride: 2
+    anchor_stride: 1
+    patch_tau: 0.07
+    window_tau: 0.14
+    width_local: 1.0
+    width_window: 1.0
+    kernel: gaussian
+    radius_patch: null
+    radius_window: null
+    tail: true
+    negatives: 300
+    window_weight: 0.05
+    patch_in_fraction: 0.0
+    window_in_fraction: 0.0
+    exclude_patch: null
+    exclude_window: null
+  pcl: {tau: 0.9, negatives: 512, chunk: 1024, exclude_sample: true, same_slot: false}
+probe: {tune: val, readout: cls, reset_every: 0, early_reset: 5, batch_size: 256, input_view: semantics, full_scan: null, static_batch: false, tasks: []}
+forecast: {test: true, alphas: null}

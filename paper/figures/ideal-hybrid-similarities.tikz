@@ -1,0 +1,147 @@
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={
+    group name={myplot},
+    group size= 4 by 3,
+    horizontal sep=.75cm,
+    vertical sep=0.75cm,
+    xticklabels at=edge bottom,
+    yticklabels at=edge left,
+  },
+  footnotesize,
+  width=5cm,
+  height=5cm,
+  enlargelimits=false,
+  % inform the plots that it is CSV instead of tabs
+  table/col sep=comma,
+  ticklabel style={font=\scriptsize},
+  ylabel near ticks,
+  ylabel shift=-5pt,
+  xlabel near ticks,
+  xlabel shift=-4pt,
+  colormap/viridis,
+  point meta min=-1,
+  point meta max=1,
+  color hybrid/.style={colormap={hybrid}{color=(Dark2-A) color=(Dark2-B) color=(Dark2-C)},},
+]
+  %% First row
+  \def\i{0}
+  \nextgroupplot[height=2.5cm, enlarge y limits=true, title=Wave Hybrid,
+    color hybrid,
+    axis background/.style={fill=white},
+    every axis title/.append style={name=title c1r1},
+  ]
+    \addplot[mesh,point meta=explicit, colormap access=direct,] table[x=t, y=ch\i, meta=idx] {data/slice_plot_har_91_1295_592_class-5_class-4_class-5/wave_hybrid.txt};
+    \coordinate (ylbl c1r1) at (yticklabel cs:1,-5pt);
+
+  \nextgroupplot[height=2.5cm, enlarge y limits=true, title={Wave 91 - Laying},
+    color hybrid,
+  ]
+    \addplot[mesh,point meta=explicit, colormap access=direct,] table[x=t, y=ch\i, meta=idx] {data/slice_plot_har_91_1295_592_class-5_class-4_class-5/wave_src_0.txt};
+
+  \nextgroupplot[height=2.5cm, enlarge y limits=true, title={Wave 1295 - Standing},
+    color hybrid,
+  ]
+    \addplot[mesh,point meta=explicit, colormap access=direct,] table[x=t, y=ch\i, meta=idx] {data/slice_plot_har_91_1295_592_class-5_class-4_class-5/wave_src_1.txt};
+
+  \nextgroupplot[height=2.5cm, enlarge y limits=true, title={Wave 592 - Laying},
+    color hybrid,
+  ]
+    \addplot[mesh,point meta=explicit, colormap access=direct,] table[x=t, y=ch\i, meta=idx] {data/slice_plot_har_91_1295_592_class-5_class-4_class-5/wave_src_2.txt};
+
+
+  %% Second row
+  \nextgroupplot[
+    xlabel=Input Tokens\ Hybrid,
+    ylabel=Input Tokens\ Hybrid,
+    group/vertical sep=0.25cm,
+  ]
+    \addplot+[matrix plot*, point meta=explicit] table [x=x, y=y, meta=z] {data/slice_plot_har_91_1295_592_class-5_class-4_class-5/patch_self.txt};
+    \guides{\fs}{\ss}
+
+    % \drawcorners{Dark2-F}
+    % \drawcenter{Dark2-F}
+
+  \nextgroupplot[
+    xlabel=Input Tokens\ Hybrid,
+    ylabel=Input Tokens\ Wave 91,
+    group/vertical sep=0.25cm,
+  ]
+    \addplot+[matrix plot*, point meta=explicit] table [x=x, y=y, meta=z] {data/slice_plot_har_91_1295_592_class-5_class-4_class-5/patch_h_vs_0.txt};
+    \guides{\fs}{\ss}
+
+    % \drawcorners{white}
+
+
+  \nextgroupplot[
+    xlabel=Input Tokens\ Hybrid,
+    ylabel=Input Tokens\ Wave 1295,
+    group/vertical sep=0.25cm,
+  ]
+    \addplot+[matrix plot*, point meta=explicit] table [x=x, y=y, meta=z] {data/slice_plot_har_91_1295_592_class-5_class-4_class-5/patch_h_vs_1.txt};
+    \guides{\fs}{\ss}
+
+    % \drawcenter{white}
+
+
+  \nextgroupplot[
+    xlabel=Input Tokens\ Hybrid,
+    ylabel=Input Tokens\ Wave 592,
+    group/vertical sep=0.25cm,
+    colorbar right,
+    every colorbar/.append style={
+      title=sim,
+      width=0.25cm,
+      height=2*\pgfkeysvalueof{/pgfplots/parent axis height}+\pgfkeysvalueof{/pgfplots/group/vertical sep},
+      ytick={-1,-.9,...,1},
+      yticklabel style={
+        text width=width("$-1.0$"),
+        align=right,
+        font=\scriptsize,
+        /pgf/number format/.cd,
+        fixed,
+        precision=1,
+        fixed zerofill,
+      },
+    },
+  ]
+    \addplot+[matrix plot*, point meta=explicit] table [x=x, y=y, meta=z] {data/slice_plot_har_91_1295_592_class-5_class-4_class-5/patch_h_vs_2.txt};
+    \guides{\fs}{\ss}
+
+    % \drawcorners{white}
+
+  %% Third row
+  \nextgroupplot[
+    xlabel=Memory States Hybrid,
+    ylabel=Memory States Hybrid,
+  ]
+    \addplot+[matrix plot*, point meta=explicit] table [meta=z] {data/slice_plot_har_91_1295_592_class-5_class-4_class-5/state_self.txt};
+    \guides{\fs}{\ss}
+    \coordinate (xlbl c1r3) at ($(xticklabel cs:1,-1pt)+(.5pt,0)$);
+
+  \nextgroupplot[
+    xlabel=Memory States Hybrid,
+    ylabel=Memory States Wave 91,
+  ]
+    \addplot+[matrix plot*, point meta=explicit] table [meta=z] {data/slice_plot_har_91_1295_592_class-5_class-4_class-5/state_h_vs_0.txt};
+    \guides{\fs}{\ss}
+
+  \nextgroupplot[
+    xlabel=Memory States Wave Hybrid,
+    ylabel=Memory States Wave 1295,
+  ]
+    \addplot+[matrix plot*, point meta=explicit] table [meta=z] {data/slice_plot_har_91_1295_592_class-5_class-4_class-5/state_h_vs_1.txt};
+    \guides{\fs}{\ss}
+
+  \nextgroupplot[
+    xlabel=Memory States Wave Hybrid,
+    ylabel=Memory States Wave 592,
+  ]
+    \addplot+[matrix plot*, point meta=explicit] table [meta=z] {data/slice_plot_har_91_1295_592_class-5_class-4_class-5/state_h_vs_2.txt};
+    \guides{\fs}{\ss}
+
+\end{groupplot}
+\begin{pgfonlayer}{background}
+    \node[fit=(ylbl c1r1)(xlbl c1r3)(title c1r1), fill=Dark2-F!25, rounded corners, inner sep=2pt] {};
+\end{pgfonlayer}
+\end{tikzpicture}%

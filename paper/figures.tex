@@ -1,0 +1,116 @@
+% Builds the archived figures from figures/*.tikz and data/, one per page.
+%
+%   cd paper && lualatex figures.tex
+%
+% Reuses the camera-ready TikZ and PGFPlots styles without externalization.
+\documentclass{article}
+\usepackage[paperwidth=21cm,paperheight=21cm,margin=1cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{xspace}
+\usepackage{amsmath,amssymb}
+\usepackage[dvipsnames,table]{xcolor}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{tikz}
+\usetikzlibrary{
+  arrows,
+  arrows.meta,
+  backgrounds,
+  calc,
+  decorations.pathreplacing,
+  fit,
+  matrix,
+  positioning,
+  shapes.callouts,
+  shapes.geometric,
+  shapes.multipart
+}
+\tikzset{
+  node distance/.append code={
+    \pgfkeyssetvalue{/tikz/node distance value}{#1}
+  },
+  node distance=.75cm,
+  every node/.append style={font=\footnotesize},
+  proc/.style={draw, rectangle, rounded corners, fill=#1, minimum width=1.6cm, minimum height=.8cm, align=center},
+  proc/.default=white,
+  state/.style={draw, fill=#1, circle, minimum width=.5cm},
+  state/.default=white,
+  rep/.style={draw, rectangle, fill=#1, minimum width=.7cm, minimum height=.25cm},
+  rep/.default=white,
+  edg/.style={->, rounded corners, shorten <= 2pt, shorten >= 2pt},
+  block/.style={draw=black!50, dashed, rounded corners, inner sep=10pt},
+  lbl/.style={font=\footnotesize, text=gray, fill=#1, rounded corners, fill opacity=0.75, text opacity=1},
+  lbl/.default=white,
+  gate/.style={draw, fill=white, rectangle, rounded corners, node contents={+}, inner sep=3pt},
+  gate edg/.style={edg, statecol},
+  dot/.style={minimum size=1.5pt, inner sep=0pt, fill, circle},
+}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{colorbrewer, groupplots}
+\pgfplotsset{
+  compat=newest,
+  cycle list/Dark2,
+  colorbar fixed/.style={colorbar style={
+    title=t,
+    width=0.25cm,
+    yticklabel style={
+        text width=width("#1"),
+        align=right,
+        font=\scriptsize,
+        /pgf/number format/.cd,
+        fixed,
+        precision=1,
+        fixed zerofill,
+    },
+  }},
+}
+\makeatletter
+\newcommand{\gettikzxy}[3]{%
+  \tikz@scan@one@point\pgfutil@firstofone#1\relax
+  \edef#2{\the\pgf@x}%
+  \edef#3{\the\pgf@y}%
+}
+\makeatother
+\pgfdeclarelayer{backbackground}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{backbackground,background,main,foreground}
+\newcommand{\guides}[2]{%
+  \addplot[white, dashed, very thick] coordinates{(#1,-0.02)(#1,1.02)};
+  \addplot[white, dashed, very thick] coordinates{(#2,-0.02)(#2,1.02)};
+}
+\newcommand{\drawcorners}[1]{%
+    \draw[#1, very thick] (axis cs:0,-0.01) rectangle (axis cs:0.33, 1.01);
+    \draw[#1, very thick] (axis cs:0.66,-0.01) rectangle (axis cs:1, 1.01);
+}
+\newcommand{\drawcenter}[1]{%
+    \draw[#1, very thick] (axis cs:0.33,-0.01) rectangle (axis cs:.66,1.01);
+}
+\newcommand{\METHODNAME}{PMT\xspace}
+\newcommand{\METHODFULLNAME}{Progressive Memory Transformer\xspace}
+\def\fs{0.33}
+\def\ss{0.66}
+\colorlet{stagei}{Dark2-A}
+\colorlet{stageii}{Dark2-C}
+\colorlet{statecol}{Dark2-D!50}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\newcommand{\figurepage}[2]{%
+  \texttt{#1}\par\vspace{4mm}
+  \begin{adjustbox}{max width=\linewidth,max totalheight=0.92\textheight}\input{figures/#2.tikz}\end{adjustbox}
+  \clearpage
+}
+\begin{document}
+\figurepage{fig:tree-hierarchy}{representation-hierarchy}
+\figurepage{fig:pma}{pma-information-flow}
+\figurepage{fig:hybrid-sims}{hybrid-similarities}
+\figurepage{fig:pmt}{pmt-architecture}
+\figurepage{fig:har-same-class}{har-same-class}
+\figurepage{fig:sim-dissim}{epilepsy-similarities}
+\figurepage{fig:sim\_perfect (archive)}{ideal-hybrid-similarities}
+\figurepage{fig:hybrid-sims-diff-classes}{hybrid-different-classes}
+\figurepage{fig:softclt\_fig4}{softclt-hybrid-similarities}
+\figurepage{fig:pca-repr-standing}{pca-standing}
+\figurepage{fig:pca-repr}{pca-walking}
+\end{document}

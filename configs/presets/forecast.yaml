@@ -1,0 +1,13 @@
+extends: ../base.yaml
+data: {length: 512, magnitude_warp: false, merge_val: null, noise: false, stride: 10, time_warp: false, univariate: false}
+forecast: {alphas: [0.001, 0.003, 0.01, 0.03, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0, 20000.0, 50000.0, 100000.0], test: false}
+loss:
+  hgcl: {anchor_stride: 4, exclude_window: 1, kernel: triangular, patch_in_fraction: 0.5, patch_tau: 0.05, radius_patch: 2, radius_window: 2, stride: 5, tail: false, window: 10, window_in_fraction: 0.5, window_tau: 0.1}
+  icl_weight: 0.0
+  pcl: {tau: 0.4}
+  pcl_weight: 0.1
+model: {dim: 512, kernel: 1, mask_keep: 0.5, neighbors: 51, stem: linear_patch}
+optim: {batch_size: 128, weight_decay: 0.0001}
+pma: {gate_residual: false, layers: 3, skip_init: 0.0, states: 4, stride: 51, window: 102}
+probe: {batch_size: 32, readout: max, static_batch: null, tasks: [forecast], tune: test}
+train: {epoch_steps: 100, epochs: 50, probe_epochs: [2, 6, 10, 20, 30, 40, 50], probe_interval: 10, probe_start: 2, steps: 5000}

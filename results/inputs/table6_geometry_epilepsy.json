@@ -1,0 +1,189 @@
+[
+  {
+    "dataset": "epilepsy",
+    "case": "p0025",
+    "sweep": "patch",
+    "fraction": 0.025,
+    "tokens": 60,
+    "model.tokenizer_patch_size": 4,
+    "model.tokenizer_stride": 3,
+    "model.pma.shared.window_size": 12,
+    "model.pma.shared.window_stride": 6,
+    "recipe": {
+      "patch": 7,
+      "stride": 3,
+      "window": 12,
+      "window_stride": 6
+    }
+  },
+  {
+    "dataset": "epilepsy",
+    "case": "p0050",
+    "sweep": "patch",
+    "fraction": 0.05,
+    "tokens": 60,
+    "model.tokenizer_patch_size": 8,
+    "model.tokenizer_stride": 3,
+    "model.pma.shared.window_size": 12,
+    "model.pma.shared.window_stride": 6,
+    "recipe": {
+      "patch": 7,
+      "stride": 3,
+      "window": 12,
+      "window_stride": 6
+    }
+  },
+  {
+    "dataset": "epilepsy",
+    "case": "p0075",
+    "sweep": "patch",
+    "fraction": 0.075,
+    "tokens": 60,
+    "model.tokenizer_patch_size": 13,
+    "model.tokenizer_stride": 3,
+    "model.pma.shared.window_size": 12,
+    "model.pma.shared.window_stride": 6,
+    "recipe": {
+      "patch": 7,
+      "stride": 3,
+      "window": 12,
+      "window_stride": 6
+    }
+  },
+  {
+    "dataset": "epilepsy",
+    "case": "p0100",
+    "sweep": "patch",
+    "fraction": 0.1,
+    "tokens": 60,
+    "model.tokenizer_patch_size": 17,
+    "model.tokenizer_stride": 3,
+    "model.pma.shared.window_size": 12,
+    "model.pma.shared.window_stride": 6,
+    "recipe": {
+      "patch": 7,
+      "stride": 3,
+      "window": 12,
+      "window_stride": 6
+    }
+  },
+  {
+    "dataset": "epilepsy",
+    "case": "p0125",
+    "sweep": "patch",
+    "fraction": 0.125,
+    "tokens": 60,
+    "model.tokenizer_patch_size": 22,
+    "model.tokenizer_stride": 3,
+    "model.pma.shared.window_size": 12,
+    "model.pma.shared.window_stride": 6,
+    "recipe": {
+      "patch": 7,
+      "stride": 3,
+      "window": 12,
+      "window_stride": 6
+    }
+  },
+  {
+    "dataset": "epilepsy",
+    "case": "p0150",
+    "sweep": "patch",
+    "fraction": 0.15,
+    "tokens": 60,
+    "model.tokenizer_patch_size": 26,
+    "model.tokenizer_stride": 3,
+    "model.pma.shared.window_size": 12,
+    "model.pma.shared.window_stride": 6,
+    "recipe": {
+      "patch": 7,
+      "stride": 3,
+      "window": 12,
+      "window_stride": 6
+    }
+  },
+  {
+    "dataset": "epilepsy",
+    "case": "s0100",
+    "sweep": "stride",
+    "fraction": 0.1,
+    "tokens": 178,
+    "model.tokenizer_patch_size": 7,
+    "model.tokenizer_stride": 1,
+    "model.pma.shared.window_size": 36,
+    "model.pma.shared.window_stride": 18,
+    "recipe": {
+      "patch": 7,
+      "stride": 3,
+      "window": 12,
+      "window_stride": 6
+    }
+  },
+  {
+    "dataset": "epilepsy",
+    "case": "s0250",
+    "sweep": "stride",
+    "fraction": 0.25,
+    "tokens": 89,
+    "model.tokenizer_patch_size": 7,
+    "model.tokenizer_stride": 2,
+    "model.pma.shared.window_size": 18,
+    "model.pma.shared.window_stride": 9,
+    "recipe": {
+      "patch": 7,
+      "stride": 3,
+      "window": 12,
+      "window_stride": 6
+    }
+  },
+  {
+    "dataset": "epilepsy",
+    "case": "s0500",
+    "sweep": "stride",
+    "fraction": 0.5,
+    "tokens": 45,
+    "model.tokenizer_patch_size": 7,
+    "model.tokenizer_stride": 4,
+    "model.pma.shared.window_size": 9,
+    "model.pma.shared.window_stride": 4,
+    "recipe": {
+      "patch": 7,
+      "stride": 3,
+      "window": 12,
+      "window_stride": 6
+    }
+  },
+  {
+    "dataset": "epilepsy",
+    "case": "s0750",
+    "sweep": "stride",
+    "fraction": 0.75,
+    "tokens": 36,
+    "model.tokenizer_patch_size": 7,
+    "model.tokenizer_stride": 5,
+    "model.pma.shared.window_size": 7,
+    "model.pma.shared.window_stride": 4,
+    "recipe": {
+      "patch": 7,
+      "stride": 3,
+      "window": 12,
+      "window_stride": 6
+    }
+  },
+  {
+    "dataset": "epilepsy",
+    "case": "s1000",
+    "sweep": "stride",
+    "fraction": 1.0,
+    "tokens": 26,
+    "model.tokenizer_patch_size": 7,
+    "model.tokenizer_stride": 7,
+    "model.pma.shared.window_size": 5,
+    "model.pma.shared.window_stride": 2,
+    "recipe": {
+      "patch": 7,
+      "stride": 3,
+      "window": 12,
+      "window_stride": 6
+    }
+  }
+]

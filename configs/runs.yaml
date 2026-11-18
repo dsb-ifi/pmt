@@ -1,0 +1,263 @@
+# Expected dimensions for paper runs, checked against the loaded data.
+data_shapes:
+  UCR_FordA: {channels: 1, length: 500, classes: 2}
+  UCR_FordB: {channels: 1, length: 500, classes: 2}
+  UCR_ElectricDevices: {channels: 1, length: 96, classes: 7}
+  HAR: {channels: 9, length: 128, classes: 6}
+  UCR_PhalangesOutlinesCorrect: {channels: 1, length: 80, classes: 2}
+  UCR_StarLightCurves: {channels: 1, length: 1024, classes: 3}
+  electricity: {channels: 328, classes: 1}
+  ETTh1: {channels: 14, classes: 1}
+  epilepsy: {channels: 1, length: 178, classes: 2}
+  UCR_Wafer: {channels: 1, length: 152, classes: 2}
+
+# Applied in order, before an arm's own overrides.
+presets:
+  table2_cue:
+    data.merge_val: null
+    loss.hgcl.patch_tau: 0.03
+    loss.hgcl.stride: 3
+    loss.hgcl.window: 6
+    loss.hgcl.window_tau: 0.04
+    loss.hgcl.window_weight: 0.05
+    loss.hgcl_weight: 1.0
+    loss.icl_weight: 0.5
+    loss.pcl.chunk: 512
+    loss.pcl.tau: 0.8
+    model.layers: 6
+    model.neighbors: 4
+    model.pcl_projector: per_state
+    model.stem_norm: groupnorm
+    optim.warmup: 0.0
+    pma.skip_gate: tokenwise_legacy_constant_weight
+    pma.stride: 11
+    pma.window: 11
+    probe.batch_size: 128
+    probe.input_view: clean_base
+    probe.static_batch: true
+    probe.tasks: [linear, cue]
+    train.probe_epochs: [250]
+    train.probe_interval: 250
+    train.probe_start: 250
+    train.retain: true
+  har_one_slot:
+    data.magnitude_scale: 0.2
+    loss.hgcl_weight: 0.25
+    loss.icl_weight: 0.5
+    loss.pcl_weight: 0.5
+    train.epochs: 150
+  tokenizer_sweep: {train.epochs: 150, train.probe_epochs: [1, 6, 11, 16, 21, 26, 31, 36, 41, 46, 51, 56, 61, 66, 71, 76, 81, 86, 91, 96, 101, 106, 111, 116, 121, 126, 131, 136, 141, 146]}
+  table3_univariate: {data.channels: 8, data.univariate: true}
+
+arms:
+  cr_t1_forda_20261013_UCR_FordA_no_pcl: {dataset: UCR_FordA, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: experiments_20261014_000201, tables: '4', precision: null, overrides: {loss.pcl_weight: 0.0}}
+  cr_t1_forda_20261013_UCR_FordA_paper_recipe: {dataset: UCR_FordA, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: experiments_20261014_000201, tables: 1;4;5, precision: null}
+  cr_t1_fordb_20261013_UCR_FordB_no_pcl: {dataset: UCR_FordB, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: experiments_20261014_000201, tables: '4', precision: null, overrides: {loss.pcl_weight: 0.0}}
+  cr_t1_fordb_20261013_UCR_FordB_paper_recipe: {dataset: UCR_FordB, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: experiments_20261014_000201, tables: 1;4;5, precision: null}
+  ed_magnitude02_no_pcl_20261022_UCR_ElectricDevices_pcl_off: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: ed_magnitude02_no_pcl_20261022_frozen, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0}}
+  ed_magnitude_recovery_20261022_UCR_ElectricDevices_control_tau1: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: ed_magnitude_recovery_20261022_frozen, tables: 1;4;5, precision: bf16}
+  har_adoption_reruns_20261025_e4_HAR_rho010: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: E4, precision: bf16, overrides: {pma.stride: 6, pma.window: 13, train.epochs: 150}}
+  har_adoption_reruns_20261025_e4_HAR_rho020: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: E4, precision: bf16, overrides: {train.epochs: 150}}
+  har_adoption_reruns_20261025_e4_HAR_rho030: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: E4, precision: bf16, overrides: {pma.stride: 19, pma.window: 38, train.epochs: 150}}
+  har_adoption_reruns_20261025_e4_HAR_rho050: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: E4, precision: bf16, overrides: {pma.stride: 32, pma.window: 64, train.epochs: 150}}
+  har_adoption_reruns_20261025_e4_HAR_rho100: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: E4, precision: bf16, overrides: {pma.stride: 64, pma.window: 128, train.epochs: 150}}
+  har_adoption_reruns_20261025_t1_HAR_pmt_nopcl: {dataset: HAR, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: har_adoption_reruns_20261025, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0}}
+  har_adoption_reruns_20261025_t4_HAR_txl: {dataset: HAR, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: har_adoption_reruns_20261025, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0, pma.kind: txl}}
+  har_adoption_reruns_20261025_t4_HAR_xlstm: {dataset: HAR, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: har_adoption_reruns_20261025, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0, pma.kind: xlstm, pma.layers: 6}}
+  har_adoption_reruns_20261025_t5_HAR_hgcl_only: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.0, loss.pcl_weight: 0.0}}
+  har_adoption_reruns_20261025_t5_HAR_hgcl_w010: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.1}}
+  har_adoption_reruns_20261025_t5_HAR_hgcl_w050: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.5}}
+  har_adoption_reruns_20261025_t5_HAR_icl_only: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0, loss.pcl_weight: 0.0}}
+  har_adoption_reruns_20261025_t5_HAR_icl_w001: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.01}}
+  har_adoption_reruns_20261025_t5_HAR_icl_w010: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.1}}
+  har_adoption_reruns_20261025_t5_HAR_icl_w050: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.5}}
+  har_adoption_reruns_20261025_t5_HAR_no_hgcl: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0}}
+  har_adoption_reruns_20261025_t5_HAR_no_icl: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.0}}
+  har_adoption_reruns_20261025_t5_HAR_no_pcl: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.0}}
+  har_adoption_reruns_20261025_t5_HAR_pcl_only: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0, loss.icl_weight: 0.0}}
+  har_adoption_reruns_20261025_t5_HAR_pcl_w001: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.01}}
+  har_adoption_reruns_20261025_t5_HAR_pcl_w010: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.1}}
+  har_adoption_reruns_20261025_t5_HAR_pcl_w050: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.5}}
+  har_adoption_reruns_20261025_t5_HAR_uniform: {dataset: HAR, seeds: [42, 43, 44], source: har_adoption_reruns_20261025, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0}}
+  har_augmentation_followup_20261025_HAR_weights_magnitude010: {dataset: HAR, seeds: [42, 43, 44], source: har_augmentation_followup_20261025, tables: 1;4;5, precision: bf16}
+  har_confirmation_20261025_HAR_weights_magnitude010: {dataset: HAR, seeds: [45, 46, 47, 48, 49, 50, 51], source: har_confirmation_20261025, tables: 1;4, precision: bf16}
+  har_one_slot_20261024_e4_HAR_rho010: {dataset: HAR, seeds: [42, 43, 44], source: har_one_slot_20261024, tables: E4, precision: bf16, overrides: {pma.stride: 6, pma.window: 13}, presets: [har_one_slot]}
+  har_one_slot_20261024_e4_HAR_rho020: {dataset: HAR, seeds: [42, 43, 44], source: har_one_slot_20261024, tables: E4, precision: bf16, presets: [har_one_slot]}
+  har_one_slot_20261024_e4_HAR_rho030: {dataset: HAR, seeds: [42, 43, 44], source: har_one_slot_20261024, tables: E4, precision: bf16, overrides: {pma.stride: 19, pma.window: 38}, presets: [har_one_slot]}
+  har_one_slot_20261024_e4_HAR_rho050: {dataset: HAR, seeds: [42, 43, 44], source: har_one_slot_20261024, tables: E4, precision: bf16, overrides: {pma.stride: 32, pma.window: 64}, presets: [har_one_slot]}
+  har_one_slot_20261024_e4_HAR_rho100: {dataset: HAR, seeds: [42, 43, 44], source: har_one_slot_20261024, tables: E4, precision: bf16, overrides: {pma.stride: 64, pma.window: 128}, presets: [har_one_slot]}
+  pocconfirm_20261018_UCR_PhalangesOutlinesCorrect_confirmation: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: poc_final_confirmation_20261018_guarded, tables: 1;4;5, precision: null}
+  pocs3nopcl_20261017_UCR_PhalangesOutlinesCorrect_no_pcl: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: poc_stride3_no_pcl_20261017_guarded, tables: '4', precision: null, overrides: {loss.pcl_weight: 0.0}}
+  slc_pcl_10seed_250epochs_20261016_UCR_StarLightCurves_pcl_off: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: slc_pcl_10seed_250epochs_20261016_guarded, tables: '4', precision: null, overrides: {loss.pcl_weight: 0.0}}
+  slc_pcl_10seed_250epochs_20261016_UCR_StarLightCurves_pcl_on: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: slc_pcl_10seed_250epochs_20261016_guarded, tables: 1;4;5, precision: null}
+  table2_cue_UCR_FordA_pmt_main: {dataset: UCR_FordA, seeds: [42, 43, 44, 45, 46], source: table2_cue_spma, tables: '2', precision: null, overrides: {loss.pcl_weight: 0.25, pma.kind: spma, pma.layers: 9}, presets: [table2_cue]}
+  table2_cue_UCR_FordA_pmt_nopcl: {dataset: UCR_FordA, seeds: [42, 43, 44, 45, 46], source: table2_cue_spma, tables: '2', precision: null, overrides: {loss.pcl_weight: 0.0, pma.kind: spma, pma.layers: 9}, presets: [table2_cue]}
+  table2_cue_UCR_FordA_txl: {dataset: UCR_FordA, seeds: [42, 43, 44, 45, 46], source: table2_cue_spma, tables: '2', precision: null, overrides: {loss.pcl_weight: 0.0, pma.kind: txl, pma.layers: 9}, presets: [table2_cue]}
+  table2_cue_UCR_FordA_xlstm: {dataset: UCR_FordA, seeds: [42, 43, 44, 45, 46], source: table2_cue_spma, tables: '2', precision: null, overrides: {loss.pcl_weight: 0.0, pma.kind: xlstm, pma.layers: 6}, presets: [table2_cue]}
+  table3_pmt_multi_electricity: {dataset: electricity, seeds: [43, 44, 45, 46, 47], source: table3_forecasting_train, tables: '3', precision: null}
+  table3_pmt_multi_etth1: {dataset: ETTh1, seeds: [43, 44, 45, 46, 47], source: table3_forecasting_train, tables: '3', precision: null}
+  table3_pmt_uni_electricity: {dataset: electricity, seeds: [43, 44, 45, 46, 47], source: table3_forecasting_train, tables: '3', precision: null, presets: [table3_univariate]}
+  table3_pmt_uni_etth1: {dataset: ETTh1, seeds: [43, 44, 45, 46, 47], source: table3_forecasting_train, tables: '3', precision: null, presets: [table3_univariate]}
+  table4_arch_rerun_20261023_ed_UCR_ElectricDevices_txl: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: table4_arch_rerun_20261023, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0, pma.kind: txl}}
+  table4_arch_rerun_20261023_ed_UCR_ElectricDevices_xlstm: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: table4_arch_rerun_20261023, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0, pma.kind: xlstm}}
+  table4_arch_rerun_20261023_epilepsy_epilepsy_pmt_nopcl: {dataset: epilepsy, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: epilepsy_b256_followup_20261023, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0}}
+  table4_arch_rerun_20261023_epilepsy_epilepsy_pmt_pcl: {dataset: epilepsy, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: table4_arch_rerun_20261023, tables: 1;4;5, precision: bf16}
+  table4_arch_rerun_20261023_epilepsy_epilepsy_txl: {dataset: epilepsy, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: epilepsy_b256_followup_20261023, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0, pma.kind: txl}}
+  table4_arch_rerun_20261023_epilepsy_epilepsy_xlstm: {dataset: epilepsy, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: epilepsy_b256_followup_20261023, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0, pma.kind: xlstm}}
+  table4_arch_rerun_20261023_forda_UCR_FordA_txl: {dataset: UCR_FordA, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: table4_arch_rerun_20261023, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0, pma.kind: txl}}
+  table4_arch_rerun_20261023_forda_UCR_FordA_xlstm: {dataset: UCR_FordA, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: table4_arch_rerun_20261023, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0, pma.kind: xlstm}}
+  table4_arch_rerun_20261023_fordb_UCR_FordB_txl: {dataset: UCR_FordB, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: table4_arch_rerun_20261023, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0, pma.kind: txl}}
+  table4_arch_rerun_20261023_fordb_UCR_FordB_xlstm: {dataset: UCR_FordB, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: table4_arch_rerun_20261023, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0, pma.kind: xlstm}}
+  table4_arch_rerun_20261023_poc_UCR_PhalangesOutlinesCorrect_txl: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: table4_arch_rerun_20261023, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0, pma.kind: txl}}
+  table4_arch_rerun_20261023_poc_UCR_PhalangesOutlinesCorrect_xlstm: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: table4_arch_rerun_20261023, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0, pma.kind: xlstm}}
+  table4_arch_rerun_20261023_slc_UCR_StarLightCurves_txl: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: table4_arch_rerun_20261023, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0, pma.kind: txl}}
+  table4_arch_rerun_20261023_slc_UCR_StarLightCurves_xlstm: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: table4_arch_rerun_20261023, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0, pma.kind: xlstm, pma.layers: 6}}
+  table4_arch_rerun_20261023_wafer_UCR_Wafer_txl: {dataset: UCR_Wafer, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: table4_arch_rerun_20261023, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0, pma.kind: txl}}
+  table4_arch_rerun_20261023_wafer_UCR_Wafer_xlstm: {dataset: UCR_Wafer, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: table4_arch_rerun_20261023, tables: '4', precision: bf16, overrides: {loss.pcl_weight: 0.0, pma.kind: xlstm}}
+  table5_loss_ablation_20261023_ed_UCR_ElectricDevices_hgcl_only: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_ed_UCR_ElectricDevices_hgcl_w001: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.01, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_ed_UCR_ElectricDevices_hgcl_w010: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.1, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_ed_UCR_ElectricDevices_hgcl_w050: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.5, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_ed_UCR_ElectricDevices_icl_only: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_ed_UCR_ElectricDevices_icl_w001: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.01, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_ed_UCR_ElectricDevices_icl_w010: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.1, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_ed_UCR_ElectricDevices_icl_w050: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.5, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_ed_UCR_ElectricDevices_no_hgcl: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_ed_UCR_ElectricDevices_no_icl: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.0, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_ed_UCR_ElectricDevices_no_pcl: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_ed_UCR_ElectricDevices_pcl_only: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.icl_weight: 0.0, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_ed_UCR_ElectricDevices_pcl_w001: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.01}}
+  table5_loss_ablation_20261023_ed_UCR_ElectricDevices_pcl_w010: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.1}}
+  table5_loss_ablation_20261023_ed_UCR_ElectricDevices_pcl_w050: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0}}
+  table5_loss_ablation_20261023_ed_UCR_ElectricDevices_uniform: {dataset: UCR_ElectricDevices, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_epilepsy_epilepsy_hgcl_only: {dataset: epilepsy, seeds: [42, 43, 44], source: epilepsy_b256_followup_20261023, tables: '5', precision: bf16, overrides: {loss.icl_weight: 0.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_epilepsy_epilepsy_hgcl_w001: {dataset: epilepsy, seeds: [42, 43, 44], source: epilepsy_b256_followup_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.01}}
+  table5_loss_ablation_20261023_epilepsy_epilepsy_hgcl_w010: {dataset: epilepsy, seeds: [42, 43, 44], source: epilepsy_b256_followup_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.1}}
+  table5_loss_ablation_20261023_epilepsy_epilepsy_hgcl_w050: {dataset: epilepsy, seeds: [42, 43, 44], source: epilepsy_b256_followup_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.5}}
+  table5_loss_ablation_20261023_epilepsy_epilepsy_icl_only: {dataset: epilepsy, seeds: [42, 43, 44], source: epilepsy_b256_followup_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_epilepsy_epilepsy_icl_w001: {dataset: epilepsy, seeds: [42, 43, 44], source: epilepsy_b256_followup_20261023, tables: '5', precision: bf16, overrides: {loss.icl_weight: 0.01}}
+  table5_loss_ablation_20261023_epilepsy_epilepsy_icl_w010: {dataset: epilepsy, seeds: [42, 43, 44], source: epilepsy_b256_followup_20261023, tables: '5', precision: bf16, overrides: {loss.icl_weight: 0.1}}
+  table5_loss_ablation_20261023_epilepsy_epilepsy_icl_w050: {dataset: epilepsy, seeds: [42, 43, 44], source: epilepsy_b256_followup_20261023, tables: '5', precision: bf16, overrides: {loss.icl_weight: 0.5}}
+  table5_loss_ablation_20261023_epilepsy_epilepsy_no_hgcl: {dataset: epilepsy, seeds: [42, 43, 44], source: epilepsy_b256_followup_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0}}
+  table5_loss_ablation_20261023_epilepsy_epilepsy_no_icl: {dataset: epilepsy, seeds: [42, 43, 44], source: epilepsy_b256_followup_20261023, tables: '5', precision: bf16, overrides: {loss.icl_weight: 0.0}}
+  table5_loss_ablation_20261023_epilepsy_epilepsy_no_pcl: {dataset: epilepsy, seeds: [42, 43, 44], source: epilepsy_b256_followup_20261023, tables: '5', precision: bf16, overrides: {loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_epilepsy_epilepsy_pcl_only: {dataset: epilepsy, seeds: [42, 43, 44], source: epilepsy_b256_followup_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0, loss.icl_weight: 0.0}}
+  table5_loss_ablation_20261023_epilepsy_epilepsy_pcl_w001: {dataset: epilepsy, seeds: [42, 43, 44], source: epilepsy_b256_followup_20261023, tables: '5', precision: bf16, overrides: {loss.pcl_weight: 0.01}}
+  table5_loss_ablation_20261023_epilepsy_epilepsy_pcl_w010: {dataset: epilepsy, seeds: [42, 43, 44], source: epilepsy_b256_followup_20261023, tables: '5', precision: bf16, overrides: {loss.pcl_weight: 0.1}}
+  table5_loss_ablation_20261023_epilepsy_epilepsy_pcl_w050: {dataset: epilepsy, seeds: [42, 43, 44], source: epilepsy_b256_followup_20261023, tables: '5', precision: bf16, overrides: {loss.pcl_weight: 0.5}}
+  table5_loss_ablation_20261023_epilepsy_epilepsy_uniform: {dataset: epilepsy, seeds: [42, 43, 44], source: epilepsy_b256_followup_20261023, tables: '5', precision: bf16}
+  table5_loss_ablation_20261023_forda_UCR_FordA_hgcl_only: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_forda_UCR_FordA_hgcl_w001: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.01}}
+  table5_loss_ablation_20261023_forda_UCR_FordA_hgcl_w010: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.1}}
+  table5_loss_ablation_20261023_forda_UCR_FordA_hgcl_w050: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16}
+  table5_loss_ablation_20261023_forda_UCR_FordA_icl_only: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_forda_UCR_FordA_icl_w001: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.01}}
+  table5_loss_ablation_20261023_forda_UCR_FordA_icl_w010: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.1}}
+  table5_loss_ablation_20261023_forda_UCR_FordA_icl_w050: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.5}}
+  table5_loss_ablation_20261023_forda_UCR_FordA_no_hgcl: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0}}
+  table5_loss_ablation_20261023_forda_UCR_FordA_no_icl: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.0}}
+  table5_loss_ablation_20261023_forda_UCR_FordA_no_pcl: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_forda_UCR_FordA_pcl_only: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0, loss.icl_weight: 0.0}}
+  table5_loss_ablation_20261023_forda_UCR_FordA_pcl_w001: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.01}}
+  table5_loss_ablation_20261023_forda_UCR_FordA_pcl_w010: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.1}}
+  table5_loss_ablation_20261023_forda_UCR_FordA_pcl_w050: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.5}}
+  table5_loss_ablation_20261023_forda_UCR_FordA_uniform: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0}}
+  table5_loss_ablation_20261023_fordb_UCR_FordB_hgcl_only: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_fordb_UCR_FordB_hgcl_w001: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.01}}
+  table5_loss_ablation_20261023_fordb_UCR_FordB_hgcl_w010: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.1}}
+  table5_loss_ablation_20261023_fordb_UCR_FordB_hgcl_w050: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16}
+  table5_loss_ablation_20261023_fordb_UCR_FordB_icl_only: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_fordb_UCR_FordB_icl_w001: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.01}}
+  table5_loss_ablation_20261023_fordb_UCR_FordB_icl_w010: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.1}}
+  table5_loss_ablation_20261023_fordb_UCR_FordB_icl_w050: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.5}}
+  table5_loss_ablation_20261023_fordb_UCR_FordB_no_hgcl: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0}}
+  table5_loss_ablation_20261023_fordb_UCR_FordB_no_icl: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.0}}
+  table5_loss_ablation_20261023_fordb_UCR_FordB_no_pcl: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_fordb_UCR_FordB_pcl_only: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0, loss.icl_weight: 0.0}}
+  table5_loss_ablation_20261023_fordb_UCR_FordB_pcl_w001: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.01}}
+  table5_loss_ablation_20261023_fordb_UCR_FordB_pcl_w010: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.1}}
+  table5_loss_ablation_20261023_fordb_UCR_FordB_pcl_w050: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.5}}
+  table5_loss_ablation_20261023_fordb_UCR_FordB_uniform: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0}}
+  table5_loss_ablation_20261023_poc_UCR_PhalangesOutlinesCorrect_hgcl_only: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_poc_UCR_PhalangesOutlinesCorrect_hgcl_w001: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.01, loss.icl_weight: 1.0, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_poc_UCR_PhalangesOutlinesCorrect_hgcl_w010: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.1, loss.icl_weight: 1.0, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_poc_UCR_PhalangesOutlinesCorrect_hgcl_w050: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.5, loss.icl_weight: 1.0, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_poc_UCR_PhalangesOutlinesCorrect_icl_only: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0, loss.icl_weight: 1.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_poc_UCR_PhalangesOutlinesCorrect_icl_w001: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.01, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_poc_UCR_PhalangesOutlinesCorrect_icl_w010: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.1, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_poc_UCR_PhalangesOutlinesCorrect_icl_w050: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_poc_UCR_PhalangesOutlinesCorrect_no_hgcl: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0, loss.icl_weight: 1.0, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_poc_UCR_PhalangesOutlinesCorrect_no_icl: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.0, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_poc_UCR_PhalangesOutlinesCorrect_no_pcl: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 1.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_poc_UCR_PhalangesOutlinesCorrect_pcl_only: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0, loss.icl_weight: 0.0, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_poc_UCR_PhalangesOutlinesCorrect_pcl_w001: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 1.0, loss.pcl_weight: 0.01}}
+  table5_loss_ablation_20261023_poc_UCR_PhalangesOutlinesCorrect_pcl_w010: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 1.0, loss.pcl_weight: 0.1}}
+  table5_loss_ablation_20261023_poc_UCR_PhalangesOutlinesCorrect_pcl_w050: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 1.0}}
+  table5_loss_ablation_20261023_poc_UCR_PhalangesOutlinesCorrect_uniform: {dataset: UCR_PhalangesOutlinesCorrect, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 1.0, loss.pcl_weight: 1.0}}
+  table5_loss_ablation_20261023_slc_UCR_StarLightCurves_hgcl_only: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_slc_UCR_StarLightCurves_hgcl_w001: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.01}}
+  table5_loss_ablation_20261023_slc_UCR_StarLightCurves_hgcl_w010: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.1}}
+  table5_loss_ablation_20261023_slc_UCR_StarLightCurves_hgcl_w050: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16}
+  table5_loss_ablation_20261023_slc_UCR_StarLightCurves_icl_only: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_slc_UCR_StarLightCurves_icl_w001: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.01}}
+  table5_loss_ablation_20261023_slc_UCR_StarLightCurves_icl_w010: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.1}}
+  table5_loss_ablation_20261023_slc_UCR_StarLightCurves_icl_w050: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.5}}
+  table5_loss_ablation_20261023_slc_UCR_StarLightCurves_no_hgcl: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0}}
+  table5_loss_ablation_20261023_slc_UCR_StarLightCurves_no_icl: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.icl_weight: 0.0}}
+  table5_loss_ablation_20261023_slc_UCR_StarLightCurves_no_pcl: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_slc_UCR_StarLightCurves_pcl_only: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0, loss.icl_weight: 0.0}}
+  table5_loss_ablation_20261023_slc_UCR_StarLightCurves_pcl_w001: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.01}}
+  table5_loss_ablation_20261023_slc_UCR_StarLightCurves_pcl_w010: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.1}}
+  table5_loss_ablation_20261023_slc_UCR_StarLightCurves_pcl_w050: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0, loss.pcl_weight: 0.5}}
+  table5_loss_ablation_20261023_slc_UCR_StarLightCurves_uniform: {dataset: UCR_StarLightCurves, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 1.0}}
+  table5_loss_ablation_20261023_wafer_UCR_Wafer_hgcl_only: {dataset: UCR_Wafer, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.icl_weight: 0.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_wafer_UCR_Wafer_hgcl_w001: {dataset: UCR_Wafer, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.01, loss.icl_weight: 1.0}}
+  table5_loss_ablation_20261023_wafer_UCR_Wafer_hgcl_w010: {dataset: UCR_Wafer, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.1, loss.icl_weight: 1.0}}
+  table5_loss_ablation_20261023_wafer_UCR_Wafer_hgcl_w050: {dataset: UCR_Wafer, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.5, loss.icl_weight: 1.0}}
+  table5_loss_ablation_20261023_wafer_UCR_Wafer_icl_only: {dataset: UCR_Wafer, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0, loss.icl_weight: 1.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_wafer_UCR_Wafer_icl_w001: {dataset: UCR_Wafer, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.icl_weight: 0.01}}
+  table5_loss_ablation_20261023_wafer_UCR_Wafer_icl_w010: {dataset: UCR_Wafer, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.icl_weight: 0.1}}
+  table5_loss_ablation_20261023_wafer_UCR_Wafer_icl_w050: {dataset: UCR_Wafer, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16}
+  table5_loss_ablation_20261023_wafer_UCR_Wafer_no_hgcl: {dataset: UCR_Wafer, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0, loss.icl_weight: 1.0}}
+  table5_loss_ablation_20261023_wafer_UCR_Wafer_no_icl: {dataset: UCR_Wafer, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.icl_weight: 0.0}}
+  table5_loss_ablation_20261023_wafer_UCR_Wafer_no_pcl: {dataset: UCR_Wafer, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.icl_weight: 1.0, loss.pcl_weight: 0.0}}
+  table5_loss_ablation_20261023_wafer_UCR_Wafer_pcl_only: {dataset: UCR_Wafer, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.hgcl_weight: 0.0, loss.icl_weight: 0.0}}
+  table5_loss_ablation_20261023_wafer_UCR_Wafer_pcl_w001: {dataset: UCR_Wafer, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.icl_weight: 1.0, loss.pcl_weight: 0.01}}
+  table5_loss_ablation_20261023_wafer_UCR_Wafer_pcl_w010: {dataset: UCR_Wafer, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.icl_weight: 1.0, loss.pcl_weight: 0.1}}
+  table5_loss_ablation_20261023_wafer_UCR_Wafer_pcl_w050: {dataset: UCR_Wafer, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.icl_weight: 1.0, loss.pcl_weight: 0.5}}
+  table5_loss_ablation_20261023_wafer_UCR_Wafer_uniform: {dataset: UCR_Wafer, seeds: [42, 43, 44], source: table5_loss_ablation_20261023, tables: '5', precision: bf16, overrides: {loss.icl_weight: 1.0}}
+  table6_epilepsy_20261025_epilepsy_epilepsy_p0025: {dataset: epilepsy, seeds: [42, 43, 44], source: table6_epilepsy_20261025, tables: '6', precision: bf16, overrides: {model.kernel: 4, train.epochs: 150}}
+  table6_epilepsy_20261025_epilepsy_epilepsy_p0050: {dataset: epilepsy, seeds: [42, 43, 44], source: table6_epilepsy_20261025, tables: '6', precision: bf16, overrides: {model.kernel: 8, train.epochs: 150}}
+  table6_epilepsy_20261025_epilepsy_epilepsy_p0075: {dataset: epilepsy, seeds: [42, 43, 44], source: table6_epilepsy_20261025, tables: '6', precision: bf16, overrides: {model.kernel: 13, train.epochs: 150}}
+  table6_epilepsy_20261025_epilepsy_epilepsy_p0100: {dataset: epilepsy, seeds: [42, 43, 44], source: table6_epilepsy_20261025, tables: '6', precision: bf16, overrides: {model.kernel: 17, train.epochs: 150}}
+  table6_epilepsy_20261025_epilepsy_epilepsy_p0125: {dataset: epilepsy, seeds: [42, 43, 44], source: table6_epilepsy_20261025, tables: '6', precision: bf16, overrides: {model.kernel: 22, train.epochs: 150}}
+  table6_epilepsy_20261025_epilepsy_epilepsy_p0150: {dataset: epilepsy, seeds: [42, 43, 44], source: table6_epilepsy_20261025, tables: '6', precision: bf16, overrides: {model.kernel: 26, train.epochs: 150}}
+  table6_epilepsy_20261025_epilepsy_epilepsy_s0100: {dataset: epilepsy, seeds: [42, 43, 44], source: table6_epilepsy_20261025, tables: '6', precision: bf16, overrides: {model.stride: 1, pma.stride: 18, pma.window: 36, train.epochs: 150}}
+  table6_epilepsy_20261025_epilepsy_epilepsy_s0250: {dataset: epilepsy, seeds: [42, 43, 44], source: table6_epilepsy_20261025, tables: '6', precision: bf16, overrides: {model.stride: 2, pma.stride: 9, pma.window: 18, train.epochs: 150}}
+  table6_epilepsy_20261025_epilepsy_epilepsy_s0500: {dataset: epilepsy, seeds: [42, 43, 44], source: table6_epilepsy_20261025, tables: '6', precision: bf16, overrides: {model.stride: 4, pma.stride: 4, pma.window: 9, train.epochs: 150}}
+  table6_epilepsy_20261025_epilepsy_epilepsy_s0750: {dataset: epilepsy, seeds: [42, 43, 44], source: table6_epilepsy_20261025, tables: '6', precision: bf16, overrides: {model.stride: 5, pma.stride: 4, pma.window: 7, train.epochs: 150}}
+  table6_epilepsy_20261025_epilepsy_epilepsy_s1000: {dataset: epilepsy, seeds: [42, 43, 44], source: table6_epilepsy_20261025, tables: '6', precision: bf16, overrides: {model.stride: 7, pma.stride: 2, pma.window: 5, train.epochs: 150}}
+  table6_tokenizer_rerun_20261024_forda_UCR_FordA_p0025: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.kernel: 12}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_forda_UCR_FordA_p0050: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.kernel: 25}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_forda_UCR_FordA_p0075: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.kernel: 37}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_forda_UCR_FordA_p0100: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.kernel: 50}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_forda_UCR_FordA_p0125: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_forda_UCR_FordA_p0150: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.kernel: 75}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_forda_UCR_FordA_s0100: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.stride: 6, pma.stride: 24, pma.window: 30}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_forda_UCR_FordA_s0250: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.stride: 16, pma.stride: 9, pma.window: 11}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_forda_UCR_FordA_s0500: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.stride: 31, pma.stride: 5, pma.window: 6}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_forda_UCR_FordA_s0750: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.stride: 46, pma.stride: 3, pma.window: 4}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_forda_UCR_FordA_s1000: {dataset: UCR_FordA, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.stride: 62, pma.stride: 2, pma.window: 3}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_fordb_UCR_FordB_p0025: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.kernel: 12}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_fordb_UCR_FordB_p0050: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.kernel: 25}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_fordb_UCR_FordB_p0075: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.kernel: 37}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_fordb_UCR_FordB_p0100: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.kernel: 50}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_fordb_UCR_FordB_p0125: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_fordb_UCR_FordB_p0150: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.kernel: 75}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_fordb_UCR_FordB_s0100: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.stride: 6, pma.stride: 24, pma.window: 30}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_fordb_UCR_FordB_s0250: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.stride: 16, pma.stride: 9, pma.window: 11}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_fordb_UCR_FordB_s0500: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.stride: 31, pma.stride: 5, pma.window: 6}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_fordb_UCR_FordB_s0750: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.stride: 46, pma.stride: 3, pma.window: 4}, presets: [tokenizer_sweep]}
+  table6_tokenizer_rerun_20261024_fordb_UCR_FordB_s1000: {dataset: UCR_FordB, seeds: [42, 43, 44], source: table6_tokenizer_rerun_20261024, tables: '6', precision: bf16, overrides: {model.stride: 62, pma.stride: 2, pma.window: 3}, presets: [tokenizer_sweep]}
+  wafer_hgcl_window_upweight_20261022_UCR_Wafer_window125: {dataset: UCR_Wafer, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: wafer_hgcl_window_upweight_20261022_guarded, tables: 1;4;5, precision: null}
+  wafer_window125_no_pcl_20261022_UCR_Wafer_pcl_off: {dataset: UCR_Wafer, seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51], source: wafer_window125_no_pcl_20261022_guarded, tables: '4', precision: null, overrides: {loss.pcl_weight: 0.0}}

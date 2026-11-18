@@ -1,0 +1,26 @@
+{
+ "source13": {
+  "mae": {
+   "geometric_ratio_pmt_over_softclt": 0.952982,
+   "pmt_average_wins": "3/4",
+   "pmt_horizon_wins": "16/20"
+  },
+  "mse": {
+   "geometric_ratio_pmt_over_softclt": 0.919887,
+   "pmt_average_wins": "3/4",
+   "pmt_horizon_wins": "15/20"
+  }
+ },
+ "wide23": {
+  "mae": {
+   "geometric_ratio_pmt_over_softclt": 0.944453,
+   "pmt_average_wins": "3/4",
+   "pmt_horizon_wins": "16/20"
+  },
+  "mse": {
+   "geometric_ratio_pmt_over_softclt": 0.901796,
+   "pmt_average_wins": "3/4",
+   "pmt_horizon_wins": "15/20"
+  }
+ }
+}

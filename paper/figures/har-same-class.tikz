@@ -1,0 +1,103 @@
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={
+    group name={myplot},
+    group size= 2 by 10,
+    horizontal sep=.5cm,
+    vertical sep=0.125cm,
+    xticklabels at=edge bottom,
+    yticklabels at=edge left,
+  },
+  footnotesize,
+  width=5cm,
+  height=5cm,
+  % inform the plots that it is CSV instead of tabs
+  table/col sep=comma,
+  ticklabel style={font=\scriptsize},
+  ylabel near ticks,
+  ylabel shift=-7pt,
+  colormap/viridis,
+  colorbar style={
+    title=sim,
+    width=0.25cm,
+    yticklabel style={
+        text width=width("$-1.0$"),
+        align=right,
+        font=\scriptsize,
+        /pgf/number format/.cd,
+        fixed,
+        precision=1,
+        fixed zerofill,
+    },
+  },
+  point meta min=-1,
+  point meta max=1,
+]
+% \pgfplotstableread{data/wave_6.txt}\tablesix
+% \pgfplotstableread{data/wave_12.txt}\tabletwelve
+% \pgfplotsforeachungrouped \i in {0,...,8}{
+%   \nextgroupplot[height=2.5cm]
+%     \addplot[Dark2-A] table[x=t, y=ch\i] {\tablesix};
+%   \nextgroupplot[height=2.5cm]
+%     \addplot[Dark2-A] table[x=t, y=ch\i] {\tabletwelve};
+% }
+% I couldn't figure out the expansion for the loop, so, copy-paste it is
+\nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch0] {data/wave_6.txt};
+\nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch0] {data/wave_12.txt};
+\nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch1] {data/wave_6.txt};
+\nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch1] {data/wave_12.txt};
+\nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch2] {data/wave_6.txt};
+\nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch2] {data/wave_12.txt};
+\nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch3] {data/wave_6.txt};
+\nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch3] {data/wave_12.txt};
+  \nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch4] {data/wave_6.txt};
+\nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch4] {data/wave_12.txt};
+  \nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch5] {data/wave_6.txt};
+\nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch5] {data/wave_12.txt};
+  \nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch6] {data/wave_6.txt};
+\nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch6] {data/wave_12.txt};
+  \nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch7] {data/wave_6.txt};
+\nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch7] {data/wave_12.txt};
+  \nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch8] {data/wave_6.txt};
+\nextgroupplot[height=2.5cm]
+  \addplot[Dark2-A] table[x=t, y=ch8] {data/wave_12.txt};
+
+\nextgroupplot[
+  xlabel=Input Tokens Seq.~6,
+  ylabel=Input Tokens Seq.~12,
+  % xmin=0, xmax=1,
+  % ymin=-3, ymax=3,
+  enlargelimits=false,
+]
+
+  \addplot+[matrix plot*, point meta=explicit] table [x=x, y=y, meta=z] {data/rep_sim_6_12.txt};
+
+
+\nextgroupplot[
+  xlabel=Memory States Seq.~6,
+  ylabel=Memory States Seq.~12,
+  % xmin=-3, xmax=2,
+  % ymin=-3, ymax=3,
+  enlargelimits=false,
+  colorbar,
+]
+  \addplot+[matrix plot*, point meta=explicit] table [meta=z] {data/state_sim_6_12.txt};
+\end{groupplot}
+\end{tikzpicture}%

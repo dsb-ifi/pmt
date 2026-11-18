@@ -1,0 +1,14 @@
+# Local-only material at the repository root: never committed
+/data/*
+!/data/README.md
+/outputs/
+/runs/
+/wandb/
+
+# Python and tool caches
+/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/

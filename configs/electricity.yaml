@@ -1,0 +1,2 @@
+extends: presets/forecast.yaml
+data: {name: electricity, target: MT_001}

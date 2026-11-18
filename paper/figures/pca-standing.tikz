@@ -1,0 +1,55 @@
+% fig:pca-repr-standing: t-SNE, validation splice 17 / 13 / 12 (Upstairs, Downstairs, another Upstairs recording).
+% One colour ramp per segment (Dark2-A / Dark2-B / Dark2-C, light = start of the segment, dark = its end),
+% marker = segment; dashed = linear boundary fitted to the plotted states. Columns seg / src / segpos are
+% appended to the accepted format (export_rainbow.py). Needs pgfplots >= 1.13 (per-plot colormap name).
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group name={myplot}, group size=3 by 1, horizontal sep=1.25cm},
+  footnotesize,
+  width=5cm,
+  height=5cm,
+  table/col sep=comma,
+  ylabel near ticks,
+  ylabel shift=-5pt,
+  ticklabel style={font=\tiny},
+  colormap={seg1}{rgb255(0cm)=(118,197,173); rgb255(4cm)=(27,158,119); rgb255(6.5cm)=(20,119,89)},
+  colormap={seg2}{rgb255(0cm)=(232,159,103); rgb255(4cm)=(217,95,2); rgb255(7.5cm)=(141,62,1)},
+  colormap={seg3}{rgb255(0cm)=(152,148,198); rgb255(2.5cm)=(117,112,179); rgb255(5.5cm)=(82,78,125)},
+  point meta min=0,
+  point meta max=1,
+  shaded/.style={scatter, only marks, point meta=\thisrow{segpos}, forget plot,
+    scatter/use mapped color={draw=black!65, fill=mapped color}, mark options={line width=0.25pt}},
+  wave/.style={mesh, thick, point meta=\thisrow{segpos}, forget plot},
+]
+
+\nextgroupplot[xlabel=Time, ylabel=Amplitude, xmin=0, xmax=1, ymin=-2.5, ymax=4]
+  \addplot[wave, colormap name=seg1, restrict expr to domain={\thisrow{seg}}{0:0}] table[x=norm_pos, y=ch0] {data/rainbow_plot/rainbow_har_17_13_12_class-1_class-2_class-1/wave_hybrid.txt};
+  \addplot[wave, colormap name=seg2, restrict expr to domain={\thisrow{seg}}{1:1}] table[x=norm_pos, y=ch0] {data/rainbow_plot/rainbow_har_17_13_12_class-1_class-2_class-1/wave_hybrid.txt};
+  \addplot[wave, colormap name=seg3, restrict expr to domain={\thisrow{seg}}{2:2}] table[x=norm_pos, y=ch0] {data/rainbow_plot/rainbow_har_17_13_12_class-1_class-2_class-1/wave_hybrid.txt};
+
+\nextgroupplot[xlabel=t-SNE 1, ylabel=t-SNE 2]
+  \addplot[shaded, mark=*, mark size=1.2pt, colormap name=seg1, restrict expr to domain={\thisrow{seg}}{0:0}] table[x=dim0, y=dim1] {data/rainbow_plot/rainbow_har_17_13_12_class-1_class-2_class-1/tokens.txt};
+  \addplot[shaded, mark=square*, mark size=1.2pt, colormap name=seg2, restrict expr to domain={\thisrow{seg}}{1:1}] table[x=dim0, y=dim1] {data/rainbow_plot/rainbow_har_17_13_12_class-1_class-2_class-1/tokens.txt};
+  \addplot[shaded, mark=triangle*, mark size=1.2pt, colormap name=seg3, restrict expr to domain={\thisrow{seg}}{2:2}] table[x=dim0, y=dim1] {data/rainbow_plot/rainbow_har_17_13_12_class-1_class-2_class-1/tokens.txt};
+
+\nextgroupplot[
+  xlabel=t-SNE 1,
+  ylabel=t-SNE 2,
+  legend to name=tsnelegend,
+  legend style={legend columns=4, font=\tiny, draw=none, fill=none, /tikz/every even column/.append style={column sep=6pt}},
+]
+  \addplot[shaded, mark=*, mark size=1.8pt, colormap name=seg1, restrict expr to domain={\thisrow{seg}}{0:0}] table[x=dim0, y=dim1] {data/rainbow_plot/rainbow_har_17_13_12_class-1_class-2_class-1/states.txt};
+  \addplot[shaded, mark=square*, mark size=1.8pt, colormap name=seg2, restrict expr to domain={\thisrow{seg}}{1:1}] table[x=dim0, y=dim1] {data/rainbow_plot/rainbow_har_17_13_12_class-1_class-2_class-1/states.txt};
+  \addplot[shaded, mark=triangle*, mark size=1.8pt, colormap name=seg3, restrict expr to domain={\thisrow{seg}}{2:2}] table[x=dim0, y=dim1] {data/rainbow_plot/rainbow_har_17_13_12_class-1_class-2_class-1/states.txt};
+  \addlegendimage{only marks, mark=*, mark size=1.8pt, draw=black!65, fill=Dark2-A, mark options={line width=0.25pt}}
+  \addlegendentry{Upstairs (seg.~1)}
+  \addlegendimage{only marks, mark=square*, mark size=1.8pt, draw=black!65, fill=Dark2-B, mark options={line width=0.25pt}}
+  \addlegendentry{Downstairs (seg.~2)}
+  \addlegendimage{only marks, mark=triangle*, mark size=1.8pt, draw=black!65, fill=Dark2-C, mark options={line width=0.25pt}}
+  \addlegendentry{Upstairs (seg.~3)}
+  \addplot[black!60, dashed, thick] table[x=x, y=y] {data/rainbow_plot/rainbow_har_17_13_12_class-1_class-2_class-1/states_boundary.txt};
+  \addlegendentry{Fitted linear boundary}
+\end{groupplot}
+% One legend row, centred over the token and state panels (it applies to both).
+\node[anchor=south] at ($(myplot c2r1.north west)!0.5!(myplot c3r1.north east) + (0,3pt)$) {\pgfplotslegendfromname{tsnelegend}};
+\end{tikzpicture}%
