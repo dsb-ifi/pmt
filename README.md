@@ -32,7 +32,7 @@ Training supervises three levels of this hierarchy: HGCL on the tokens, PCL on t
 
 The full animation walks through the method step by step.
 
-https://github.com/user-attachments/assets/c1c6eb90-a1d9-46bd-a324-4088c7b3f466
+https://github.com/user-attachments/assets/3d7d3bc4-7ba8-430b-ab94-e460e880b28c
 
 ## Results
 
